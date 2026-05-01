@@ -586,8 +586,11 @@ def login():
             user.otp_expires_at = datetime.utcnow() + timedelta(minutes=10)
             db.session.commit()
             session['_2fa_uid'] = user.id
-            print(f'[2FA LOGIN OTP] User: {user.email}  OTP: {otp}')
-            flash('An OTP has been sent to your registered email. Check console for demo OTP.', 'info')
+            
+            # Send real email
+            send_otp_email(user.email, otp, purpose='login verification')
+            
+            flash('An OTP has been sent to your registered email.', 'info')
             return redirect(url_for('verify_2fa'))
         else:
             flash('Invalid credentials', 'danger')
