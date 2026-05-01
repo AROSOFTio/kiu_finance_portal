@@ -7,7 +7,7 @@ services:
     container_name: kiu_flask_app
     restart: unless-stopped
     ports:
-      - "5000:5000"
+      - "4005:5000"
     env_file:
       - .env
     environment:
@@ -33,8 +33,6 @@ services:
       MYSQL_DATABASE: ${MYSQL_DB:-kiu_finance}
       MYSQL_USER: ${MYSQL_USER:-kiu_user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-kiu_secure_pass}
-    ports:
-      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
@@ -52,7 +50,7 @@ services:
     container_name: kiu_phpmyadmin
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "8088:80"
     environment:
       PMA_HOST: db
       PMA_USER: ${MYSQL_USER:-kiu_user}

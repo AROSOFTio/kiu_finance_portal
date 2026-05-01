@@ -49,7 +49,8 @@ app.config['WTF_CSRF_TIME_LIMIT'] = 3600
 
 app.config['MAIL_SERVER']         = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
 app.config['MAIL_PORT']           = int(os.environ.get('MAIL_PORT', 587))
-app.config['MAIL_USE_TLS']        = True
+app.config['MAIL_USE_TLS']        = os.environ.get('MAIL_USE_TLS', 'True').lower() in ['true', '1', 'yes']
+app.config['MAIL_USE_SSL']        = os.environ.get('MAIL_USE_SSL', 'False').lower() in ['true', '1', 'yes']
 app.config['MAIL_USERNAME']       = os.environ.get('MAIL_USERNAME', '')
 app.config['MAIL_PASSWORD']       = os.environ.get('MAIL_PASSWORD', '')
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_DEFAULT_SENDER', 'noreply@kiu.ac.ug')
@@ -82,17 +83,22 @@ def generate_registration_number():
     sequence = random.randint(10000, 99999)
     return f"KIU/{year}/{sequence}"
 
+from threading import Thread
+
+def send_async_email(app, msg, user_email, otp):
+    with app.app_context():
+        try:
+            mail.send(msg)
+            print(f"OTP sent to {user_email}: {otp}")
+        except Exception as e:
+            print(f"[EMAIL FALLBACK] OTP for {user_email}: {otp}  (reason: {e})")
+
 def send_otp_email(user_email, otp, purpose='reset'):
     subject = f'Your {purpose} OTP for KIU Financial Portal'
     body = f'Your OTP code is: {otp}. It will expire in 10 minutes.'
-    try:
-        msg = Message(subject, recipients=[user_email], body=body)
-        mail.send(msg)
-        print(f"OTP sent to {user_email}: {otp}")
-        return True
-    except Exception as e:
-        print(f"[EMAIL FALLBACK] OTP for {user_email}: {otp}  (reason: {e})")
-        return False
+    msg = Message(subject, recipients=[user_email], body=body)
+    Thread(target=send_async_email, args=(app, msg, user_email, otp)).start()
+    return True
 
 
 def generate_qr_code(data, filename):
@@ -586,8 +592,11 @@ def login():
             user.otp_expires_at = datetime.utcnow() + timedelta(minutes=10)
             db.session.commit()
             session['_2fa_uid'] = user.id
-            print(f'[2FA LOGIN OTP] User: {user.email}  OTP: {otp}')
-            flash('An OTP has been sent to your registered email. Check console for demo OTP.', 'info')
+            
+            # Send real email
+            send_otp_email(user.email, otp, purpose='login verification')
+            
+            flash('An OTP has been sent to your registered email.', 'info')
             return redirect(url_for('verify_2fa'))
         else:
             flash('Invalid credentials', 'danger')

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
@@ -414,28 +414,6 @@
 </div>
 </div>
 </main>
-<script>
-(() => {
-  const fallback = "{{ url_for('system_configuration') }}";
-  const map = [
-    ["user", "{{ url_for('user_management') }}"],
-    ["role", "{{ url_for('role_management') }}"],
-    ["log", "{{ url_for('audit_logs') }}"],
-    ["support", "{{ url_for('help_center') }}"],
-    ["cancel", "{{ url_for('system_configuration') }}"],
-    ["save", "{{ url_for('system_configuration') }}"],
-    ["live", "{{ url_for('financial_oversight') }}"]
-  ];
-  document.querySelectorAll('a[href="#"]').forEach((a) => { a.href = fallback; });
-  document.querySelectorAll("button").forEach((btn) => {
-    if (btn.type === "submit") return;
-    btn.style.cursor = "pointer";
-    btn.addEventListener("click", () => {
-      const t = (btn.innerText || "").toLowerCase();
-      const m = map.find(([k]) => t.includes(k));
-      window.location.href = m ? m[1] : fallback;
-    });
-  });
-})();
-</script>
+
 </body></html>
+

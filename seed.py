@@ -21,7 +21,7 @@ def seed():
 
         # ── Helper ──────────────────────────────────────────────
         def make_user(username, email, password, role, is_admin=False, is_finance=False):
-            u = User.query.filter_by(email=email).first()
+            u = User.query.filter_by(username=username).first()
             if not u:
                 u = User(username=username, email=email, role=role,
                          is_admin=is_admin, is_finance_staff=is_finance, is_active=True)
