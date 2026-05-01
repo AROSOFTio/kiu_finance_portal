@@ -55,7 +55,7 @@ copy .env.example .env
 docker compose up --build
 
 # 4. Access the system
-#    App:        http://localhost:5000
+#    App:        http://localhost:4005
 #    phpMyAdmin: http://localhost:8080
 ```
 
@@ -158,7 +158,7 @@ This system uses **Simulation Mode** for mobile money payments (MTN MoMo / Airte
 2. Complete 2FA with OTP from Docker logs
 3. Go to **Examination Card** — card generates automatically (fully cleared)
 4. Note the **Card Number** (format: KIU-EC-XXXXXXXX)
-5. Open in browser: `http://localhost:5000/verify-card/KIU-EC-XXXXXXXX`
+5. Open in browser: `http://localhost:4005/verify-card/KIU-EC-XXXXXXXX`
 6. System shows: ✅ CARD VALID with full student details
 
 ### Finance Admin can revoke a card:
