@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#031635",
+                    "on-primary-fixed-variant": "#364768",
+                    "on-secondary-fixed": "#261900",
+                    "on-secondary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed-variant": "#5d4201",
+                    "inverse-on-surface": "#eaf1ff",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#d8e2ff",
+                    "surface-dim": "#cbdbf5",
+                    "on-primary": "#ffffff",
+                    "on-primary-container": "#8293b8",
+                    "background": "#f8f9ff",
+                    "surface-container-low": "#eff4ff",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed-dim": "#e9c176",
+                    "surface-variant": "#d3e4fe",
+                    "secondary-container": "#fed488",
+                    "tertiary-container": "#292c2d",
+                    "surface-container-high": "#dce9ff",
+                    "primary-container": "#1a2b4b",
+                    "on-surface": "#0b1c30",
+                    "inverse-primary": "#b6c6ef",
+                    "outline-variant": "#c5c6cf",
+                    "tertiary-fixed": "#e1e3e4",
+                    "surface-tint": "#4e5e81",
+                    "surface-bright": "#f8f9ff",
+                    "on-primary-fixed": "#081b3a",
+                    "on-tertiary-fixed": "#191c1d",
+                    "on-secondary-container": "#785a1a",
+                    "on-error": "#ffffff",
+                    "tertiary": "#151819",
+                    "tertiary-fixed-dim": "#c5c7c8",
+                    "on-tertiary-container": "#919394",
+                    "on-surface-variant": "#44474e",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-tertiary-fixed-variant": "#454748",
+                    "surface": "#f8f9ff",
+                    "secondary": "#775a19",
+                    "error": "#ba1a1a",
+                    "surface-container": "#e5eeff",
+                    "inverse-surface": "#213145",
+                    "secondary-fixed": "#ffdea5",
+                    "outline": "#75777f",
+                    "on-background": "#0b1c30",
+                    "primary-fixed-dim": "#b6c6ef"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "container-max-width": "1280px",
+                    "card-padding": "24px",
+                    "gutter": "24px",
+                    "stack-gap": "16px",
+                    "sidebar-width": "280px"
+            },
+            "fontFamily": {
+                    "h3": ["Inter"],
+                    "h1": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "badge": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "body-md": ["Inter"],
+                    "h2": ["Inter"]
+            },
+            "fontSize": {
+                    "h3": ["20px", {"lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600"}],
+                    "h1": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                    "badge": ["12px", {"lineHeight": "1", "letterSpacing": "0", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                    "h2": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f8f9ff;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[280px] z-50 bg-slate-900 dark:bg-black border-r border-slate-800 dark:border-slate-800 shadow-2xl flex flex-col h-full font-sans antialiased text-sm font-medium tracking-tight">
+<div class="p-8">
+<div class="flex items-center gap-3 mb-8">
+<img class="w-10 h-10 rounded shadow-md" data-alt="heraldic university crest with book and laurel wreath in gold and navy colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7lLGkNVquK39Nh9X_OUa7t2a0cjs2s59kf5lZDok0DtHSWtIG6H20a0vXo9ftM2L6q33_tf1swjlQyqTQuils0TqUcXpsAetK9bmKJvbwMpPzFyepji2VnBbBHfAv0DKPHrbnwGm6r2WLROhLCvSwqWMLMobU_CQzOyzdMg9NaTABke4wXsw1_DgqK_IDdZtk1_E13l7jPqqVwdxVJj148uJ88bOBRHgAnBFtihCLkX1vv1tZWEzcfmLaV1eFsB9Uny9sW3H8nAE"/>
+<div>
+<h1 class="text-lg font-black tracking-widest text-white uppercase">University Portal</h1>
+<p class="text-[10px] text-amber-400 font-bold uppercase tracking-wider">Finance Administration</p>
+</div>
+</div>
+<nav class="space-y-1">
+<!-- Financial Dashboard is Active -->
+<a class="border-l-4 border-amber-400 bg-slate-800/50 text-white font-bold py-3 px-6 flex items-center gap-3" href="{{ url_for('finance_admin_dashboard') }}">
+<span class="material-symbols-outlined text-amber-400" data-icon="dashboard">dashboard</span>
+<span>Financial Dashboard</span>
+</a>
+<a class="text-slate-400 hover:text-slate-100 py-3 px-6 flex items-center gap-3 transition-colors hover:bg-slate-800/80" href="{{ url_for('student_registration_fee_entry') }}">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Student Management</span>
+</a>
+<a class="text-slate-400 hover:text-slate-100 py-3 px-6 flex items-center gap-3 transition-colors hover:bg-slate-800/80" href="{{ url_for('payment_verification') }}">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span>Payment Verification</span>
+</a>
+<a class="text-slate-400 hover:text-slate-100 py-3 px-6 flex items-center gap-3 transition-colors hover:bg-slate-800/80" href="{{ url_for('financial_oversight') }}">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span>Financial Oversight</span>
+</a>
+<a class="text-slate-400 hover:text-slate-100 py-3 px-6 flex items-center gap-3 transition-colors hover:bg-slate-800/80" href="{{ url_for('finance_admin_reports') }}">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span>Comprehensive Reports</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto p-6 space-y-4">
+<a href="{{ url_for('finance_admin_reports') }}" class="block w-full bg-amber-400 text-slate-900 font-bold py-3 rounded-lg active:scale-95 transition-transform duration-150 text-center">
+                Finalize Financials
+            </a>
+<div class="pt-4 border-t border-slate-800">
+<a class="text-slate-400 hover:text-slate-100 py-2 flex items-center gap-3 transition-colors" href="{{ url_for('system_configuration') }}">
+<span class="material-symbols-outlined text-sm" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+<a class="text-slate-400 hover:text-slate-100 py-2 flex items-center gap-3 transition-colors" href="{{ url_for('help_center') }}">
+<span class="material-symbols-outlined text-sm" data-icon="help">help</span>
+<span>Support</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center h-16 px-8 ml-[280px]">
+<div class="flex items-center gap-4">
+<h2 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight font-sans">Finance Administration Portal</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative flex items-center">
+<input class="bg-slate-100 dark:bg-slate-800 border-none rounded-full px-4 py-1.5 text-sm w-64 focus:ring-2 focus:ring-slate-900 dark:focus:ring-amber-400" placeholder="Search records..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 text-slate-400 text-sm" data-icon="search">search</span>
+</div>
+<div class="flex items-center gap-4 text-slate-500">
+<a href="{{ url_for('audit_logs') }}" class="hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg p-2 transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-amber-500 rounded-full border border-white"></span>
+</a>
+<a href="{{ url_for('daily_report') }}" class="hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg p-2 transition-colors">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+</a>
+<a href="{{ url_for('finance_admin_reports') }}" class="bg-primary text-white px-4 py-2 rounded-lg font-bold text-sm active:scale-95 transition-all">
+                    Download Reports
+                </a>
+<div class="flex items-center gap-2 pl-4 border-l border-slate-200">
+<img alt="Admin User Avatar" class="w-8 h-8 rounded-full" data-alt="professional portrait of a university financial administrator in corporate attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsq2LpWAdcFf9N-c8z6Rm0NWB9e-_XeoktLHgKfxldy_b3I8AjEe8vx70psbYfisBuvQ4wGEsYcf2B7mKO_sK-uzjV9pOlZ9YyX-UZS3yCEf7vw1rboV7exnYswAwCRH4GTHu6Q8kInabYdBWj1u11oEZdmh6ZOOvnc203nUI9UCILTDOxp3_j_d16yiSdc8z18sr8d76rk3gh3kCf-32ebaFinZtQMPipvSpByOqqvOqxISYXvXtVyt9dNa4VX9t6cp2IRawXZCU"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="ml-[280px] pt-24 px-8 pb-12 max-w-[1400px]">
+<!-- Header Section -->
+<header class="mb-10">
+<h1 class="font-h1 text-h1 text-primary mb-2">Financial Oversight Dashboard</h1>
+<p class="font-body-lg text-on-primary-container">Academic Term 2023/2024 • Quarterly Reconciliation Phase</p>
+</header>
+<!-- Bento Grid for KPIs -->
+<div class="grid grid-cols-12 gap-6 mb-10">
+<!-- Metric 1 -->
+<div class="col-span-12 md:col-span-4 bg-white p-6 rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-slate-100">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-surface-container-low rounded-lg">
+<span class="material-symbols-outlined text-primary" data-icon="payments">payments</span>
+</div>
+<span class="font-badge text-badge text-green-700 bg-green-50 px-2 py-1 rounded-full">+12.5%</span>
+</div>
+<p class="font-label-caps text-label-caps text-on-primary-container mb-1">TOTAL FEES COLLECTED</p>
+<h2 class="font-h1 text-h1 text-primary">$4,820,550.00</h2>
+<div class="mt-4 pt-4 border-t border-slate-50">
+<p class="text-body-sm text-on-surface-variant italic">Reflects processed mobile and bank transfers</p>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="col-span-12 md:col-span-4 bg-white p-6 rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-slate-100">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-error-container/30 rounded-lg">
+<span class="material-symbols-outlined text-error" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<span class="font-badge text-badge text-error bg-error-container/50 px-2 py-1 rounded-full">-3.2%</span>
+</div>
+<p class="font-label-caps text-label-caps text-on-primary-container mb-1">OUTSTANDING BALANCES</p>
+<h2 class="font-h1 text-h1 text-primary">$1,244,180.00</h2>
+<div class="mt-4 pt-4 border-t border-slate-50">
+<p class="text-body-sm text-on-surface-variant italic">1,420 students with pending tuition dues</p>
+</div>
+</div>
+<!-- Metric 3 -->
+<div class="col-span-12 md:col-span-4 bg-white p-6 rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-slate-100">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-secondary-container/20 rounded-lg">
+<span class="material-symbols-outlined text-secondary" data-icon="pending_actions">pending_actions</span>
+</div>
+<span class="font-badge text-badge text-amber-700 bg-amber-50 px-2 py-1 rounded-full">ACTION REQ.</span>
+</div>
+<p class="font-label-caps text-label-caps text-on-primary-container mb-1">PENDING VERIFICATIONS</p>
+<h2 class="font-h1 text-h1 text-primary">842</h2>
+<div class="mt-4 pt-4 border-t border-slate-50 flex items-center gap-2">
+<div class="flex -space-x-2">
+<img class="w-6 h-6 rounded-full border-2 border-white" data-alt="student profile headshot small" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-K--CVDevTXnSARkLkoKXeGgSbCM4iUXLDB_Z4uT22RuFM_axywwFuuhtIEnOteFs7PfOMRQjiVVYPw6ug0e68x2VGrBXnG6mAZliyovwshUdvCT4dE5llxtrfVCKckD7Q5Zo-0G8BCWNgxDXAri8b8jGrJmIanjeGheN3xTBW1eNC75cRHUtefciZQlo-Vfja0BMkGKvVuS0nwtCVbRBoW6isw0rKnfeISKKmH45h60m6xRF5ANLfUO_S3Jf5MfFMhHNy7S7kJY"/>
+<img class="w-6 h-6 rounded-full border-2 border-white" data-alt="student profile headshot small" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCj1dxeWAnahdp3zliGX0-qjPg3GbMoBCc8getEwbmVwDeyieSxWSRo5DxZnhGweO0hijWJ2_O66sSjxpGMZGYr-qKtLgMCyhqZ1MBg2al_G_xly0xZN2ir-65dsj3DjXjYj3rZ7vfLFa-XYKq7w3R46SmYpWzRwgFBa8qlLWlNVDW5PqQ4yI26H6AQGfnUbsjlz9ubF5Vu6K-w7wmQUVTvokPWTmnFY9WcqMw4kxRBJ0ghtsXGmLEM8twctPVKWfSsnMVor1RJmH0"/>
+<img class="w-6 h-6 rounded-full border-2 border-white" data-alt="student profile headshot small" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADtz-v-r2BmH4uAF39w03E4TcEZByQ-k2iDoDXtJa-F9QDyubdwMjlb5XSMMOmWh-G1x6p1SI2pdrrEmooBv7Poq2ZaLwxMBjfp3aBuKVGOOxrF0SruF718YZd350y3y2rPq5tBB5OGZIpj_lt113SaglqcE4OWkUhQYnhFrCJWtn1kywzCHr3g7FTgt1BwYEc5-H5XHb53JTAyNP3nkWFdsWDHXHigdkEcNDUDAFqdfWpgsYwevhjiiNf9u7gUYCiwS9wX26iSz0"/>
+</div>
+<p class="text-body-sm text-on-surface-variant">Assigned to 4 administrators</p>
+</div>
+</div>
+</div>
+<!-- Middle Section: Revenue Trends and Approvals Queue -->
+<div class="grid grid-cols-12 gap-8 mb-10">
+<!-- Revenue Trends Chart (Placeholder Visualization) -->
+<div class="col-span-12 lg:col-span-8 bg-white p-6 rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-slate-100 flex flex-col">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="font-h3 text-h3 text-primary">Revenue Trends</h3>
+<p class="text-body-sm text-on-surface-variant">Monthly collection performance comparison</p>
+</div>
+<div class="flex gap-2">
+<a href="{{ url_for('finance_admin_dashboard') }}?range=6m" class="text-body-sm font-semibold px-3 py-1 bg-slate-100 rounded-md">6 Months</a>
+<a href="{{ url_for('finance_admin_dashboard') }}?range=ytd" class="text-body-sm font-medium px-3 py-1 text-on-surface-variant hover:bg-slate-50 transition-colors">Year to Date</a>
+</div>
+</div>
+<!-- Chart Area -->
+<div class="flex-grow flex items-end justify-between gap-4 h-[250px] px-2 mb-4">
+<div class="flex flex-col items-center gap-2 w-full">
+<div class="w-full bg-primary/5 rounded-t-lg relative h-[40%] group">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-[60%] group-hover:bg-amber-400 transition-colors"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">JAN</span>
+</div>
+<div class="flex flex-col items-center gap-2 w-full">
+<div class="w-full bg-primary/5 rounded-t-lg relative h-[65%] group">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-[75%] group-hover:bg-amber-400 transition-colors"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">FEB</span>
+</div>
+<div class="flex flex-col items-center gap-2 w-full">
+<div class="w-full bg-primary/5 rounded-t-lg relative h-[85%] group">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-[90%] group-hover:bg-amber-400 transition-colors"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">MAR</span>
+</div>
+<div class="flex flex-col items-center gap-2 w-full">
+<div class="w-full bg-primary/5 rounded-t-lg relative h-[55%] group">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-[40%] group-hover:bg-amber-400 transition-colors"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">APR</span>
+</div>
+<div class="flex flex-col items-center gap-2 w-full">
+<div class="w-full bg-primary/5 rounded-t-lg relative h-[95%] group">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg h-[80%] group-hover:bg-amber-400 transition-colors"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">MAY</span>
+</div>
+<div class="flex flex-col items-center gap-2 w-full">
+<div class="w-full bg-primary/5 rounded-t-lg relative h-[70%] group">
+<div class="absolute bottom-0 w-full bg-amber-400 rounded-t-lg h-[100%] group-hover:bg-primary transition-colors"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">JUN</span>
+</div>
+</div>
+</div>
+<!-- Pending Approvals Queue -->
+<div class="col-span-12 lg:col-span-4 bg-white p-6 rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-slate-100">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-h3 text-h3 text-primary">Pending Queue</h3>
+<a class="text-xs font-bold text-primary hover:underline" href="{{ url_for('payment_verification') }}">VIEW ALL</a>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-4 p-3 hover:bg-slate-50 transition-colors rounded-lg border border-transparent hover:border-slate-100">
+<div class="w-10 h-10 bg-slate-100 rounded-full flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-500" data-icon="article">article</span>
+</div>
+<div class="flex-grow min-w-0">
+<h4 class="text-sm font-bold text-primary truncate">Mike Lubega</h4>
+<p class="text-xs text-on-surface-variant">Mobile Money Receipt</p>
+</div>
+<a href="{{ url_for('payment_verification') }}" class="p-2 text-primary hover:bg-white rounded shadow-sm border border-slate-100">
+<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
+</a>
+</div>
+<div class="flex items-center gap-4 p-3 hover:bg-slate-50 transition-colors rounded-lg border border-transparent hover:border-slate-100">
+<div class="w-10 h-10 bg-slate-100 rounded-full flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-500" data-icon="account_balance">account_balance</span>
+</div>
+<div class="flex-grow min-w-0">
+<h4 class="text-sm font-bold text-primary truncate">Sarah Opendi</h4>
+<p class="text-xs text-on-surface-variant">Bank Wire Confirmation</p>
+</div>
+<a href="{{ url_for('payment_verification') }}" class="p-2 text-primary hover:bg-white rounded shadow-sm border border-slate-100">
+<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
+</a>
+</div>
+<div class="flex items-center gap-4 p-3 hover:bg-slate-50 transition-colors rounded-lg border border-transparent hover:border-slate-100">
+<div class="w-10 h-10 bg-slate-100 rounded-full flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-500" data-icon="article">article</span>
+</div>
+<div class="flex-grow min-w-0">
+<h4 class="text-sm font-bold text-primary truncate">Abel Nsube</h4>
+<p class="text-xs text-on-surface-variant">Mobile Money Receipt</p>
+</div>
+<a href="{{ url_for('payment_verification') }}" class="p-2 text-primary hover:bg-white rounded shadow-sm border border-slate-100">
+<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
+</a>
+</div>
+<div class="flex items-center gap-4 p-3 hover:bg-slate-50 transition-colors rounded-lg border border-transparent hover:border-slate-100">
+<div class="w-10 h-10 bg-slate-100 rounded-full flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-500" data-icon="article">article</span>
+</div>
+<div class="flex-grow min-w-0">
+<h4 class="text-sm font-bold text-primary truncate">James Aba</h4>
+<p class="text-xs text-on-surface-variant">Mobile Money Receipt</p>
+</div>
+<a href="{{ url_for('payment_verification') }}" class="p-2 text-primary hover:bg-white rounded shadow-sm border border-slate-100">
+<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Transactions Feed -->
+<section class="bg-white rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-slate-100 overflow-hidden">
+<div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/30">
+<h3 class="font-h3 text-h3 text-primary">Live Transaction Feed</h3>
+<div class="flex items-center gap-4">
+<span class="flex items-center gap-1 text-xs text-green-600 font-bold">
+<span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                        LIVE
+                    </span>
+<a href="{{ url_for('transaction_history') }}" class="flex items-center gap-2 border border-slate-200 px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-slate-50">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+                        Filter
+                    </a>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-slate-50/50 text-on-primary-container font-label-caps text-[10px] uppercase tracking-widest">
+<th class="px-6 py-4">Transaction ID</th>
+<th class="px-6 py-4">Student Name</th>
+<th class="px-6 py-4">Method</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4">Timestamp</th>
+<th class="px-6 py-4 text-right">Amount</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 text-sm font-mono text-slate-500">TXN-8829-01</td>
+<td class="px-6 py-4 font-bold text-primary">Kofia Aki</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-2 text-xs font-medium">
+<span class="material-symbols-outlined text-sm" data-icon="phone_iphone">phone_iphone</span>
+                                    Mobile Money
+                                </span>
+</td>
+<td class="px-6 py-4">
+<span class="font-badge text-badge text-green-700 bg-green-50 px-2 py-1 rounded uppercase">Confirmed</span>
+</td>
+<td class="px-6 py-4 text-xs text-on-surface-variant">Today, 10:42 AM</td>
+<td class="px-6 py-4 text-right font-bold text-primary">$1,250.00</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 text-sm font-mono text-slate-500">TXN-8828-44</td>
+<td class="px-6 py-4 font-bold text-primary">Fatima Lyn</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-2 text-xs font-medium">
+<span class="material-symbols-outlined text-sm" data-icon="account_balance">account_balance</span>
+                                    Bank Transfer
+                                </span>
+</td>
+<td class="px-6 py-4">
+<span class="font-badge text-badge text-amber-700 bg-amber-50 px-2 py-1 rounded uppercase">Pending</span>
+</td>
+<td class="px-6 py-4 text-xs text-on-surface-variant">Today, 09:15 AM</td>
+<td class="px-6 py-4 text-right font-bold text-primary">$2,400.00</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 text-sm font-mono text-slate-500">TXN-8827-12</td>
+<td class="px-6 py-4 font-bold text-primary">Daniel Nsu</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-2 text-xs font-medium">
+<span class="material-symbols-outlined text-sm" data-icon="phone_iphone">phone_iphone</span>
+                                    Mobile Money
+                                </span>
+</td>
+<td class="px-6 py-4">
+<span class="font-badge text-badge text-green-700 bg-green-50 px-2 py-1 rounded uppercase">Confirmed</span>
+</td>
+<td class="px-6 py-4 text-xs text-on-surface-variant">Yesterday, 04:30 PM</td>
+<td class="px-6 py-4 text-right font-bold text-primary">$850.00</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 text-sm font-mono text-slate-500">TXN-8826-09</td>
+<td class="px-6 py-4 font-bold text-primary">Mary Osu</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-2 text-xs font-medium">
+<span class="material-symbols-outlined text-sm" data-icon="credit_card">credit_card</span>
+                                    Debit Card
+                                </span>
+</td>
+<td class="px-6 py-4">
+<span class="font-badge text-badge text-red-700 bg-red-50 px-2 py-1 rounded uppercase">Ineligible</span>
+</td>
+<td class="px-6 py-4 text-xs text-on-surface-variant">Yesterday, 02:10 PM</td>
+<td class="px-6 py-4 text-right font-bold text-primary">$1,100.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 bg-slate-50 flex justify-center">
+<a href="{{ url_for('transaction_history') }}" class="text-sm font-bold text-primary hover:bg-slate-100 px-4 py-2 rounded transition-colors">
+                    View Complete Transaction History
+                </a>
+</div>
+</section>
+</main>
+</body></html>

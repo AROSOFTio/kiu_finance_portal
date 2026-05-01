@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Financial Oversight Dashboard - University Finance Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#75777f",
+                        "on-tertiary-container": "#919394",
+                        "surface-tint": "#4e5e81",
+                        "on-primary-fixed": "#081b3a",
+                        "on-tertiary-fixed": "#191c1d",
+                        "surface": "#f8f9ff",
+                        "outline-variant": "#c5c6cf",
+                        "on-primary-container": "#8293b8",
+                        "error": "#ba1a1a",
+                        "surface-container-low": "#eff4ff",
+                        "primary": "#031635",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#b6c6ef",
+                        "on-primary-fixed-variant": "#364768",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#151819",
+                        "on-background": "#0b1c30",
+                        "on-surface": "#0b1c30",
+                        "tertiary-fixed": "#e1e3e4",
+                        "inverse-surface": "#213145",
+                        "on-secondary-fixed-variant": "#5d4201",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-container": "#1a2b4b",
+                        "on-tertiary-fixed-variant": "#454748",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed": "#261900",
+                        "surface-container-high": "#dce9ff",
+                        "tertiary-container": "#292c2d",
+                        "secondary-fixed-dim": "#e9c176",
+                        "secondary": "#775a19",
+                        "surface-variant": "#d3e4fe",
+                        "on-secondary-container": "#785a1a",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#c5c7c8",
+                        "secondary-container": "#fed488",
+                        "primary-fixed": "#d8e2ff",
+                        "on-surface-variant": "#44474e",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed": "#ffdea5",
+                        "inverse-primary": "#b6c6ef",
+                        "background": "#f8f9ff",
+                        "surface-bright": "#f8f9ff",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#cbdbf5",
+                        "surface-container-highest": "#d3e4fe"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "card-padding": "24px",
+                        "sidebar-width": "280px",
+                        "stack-gap": "16px",
+                        "container-max-width": "1280px"
+                    },
+                    "fontFamily": {
+                        "h1": ["Inter"], "h2": ["Inter"], "body-lg": ["Inter"], "body-md": ["Inter"], "h3": ["Inter"], "badge": ["Inter"], "label-caps": ["Inter"], "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h1": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "h2": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                        "h3": ["20px", {"lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600"}],
+                        "badge": ["12px", {"lineHeight": "1", "letterSpacing": "0", "fontWeight": "600"}],
+                        "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+        body { background-color: #f8f9ff; }
+    </style>
+</head>
+<body class="font-body-md text-on-surface antialiased">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[280px] z-50 bg-[#1a2b4b] dark:bg-slate-950 text-white font-['Inter'] antialiased border-r border-slate-800 shadow-2xl flex flex-col h-full">
+<div class="p-8">
+<div class="flex items-center gap-3 mb-10">
+<img alt="University Crest" class="w-8 h-8" data-alt="heraldic gold and silver university crest emblem with shield and laurel leaves" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKJqMX-gRExdZ_RXWqOzXOtBvaVkJPjEmgeS7wtDtgKxqmrP1q09jN3pKSoCVX4RtjS6A0RytgikPOS3SbJ3YWD7azidqxi01X51JEEutrMjyeMw3tzc2kxzX-ka0tpa2P5HAcEN35isPfjMK1sMige0fBEARrrhyoq2bhRMK7x_AM3PwZD-WjS06Yoa91QJvx0k-V5HlEEcKRGpxtItKRZVhDr5ddOOnt8MM-8TS-EUiilQtokeiVg4laiNWeYOmRSIeqws_xwEI"/>
+<div class="flex flex-col">
+<span class="text-lg font-bold tracking-tight text-white">Finance Portal</span>
+<span class="text-[10px] uppercase tracking-widest text-on-primary-container">Administrative Oversight</span>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-6 py-4 border-l-4 border-[#d4af37] bg-white/10 text-white font-semibold transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span> Executive Overview
+                </a>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span> Revenue Analytics
+                </a>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span> Outstanding Balances
+                </a>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span> Compliance &amp; Audit
+                </a>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span> Financial Reports
+                </a>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span> Institutional Settings
+                </a>
+</nav>
+</div>
+<div class="mt-auto p-8 space-y-4">
+<button class="w-full py-3 bg-[#d4af37] text-[#1a2b4b] font-bold rounded-lg hover:opacity-90 active:opacity-80 transition-all">
+                Generate Annual Report
+            </button>
+<div class="pt-4 border-t border-slate-800">
+<a class="flex items-center gap-3 px-6 py-2 text-slate-400 hover:text-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help">help</span> Help Center
+                </a>
+<a class="flex items-center gap-3 px-6 py-2 text-slate-400 hover:text-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="logout">logout</span> Sign Out
+                </a>
+</div>
+</div>
+</aside>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 left-[280px] h-16 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm flex justify-between items-center px-8 w-full font-['Inter'] text-sm font-medium">
+<div class="flex items-center gap-8">
+<h1 class="text-xl font-black text-[#1a2b4b]">Financial Oversight Dashboard</h1>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 hover:text-[#d4af37] transition-colors" href="#">Q3 Forecast</a>
+<a class="text-slate-500 hover:text-[#d4af37] transition-colors" href="#">Audit Trail</a>
+<a class="text-slate-500 hover:text-[#d4af37] transition-colors" href="#">Quick Actions</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-500 hover:text-[#d4af37]"><span class="material-symbols-outlined" data-icon="notifications">notifications</span></button>
+<button class="p-2 text-slate-500 hover:text-[#d4af37]"><span class="material-symbols-outlined" data-icon="history">history</span></button>
+</div>
+<div class="flex items-center gap-3 pl-6 border-l border-slate-200">
+<button class="px-4 py-2 text-sm border border-[#1a2b4b] text-[#1a2b4b] rounded hover:bg-slate-50 transition-colors">Export Data</button>
+<button class="px-4 py-2 text-sm bg-[#1a2b4b] text-white rounded hover:opacity-90 transition-colors">Finalize Period</button>
+<img alt="Administrator Profile" class="w-8 h-8 rounded-full border border-slate-200" data-alt="professional portrait of a senior university financial administrator in formal attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhPH5ut1kqsUgw9BzeViBKNyz8Hv8bhOkn8Gcg_nUyMYjwBKzcYjYWgKREakSOjEKguWZ640GP98IfvJ3nJZo0fZhDsgOQ7KB_0OBnjrrViVnZIMycFjT2Quv6bQNtFFNVAqbXayy4yraukNdheWo-YhXleX5njBg1tAYvONAmg8gaPHlzq-I-uyW4bI5P7J24n56d3STKDsXnDU9TtCkjy1EEsvIV3HIt3F5qupiFUGN7WfXyPTA2FMpaV6Zr5n2zc3-dwnHiwz8"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[280px] mt-16 p-8 max-w-[1400px]">
+<!-- Institution Status Banner -->
+<div class="mb-8 flex items-center justify-between p-4 bg-white border-l-4 border-[#d4af37] shadow-sm rounded-r-lg">
+<div class="flex items-center gap-4">
+<div class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+<div>
+<span class="text-xs font-label-caps text-on-surface-variant">INSTITUTIONAL STATUS</span>
+<p class="font-h3 text-primary">System Health: Stable</p>
+</div>
+</div>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-full border border-green-200 uppercase tracking-tighter">Verified</span>
+<span class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold rounded-full border border-slate-200 uppercase tracking-tighter">Audit Ready</span>
+</div>
+</div>
+<!-- Executive Summary Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+<!-- Total Revenue -->
+<div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-slate-100">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary-container p-2 bg-surface-container rounded-lg" data-icon="account_balance">account_balance</span>
+<span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="trending_up">trending_up</span> +12.5%
+                    </span>
+</div>
+<h4 class="text-xs font-label-caps text-on-surface-variant mb-1">TOTAL REVENUE (CURRENT TERM)</h4>
+<p class="font-h1 text-primary">$42,850,000</p>
+<p class="text-xs text-on-tertiary-container mt-2">vs. $38.1M last term</p>
+</div>
+<!-- Collection Rate -->
+<div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-slate-100">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary-container p-2 bg-surface-container rounded-lg" data-icon="pie_chart">pie_chart</span>
+<span class="text-xs font-bold text-primary bg-surface-container-high px-2 py-1 rounded">ON TRACK</span>
+</div>
+<h4 class="text-xs font-label-caps text-on-surface-variant mb-1">COLLECTION RATE</h4>
+<p class="font-h1 text-primary">88.4%</p>
+<div class="w-full bg-slate-100 h-1.5 rounded-full mt-4 overflow-hidden">
+<div class="bg-[#d4af37] h-full" style="width: 88.4%"></div>
+</div>
+</div>
+<!-- Projected vs Actual -->
+<div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-slate-100">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary-container p-2 bg-surface-container rounded-lg" data-icon="insights">insights</span>
+</div>
+<h4 class="text-xs font-label-caps text-on-surface-variant mb-1">PROJECTED VS ACTUAL</h4>
+<p class="font-h1 text-primary">96.2%</p>
+<p class="text-xs text-on-tertiary-container mt-2">Budget Variance: <span class="text-green-600">-$1.2M</span></p>
+</div>
+<!-- Critical Alerts -->
+<div class="bg-error-container p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-error/10">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-error p-2 bg-white/50 rounded-lg" data-icon="warning" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="text-xs font-bold text-error">2 URGENT</span>
+</div>
+<h4 class="text-xs font-label-caps text-on-error-container mb-1">CRITICAL ALERTS</h4>
+<p class="font-h3 text-on-error-container leading-tight">Verification Backlog Pending</p>
+<p class="text-xs text-error mt-2 font-medium">Unusual transaction volume in Faculty of Medicine</p>
+</div>
+</div>
+<!-- Visual Analytics Section -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+<!-- Revenue Streams Chart Area -->
+<div class="lg:col-span-8 bg-white p-8 rounded-xl shadow-sm border border-slate-100">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="font-h2 text-primary">Revenue Streams</h3>
+<p class="text-sm text-on-surface-variant">Comparative analysis across primary income sources</p>
+</div>
+<select class="text-sm border-slate-200 rounded-lg bg-surface-container-low">
+<option>Current Fiscal Year</option>
+<option>Last 3 Years</option>
+</select>
+</div>
+<!-- Simulated Chart -->
+<div class="relative h-64 w-full flex items-end gap-4 px-2">
+<div class="flex-1 bg-[#1a2b4b] rounded-t-lg opacity-20 h-[60%]"></div>
+<div class="flex-1 bg-[#1a2b4b] rounded-t-lg opacity-40 h-[75%]"></div>
+<div class="flex-1 bg-[#1a2b4b] rounded-t-lg opacity-60 h-[85%]"></div>
+<div class="flex-1 bg-[#1a2b4b] rounded-t-lg opacity-80 h-[95%]"></div>
+<div class="flex-1 bg-[#d4af37] rounded-t-lg h-[98%] group relative">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-primary text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">Peak</div>
+</div>
+<div class="flex-1 bg-[#1a2b4b] rounded-t-lg opacity-90 h-[70%]"></div>
+<div class="flex-1 bg-[#1a2b4b] rounded-t-lg opacity-70 h-[50%]"></div>
+</div>
+<div class="flex justify-between mt-4 text-xs font-label-caps text-on-tertiary-container border-t pt-4">
+<span>AUG</span><span>SEP</span><span>OCT</span><span>NOV</span><span>DEC</span><span>JAN</span><span>FEB</span>
+</div>
+<div class="flex gap-6 mt-6">
+<div class="flex items-center gap-2 text-xs font-medium"><span class="w-3 h-3 rounded-full bg-[#1a2b4b]"></span> Tuition Fees</div>
+<div class="flex items-center gap-2 text-xs font-medium"><span class="w-3 h-3 rounded-full bg-[#d4af37]"></span> Grants</div>
+<div class="flex items-center gap-2 text-xs font-medium"><span class="w-3 h-3 rounded-full bg-slate-300"></span> Facilities</div>
+</div>
+</div>
+<!-- Collection Progress Gauge -->
+<div class="lg:col-span-4 bg-white p-8 rounded-xl shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center">
+<h3 class="font-h3 text-primary mb-2">Annual Goal Progress</h3>
+<div class="relative w-48 h-48 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-slate-100" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" stroke-width="12"></circle>
+<circle class="text-[#d4af37]" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" stroke-dasharray="502" stroke-dashoffset="125" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-4xl font-black text-primary">75%</span>
+<span class="text-[10px] font-label-caps text-on-surface-variant">REMAINING: $14.2M</span>
+</div>
+</div>
+<p class="mt-6 text-sm text-on-surface-variant px-4">Institutional target for FY24 is $60M. Accelerated collection initiatives active.</p>
+<button class="mt-6 w-full py-2 text-xs font-bold border border-slate-200 rounded-lg hover:bg-slate-50">View Details</button>
+</div>
+</div>
+<!-- Monitoring & Control Tools -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- Anomaly Detection Feed -->
+<div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+<div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-600" data-icon="search_check">search_check</span>
+<h3 class="font-h3 text-primary">Anomaly Detection</h3>
+</div>
+<button class="text-xs font-bold text-[#1a2b4b] hover:underline">Review All</button>
+</div>
+<div class="divide-y divide-slate-50">
+<div class="p-4 flex items-center gap-4 hover:bg-slate-50 transition-colors">
+<div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-600">
+<span class="material-symbols-outlined" data-icon="priority_high">priority_high</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-primary">Duplicate Grant Application</p>
+<p class="text-xs text-on-tertiary-container">Physics Research Lab - ID #88219</p>
+</div>
+<span class="px-2 py-1 bg-amber-100 text-amber-700 text-[10px] font-bold rounded">PENDING</span>
+</div>
+<div class="p-4 flex items-center gap-4 hover:bg-slate-50 transition-colors">
+<div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-600">
+<span class="material-symbols-outlined" data-icon="block">block</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-primary">External IP Payment Attempt</p>
+<p class="text-xs text-on-tertiary-container">Attempt from restricted region: 192.168.1.1</p>
+</div>
+<span class="px-2 py-1 bg-red-100 text-red-700 text-[10px] font-bold rounded">BLOCKED</span>
+</div>
+<div class="p-4 flex items-center gap-4 hover:bg-slate-50 transition-colors">
+<div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+<span class="material-symbols-outlined" data-icon="flag">flag</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-primary">Large Transfer Request</p>
+<p class="text-xs text-on-tertiary-container">Capital Projects: New Arts Building</p>
+</div>
+<span class="px-2 py-1 bg-blue-100 text-blue-700 text-[10px] font-bold rounded">MANUAL REVIEW</span>
+</div>
+</div>
+</div>
+<!-- Recent Large Payments & Health Indicator -->
+<div class="space-y-6">
+<!-- Financial Health Summary -->
+<div class="bg-primary text-white p-6 rounded-xl shadow-lg relative overflow-hidden">
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h4 class="text-xs font-label-caps text-blue-200">INSTITUTIONAL FINANCIAL HEALTH</h4>
+<p class="text-2xl font-bold mt-1">Status: Stable</p>
+</div>
+<span class="material-symbols-outlined text-blue-300 opacity-50 text-4xl" data-icon="security">security</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-3 bg-white/10 rounded-lg">
+<p class="text-[10px] font-label-caps text-blue-200">LIQUIDITY RATIO</p>
+<p class="text-lg font-bold">1.45</p>
+</div>
+<div class="p-3 bg-white/10 rounded-lg">
+<p class="text-[10px] font-label-caps text-blue-200">DEBT SERVICE</p>
+<p class="text-lg font-bold">0.12</p>
+</div>
+</div>
+</div>
+<div class="absolute -right-12 -bottom-12 w-48 h-48 bg-[#d4af37]/20 rounded-full blur-3xl"></div>
+</div>
+<!-- Recent Large Payments -->
+<div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+<div class="p-6 border-b border-slate-100 bg-slate-50/50">
+<h3 class="font-h3 text-primary">Recent Large Payments</h3>
+</div>
+<div class="divide-y divide-slate-50">
+<div class="p-4 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-slate-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<p class="text-sm font-medium text-primary">Federal Endowment Grant</p>
+<p class="text-[10px] text-on-surface-variant">REF: END-99120-B</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-primary">+$1,250,000</p>
+<p class="text-[10px] text-green-600 font-bold uppercase">Settled</p>
+</div>
+</div>
+<div class="p-4 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-slate-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="school">school</span>
+</div>
+<div>
+<p class="text-sm font-medium text-primary">Faculty of Engineering Fees</p>
+<p class="text-[10px] text-on-surface-variant">Batch Processing #441</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-primary">+$485,200</p>
+<p class="text-[10px] text-green-600 font-bold uppercase">Settled</p>
+</div>
+</div>
+<div class="p-4 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-slate-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="apartment">apartment</span>
+</div>
+<div>
+<p class="text-sm font-medium text-primary">Alumni Donation - Plaza Fund</p>
+<p class="text-[10px] text-on-surface-variant">Private Donor ID #X1</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-primary">+$250,000</p>
+<p class="text-[10px] text-amber-600 font-bold uppercase">Pending</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Outstanding Balances Table Section -->
+<div class="mt-8 bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+<div class="p-6 border-b border-slate-100 flex justify-between items-center">
+<h3 class="font-h3 text-primary">Outstanding Balances by Faculty</h3>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 text-xs font-bold text-[#1a2b4b] border border-slate-200 rounded-lg hover:bg-slate-50">Filter</button>
+<button class="px-3 py-1.5 text-xs font-bold text-[#1a2b4b] border border-slate-200 rounded-lg hover:bg-slate-50">Download PDF</button>
+</div>
+</div>
+<table class="w-full text-left">
+<thead class="bg-slate-50/50 text-[10px] font-label-caps text-on-surface-variant">
+<tr>
+<th class="px-6 py-4">FACULTY DEPARTMENT</th>
+<th class="px-6 py-4">ENROLLED STUDENTS</th>
+<th class="px-6 py-4">COLLECTED (%)</th>
+<th class="px-6 py-4">OUTSTANDING DEBT</th>
+<th class="px-6 py-4 text-right">ACTION</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-50 text-sm">
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 font-semibold text-primary">Faculty of Medicine</td>
+<td class="px-6 py-4 text-on-surface-variant">2,450</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-16 bg-slate-100 h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#d4af37] h-full w-[92%]"></div>
+</div>
+<span class="text-xs">92%</span>
+</div>
+</td>
+<td class="px-6 py-4 font-bold text-red-600">$840,000</td>
+<td class="px-6 py-4 text-right">
+<button class="text-[#1a2b4b] hover:text-[#d4af37]"><span class="material-symbols-outlined" data-icon="open_in_new">open_in_new</span></button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 font-semibold text-primary">Faculty of Engineering</td>
+<td class="px-6 py-4 text-on-surface-variant">3,120</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-16 bg-slate-100 h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#d4af37] h-full w-[85%]"></div>
+</div>
+<span class="text-xs">85%</span>
+</div>
+</td>
+<td class="px-6 py-4 font-bold text-red-600">$1,210,000</td>
+<td class="px-6 py-4 text-right">
+<button class="text-[#1a2b4b] hover:text-[#d4af37]"><span class="material-symbols-outlined" data-icon="open_in_new">open_in_new</span></button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 font-semibold text-primary">Business School</td>
+<td class="px-6 py-4 text-on-surface-variant">1,890</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-16 bg-slate-100 h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#d4af37] h-full w-[98%]"></div>
+</div>
+<span class="text-xs">98%</span>
+</div>
+</td>
+<td class="px-6 py-4 font-bold text-slate-500">$120,500</td>
+<td class="px-6 py-4 text-right">
+<button class="text-[#1a2b4b] hover:text-[#d4af37]"><span class="material-symbols-outlined" data-icon="open_in_new">open_in_new</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</main>
+<script>
+(() => {
+  const fallback = "{{ url_for('financial_oversight') }}";
+  const map = [
+    ["dashboard", "{{ url_for('finance_admin_dashboard') }}"],
+    ["management", "{{ url_for('user_management') }}"],
+    ["verification", "{{ url_for('payment_verification') }}"],
+    ["report", "{{ url_for('finance_admin_reports') }}"],
+    ["audit", "{{ url_for('audit_logs') }}"],
+    ["setting", "{{ url_for('system_configuration') }}"],
+    ["support", "{{ url_for('help_center') }}"],
+    ["export", "{{ url_for('finance_admin_reports') }}"],
+    ["finalize", "{{ url_for('finance_admin_reports') }}"]
+  ];
+  document.querySelectorAll('a[href="#"]').forEach((a) => { a.href = fallback; });
+  document.querySelectorAll("button").forEach((btn) => {
+    if (btn.type === "submit") return;
+    btn.style.cursor = "pointer";
+    btn.addEventListener("click", () => {
+      const t = (btn.innerText || "").toLowerCase();
+      const m = map.find(([k]) => t.includes(k));
+      window.location.href = m ? m[1] : fallback;
+    });
+  });
+})();
+</script>
+</body></html>

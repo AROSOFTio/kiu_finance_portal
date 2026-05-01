@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QR Card Verification — KIU Finance</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#f0f4f8;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+.card{background:#fff;border-radius:16px;padding:40px;width:100%;max-width:520px;box-shadow:0 10px 40px rgba(0,0,0,.1);}
+.logo{text-align:center;margin-bottom:28px;}
+.logo h1{color:#0d3b6e;font-size:1.4rem;font-weight:700;}
+.logo p{color:#64748b;font-size:.85rem;}
+.status-valid{text-align:center;padding:24px;background:#f0fdf4;border:2px solid #16a34a;border-radius:12px;margin-bottom:24px;}
+.status-valid .icon{font-size:3rem;margin-bottom:8px;}
+.status-valid h2{color:#15803d;font-size:1.3rem;font-weight:700;}
+.status-invalid{text-align:center;padding:24px;background:#fef2f2;border:2px solid #dc2626;border-radius:12px;margin-bottom:24px;}
+.status-invalid .icon{font-size:3rem;margin-bottom:8px;}
+.status-invalid h2{color:#dc2626;font-size:1.3rem;font-weight:700;}
+.status-invalid p{color:#7f1d1d;font-size:.9rem;margin-top:8px;}
+table{width:100%;border-collapse:collapse;margin-top:16px;}
+td{padding:10px 12px;border-bottom:1px solid #f1f5f9;font-size:.875rem;}
+td:first-child{color:#64748b;font-weight:500;width:40%;}
+td:last-child{color:#1e293b;font-weight:600;}
+.badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600;}
+.badge-green{background:#dcfce7;color:#15803d;}
+.badge-red{background:#fee2e2;color:#dc2626;}
+.card-num{font-family:monospace;font-size:1rem;background:#f8fafc;padding:6px 12px;border-radius:6px;letter-spacing:1px;}
+.footer{text-align:center;margin-top:24px;font-size:.8rem;color:#94a3b8;}
+.btn-back{display:inline-block;margin-top:16px;color:#0d3b6e;font-weight:500;text-decoration:none;font-size:.875rem;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <h1>🎓 KIU Finance Portal</h1>
+    <p>Examination Card Verification System</p>
+  </div>
+
+  {% if valid %}
+  <div class="status-valid">
+    <div class="icon">✅</div>
+    <h2>CARD VALID</h2>
+    <p style="color:#166534;font-size:.9rem;margin-top:6px;">This examination card is authentic and active.</p>
+  </div>
+  <table>
+    <tr><td>Card Number</td><td><span class="card-num">{{ card.card_number }}</span></td></tr>
+    <tr><td>Student Name</td><td>{{ profile.full_name if profile else student.username }}</td></tr>
+    <tr><td>Reg. Number</td><td>{{ profile.reg_number if profile else 'N/A' }}</td></tr>
+    <tr><td>Course</td><td>{{ profile.course if profile else 'N/A' }}</td></tr>
+    <tr><td>Academic Year</td><td>{{ card.academic_year }}</td></tr>
+    <tr><td>Semester</td><td>{{ card.semester }}</td></tr>
+    <tr><td>Status</td><td><span class="badge badge-green">CLEARED</span></td></tr>
+    <tr><td>Generated</td><td>{{ card.generated_at.strftime('%d %b %Y %H:%M') if card.generated_at else 'N/A' }}</td></tr>
+  </table>
+  {% else %}
+  <div class="status-invalid">
+    <div class="icon">❌</div>
+    <h2>CARD INVALID</h2>
+    <p>{{ reason }}</p>
+    {% if card_number %}
+    <p style="margin-top:8px;font-family:monospace;font-size:.85rem;">Queried: {{ card_number }}</p>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <div class="footer">
+    <p>Kampala International University — Financial Management System</p>
+    <p>Verified at {{ now.strftime('%d %b %Y %H:%M:%S') }}</p>
+    <a class="btn-back" href="/">← Return to Portal</a>
+  </div>
+</div>
+</body>
+</html>

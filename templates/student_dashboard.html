@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | KIU Financial Portal{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto space-y-gutter">
+<!-- Hero Welcome Section -->
+<div class="flex flex-col md:flex-row justify-between items-end gap-stack-gap mb-8">
+<div>
+<h2 class="font-h1 text-h1 text-on-surface">Welcome back, {{ current_user.username.title() }}</h2>
+<p class="font-body-md text-on-surface-variant">Here is your financial status for {{ now.strftime('%B %Y') }}.</p>
+</div>
+<div class="flex gap-3">
+            <a href="{{ url_for('make_payment') }}" class="bg-[#FFD700] text-[#1a2b4b] px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-yellow-500/10 active:scale-95 transition-transform hover:shadow-yellow-500/20">
+                <span class="material-symbols-outlined" data-icon="account_balance_wallet" data-weight="fill" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+                Make Payment
+            </a>
+        </div>
+</div>
+<!-- Bento Grid - Financial Overview -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Main Metrics -->
+<div class="col-span-12 lg:col-span-8 grid grid-cols-3 gap-gutter">
+<div class="bg-white p-card-padding rounded-xl shadow-sm border border-slate-100">
+                <p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-4">Total Dues</p>
+                <h3 class="font-h2 text-h2 text-on-surface">UGX {{ "{:,.2f}".format(total_dues) }}</h3>
+                <div class="mt-4 flex items-center gap-2 text-on-tertiary-fixed-variant text-body-sm">
+                    <span class="material-symbols-outlined text-sm" data-icon="info">info</span>
+                    Tuition, functional fees, and exam fee
+                </div>
+                <div class="mt-4 space-y-1 text-body-sm text-on-surface-variant">
+                    <div class="flex justify-between"><span>Tuition</span><span>UGX {{ "{:,.0f}".format(fee_breakdown.tuition) }}</span></div>
+                    <div class="flex justify-between"><span>Functional fees</span><span>UGX {{ "{:,.0f}".format(fee_breakdown.functional_fees) }}</span></div>
+                    <div class="flex justify-between"><span>Exam fee</span><span>UGX {{ "{:,.0f}".format(fee_breakdown.exam_fee) }}</span></div>
+                </div>
+            </div>
+<div class="bg-white p-card-padding rounded-xl shadow-sm border border-slate-100">
+                <p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-4">Amount Paid</p>
+                <h3 class="font-h2 text-h2 text-primary">UGX {{ "{:,.2f}".format(ledger.total_paid) }}</h3>
+                <div class="mt-4 w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                    <div class="bg-[#1a2b4b] h-full" style="width: {{ percent_paid }}%"></div>
+                </div>
+                <div class="mt-4 space-y-3">
+                    <div>
+                        <div class="flex justify-between text-[11px] font-bold text-slate-500 mb-1">
+                            <span>Semester Registration</span>
+                            <span>{{ 'Unlocked' if reg_eligible else '30% required' }}</span>
+                        </div>
+                        <div class="relative h-2 rounded-full bg-slate-100 overflow-hidden">
+                            <div class="absolute left-[30%] top-0 h-full w-0.5 bg-[#FFD700]"></div>
+                            <div class="h-full bg-emerald-500" style="width: {{ percent_paid if percent_paid <= 100 else 100 }}%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-[11px] font-bold text-slate-500 mb-1">
+                            <span>Exam Card</span>
+                            <span>{{ 'Unlocked' if exam_eligible else '100% required' }}</span>
+                        </div>
+                        <div class="relative h-2 rounded-full bg-slate-100 overflow-hidden">
+                            <div class="absolute right-0 top-0 h-full w-0.5 bg-[#FFD700]"></div>
+                            <div class="h-full bg-[#1a2b4b]" style="width: {{ percent_paid if percent_paid <= 100 else 100 }}%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<div class="bg-white p-card-padding rounded-xl shadow-sm border border-slate-100">
+                <p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-4">Remaining Balance</p>
+                <h3 class="font-h2 text-h2 text-error">UGX {{ "{:,.2f}".format(ledger.outstanding) }}</h3>
+                <div class="mt-4 flex items-center gap-2 text-error text-body-sm">
+                    <span class="material-symbols-outlined text-sm" data-icon="warning">warning</span>
+                    {% if reg_eligible %}
+                        Eligible
+                    {% else %}
+                        {{ (100 - percent_paid)|int }}% remaining
+                    {% endif %}
+                </div>
+            </div>
+<!-- Recent Transactions Table -->
+<div class="col-span-3 bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+<div class="px-card-padding py-5 border-b border-slate-100 flex justify-between items-center">
+<h3 class="font-h3 text-h3 text-on-surface">Recent Transactions</h3>
+<a class="text-primary font-bold text-sm hover:underline" href="{{ url_for('transaction_history') }}">View All</a>
+</div>
+<table class="w-full text-left">
+<thead>
+<tr class="bg-slate-50/50">
+<th class="px-6 py-3 font-label-caps text-on-surface-variant">Date</th>
+<th class="px-6 py-3 font-label-caps text-on-surface-variant">Description</th>
+<th class="px-6 py-3 font-label-caps text-on-surface-variant">Amount</th>
+<th class="px-6 py-3 font-label-caps text-on-surface-variant">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+{% if recent_transactions %}
+{% for transaction in recent_transactions %}
+<tr>
+<td class="px-6 py-4 text-body-sm">{{ transaction.created_at.strftime('%d %b %Y') if transaction.created_at else 'N/A' }}</td>
+<td class="px-6 py-4 font-medium text-body-sm">{{ transaction.description }}</td>
+<td class="px-6 py-4 text-body-sm">UGX {{ "{:,.2f}".format(transaction.amount) }}</td>
+<td class="px-6 py-4">
+<span class="{% if transaction.status == 'Confirmed' %}bg-[#d1fadf] text-[#027a48]{% elif transaction.status == 'Pending' %}bg-[#fef3c7] text-[#b45309]{% else %}bg-[#fee2e2] text-[#991b1b]{% endif %} px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">{{ transaction.status }}</span>
+</td>
+</tr>
+{% endfor %}
+{% else %}
+<tr>
+<td colspan="4" class="px-6 py-4 text-body-sm text-center text-on-surface-variant">No transactions yet</td>
+</tr>
+{% endif %}
+</tbody>
+</table>
+</div>
+</div>
+<!-- Side Panels -->
+<div class="col-span-12 lg:col-span-4 space-y-gutter">
+<!-- Exam Eligibility Card -->
+<div class="bg-[#1a2b4b] text-white p-card-padding rounded-xl shadow-xl relative overflow-hidden">
+<div class="relative z-10">
+<p class="font-label-caps text-white/60 mb-2">Examination Clearance</p>
+<h3 class="text-xl font-bold mb-6">Semester {{ now.strftime('%Y') }}</h3>
+<div class="flex items-center gap-4 mb-6">
+{% if exam_eligible %}
+<div class="w-14 h-14 rounded-full border-4 border-green-500/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl text-green-400" data-icon="check_circle">check_circle</span>
+</div>
+<div>
+<p class="font-bold text-lg text-green-400">Eligible</p>
+<p class="text-sm text-white/70">Ready for examination</p>
+</div>
+{% else %}
+<div class="w-14 h-14 rounded-full border-4 border-error/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl" data-icon="block">block</span>
+</div>
+<div>
+<p class="font-bold text-lg text-error-container">Ineligible</p>
+<p class="text-sm text-white/70">Clear 100% balance for card</p>
+</div>
+{% endif %}
+</div>
+<a href="{{ url_for('exam_card') }}" class="w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 py-3 rounded-lg font-bold transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                                Download Provisional Card
+                            </a>
+<a href="{{ url_for('semester_registration') }}" class="mt-3 w-full bg-[#FFD700] hover:bg-[#e6c200] text-[#1a2b4b] py-3 rounded-lg font-bold transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="how_to_reg">how_to_reg</span>
+                                University Registration Form
+                            </a>
+</div>
+<div class="absolute -right-12 -bottom-12 w-48 h-48 bg-white/5 rounded-full blur-3xl"></div>
+</div>
+<!-- Updates & Notifications -->
+<div class="bg-white p-card-padding rounded-xl shadow-sm border border-slate-100">
+<h3 class="font-h3 text-h3 text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="campaign">campaign</span>
+                            Updates
+                        </h3>
+<div class="space-y-4">
+<div class="p-4 bg-surface-container-low rounded-lg border-l-4 border-primary">
+<p class="text-xs font-bold text-primary mb-1 uppercase">Today</p>
+<p class="text-sm font-medium text-on-surface">Pay at least 30% to unlock university registration.</p>
+</div>
+<div class="p-4 bg-slate-50 rounded-lg border-l-4 border-slate-300">
+<p class="text-xs font-bold text-slate-500 mb-1 uppercase">Yesterday</p>
+<p class="text-sm font-medium text-on-surface">Your payment of UGX 800,000 was verified.</p>
+</div>
+<div class="p-4 bg-slate-50 rounded-lg border-l-4 border-slate-300">
+<p class="text-xs font-bold text-slate-500 mb-1 uppercase">2 days ago</p>
+<p class="text-sm font-medium text-on-surface">New fee structure for 2025 has been uploaded.</p>
+</div>
+</div>
+</div>
+<!-- Quick Links -->
+<div class="bg-white p-card-padding rounded-xl shadow-sm border border-slate-100">
+<h3 class="font-h3 text-h3 text-on-surface mb-6">Quick Links</h3>
+<div class="grid grid-cols-1 gap-2">
+<a class="flex items-center justify-between p-4 bg-slate-50 hover:bg-slate-100 rounded-lg group transition-all" href="{{ url_for('fee_structure') }}">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-500" data-icon="description">description</span>
+<span class="font-medium text-on-surface">Fee Structure</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors" data-icon="arrow_forward">arrow_forward</span>
+</a>
+<a class="flex items-center justify-between p-4 bg-slate-50 hover:bg-slate-100 rounded-lg group transition-all" href="{{ url_for('payment_deadlines') }}">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-500" data-icon="event">event</span>
+<span class="font-medium text-on-surface">Payment Deadlines</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors" data-icon="arrow_forward">arrow_forward</span>
+</a>
+<a class="flex items-center justify-between p-4 bg-slate-50 hover:bg-slate-100 rounded-lg group transition-all" href="{{ url_for('help_center') }}">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-500" data-icon="contact_support">contact_support</span>
+<span class="font-medium text-on-surface">Financial Aid</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

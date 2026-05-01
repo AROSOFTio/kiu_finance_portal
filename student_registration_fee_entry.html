@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#031635",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#d3e4fe",
+                    "surface-container-high": "#dce9ff",
+                    "on-tertiary": "#ffffff",
+                    "secondary": "#775a19",
+                    "on-secondary-container": "#785a1a",
+                    "error-container": "#ffdad6",
+                    "outline": "#75777f",
+                    "background": "#f8f9ff",
+                    "surface-container-low": "#eff4ff",
+                    "on-primary": "#ffffff",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-secondary-fixed": "#261900",
+                    "secondary-container": "#fed488",
+                    "surface-bright": "#f8f9ff",
+                    "on-tertiary-fixed": "#191c1d",
+                    "on-tertiary-container": "#919394",
+                    "on-secondary-fixed-variant": "#5d4201",
+                    "inverse-primary": "#b6c6ef",
+                    "surface": "#f8f9ff",
+                    "tertiary-fixed": "#e1e3e4",
+                    "on-tertiary-fixed-variant": "#454748",
+                    "primary-fixed": "#d8e2ff",
+                    "surface-tint": "#4e5e81",
+                    "on-surface-variant": "#44474e",
+                    "tertiary-fixed-dim": "#c5c7c8",
+                    "tertiary-container": "#292c2d",
+                    "primary-container": "#1a2b4b",
+                    "error": "#ba1a1a",
+                    "on-surface": "#0b1c30",
+                    "on-primary-fixed": "#081b3a",
+                    "outline-variant": "#c5c6cf",
+                    "on-secondary": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#213145",
+                    "primary-fixed-dim": "#b6c6ef",
+                    "on-primary-fixed-variant": "#364768",
+                    "on-primary-container": "#8293b8",
+                    "on-background": "#0b1c30",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#cbdbf5",
+                    "surface-container": "#e5eeff",
+                    "tertiary": "#151819",
+                    "secondary-fixed-dim": "#e9c176",
+                    "secondary-fixed": "#ffdea5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-gap": "16px",
+                    "sidebar-width": "280px",
+                    "card-padding": "24px",
+                    "margin-mobile": "16px",
+                    "container-max-width": "1280px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-caps": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "h1": ["Inter"],
+                    "h2": ["Inter"],
+                    "h3": ["Inter"],
+                    "badge": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                    "h1": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "h2": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "h3": ["20px", {"lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600"}],
+                    "badge": ["12px", {"lineHeight": "1", "letterSpacing": "0", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[280px] border-r-0 bg-[#1a2b4b] shadow-2xl z-50 flex flex-col overflow-y-auto">
+<div class="p-8 flex items-center gap-4">
+<div class="h-10 w-10 bg-[#d4af37] flex items-center justify-center rounded-sm">
+<span class="material-symbols-outlined text-primary" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-white">Finance Portal</h1>
+<p class="font-body-sm text-slate-400">Administrative Staff</p>
+</div>
+</div>
+<nav class="flex-1 mt-4">
+<div class="flex flex-col">
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white transition-all duration-200 hover:bg-white/10 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 bg-white/5 text-white border-l-4 border-[#d4af37] font-semibold translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="how_to_reg">how_to_reg</span>
+<span class="font-body-sm">Student Registration</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white transition-all duration-200 hover:bg-white/10 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span class="font-body-sm">Payment Verification</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white transition-all duration-200 hover:bg-white/10 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+<span class="font-body-sm">Manual Record Entry</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white transition-all duration-200 hover:bg-white/10 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-body-sm">Transaction Management</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white transition-all duration-200 hover:bg-white/10 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+<span class="font-body-sm">Student Assistance</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white transition-all duration-200 hover:bg-white/10 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="summarize">summarize</span>
+<span class="font-body-sm">Daily Reports</span>
+</a>
+</div>
+</nav>
+<div class="mt-auto border-t border-white/10">
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white transition-all duration-200 hover:bg-white/10" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-sm">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white transition-all duration-200 hover:bg-white/10 mb-4" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-body-sm">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[280px] min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] h-16 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm z-40 flex justify-between items-center px-8">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg" data-icon="search">search</span>
+<input class="w-full bg-slate-50 border-none rounded-lg py-2 pl-10 pr-4 text-body-sm focus:ring-2 focus:ring-primary/20" placeholder="Search student records..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-slate-50 rounded-lg transition-all duration-300 text-slate-500">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 hover:bg-slate-50 rounded-lg transition-all duration-300 text-slate-500">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+<div class="h-8 w-px bg-slate-200"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="font-body-sm font-semibold text-primary">Finance Admin</p>
+<p class="text-[10px] uppercase tracking-wider text-slate-500">Terminal 042</p>
+</div>
+<img alt="Staff Portrait" class="h-10 w-10 rounded-full object-cover border-2 border-primary/10" data-alt="professional portrait of a male administrative staff member in a business casual outfit with a friendly expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1cUVzPx83fC5sbbaCeX8QvdQnvIJUXNz4PYF7qVoVLijEOc2TAWJIeRDBSLJFnhViDKVhE9-OxXDyRtCfy6xY3i2UMlJMg9qb_TKuBGX1zQ_RD_s8NkOy4xNF9UBP42o9F2taeiHYpzpoYvRny7d4weTijpHcKhuai6_WSR00PdQ6qGBkBP1CRuDGFFWk-7rY8w-0N_vccvsPkT2MCZ1WMlL7mfi83f3J4I2d6ROfNxjcvupqVxHGa0KTVp6ZpFKSz-gh6ht7Vow"/>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="pt-24 px-8 pb-12 max-w-[1400px] mx-auto">
+<div class="mb-8">
+<h2 class="font-h1 text-primary">Operations Desk</h2>
+<p class="font-body-md text-on-surface-variant">Manage registrations and finalize manual payment entries.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Section 1: Quick Student Registration -->
+<section class="col-span-12 lg:col-span-5 bg-white p-6 shadow-[0px_4px_12px_rgba(0,0,0,0.05)] rounded-lg">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="person_add">person_add</span>
+<h3 class="font-h3 text-primary">Quick Student Registration</h3>
+</div>
+</div>
+<form class="space-y-4" method="POST" action="{{ url_for('register_student_by_finance') }}">
+<div>
+<label class="block font-label-caps text-on-surface-variant mb-2">Student Full Name</label>
+<input class="w-full border-slate-200 focus:border-primary focus:ring-primary/5 rounded-lg py-3 px-4 transition-all" name="full_name" placeholder="e.g. Julius O" type="text" required/>
+</div>
+<div>
+<label class="block font-label-caps text-on-surface-variant mb-2">Registration Number</label>
+<input class="w-full border-slate-200 focus:border-primary focus:ring-primary/5 rounded-lg py-3 px-4 transition-all" name="reg_number" placeholder="e.g. REG-2024-001" type="text"/>
+</div>
+<div class="pt-4">
+<button class="w-full bg-primary text-white font-semibold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2" type="submit">
+<span class="material-symbols-outlined" data-icon="app_registration">app_registration</span>
+                                Complete Registration
+                            </button>
+</div>
+</form>
+</section>
+<!-- Section 2: Manual Payment Entry -->
+<section class="col-span-12 lg:col-span-7 bg-white p-6 shadow-[0px_4px_12px_rgba(0,0,0,0.05)] rounded-lg border-t-4 border-[#d4af37]">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="payments">payments</span>
+<h3 class="font-h3 text-primary">Manual Payment Entry</h3>
+</div>
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 font-badge text-badge rounded-full">OFFICE CASH ONLY</span>
+</div>
+<form class="grid grid-cols-2 gap-4" method="POST" action="{{ url_for('manual_record_entry') }}">
+<div class="col-span-2">
+<label class="block font-label-caps text-on-surface-variant mb-2">Student Username, Email, Reg No, or Name</label>
+<input class="w-full border-slate-200 focus:border-primary focus:ring-primary/5 rounded-lg py-3 px-4 transition-all" name="student_identifier" placeholder="e.g. student or KIU/2026/12345" type="text" required/>
+</div>
+<div class="col-span-2 sm:col-span-1">
+<label class="block font-label-caps text-on-surface-variant mb-2">Payment Amount (UGX)</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">U</span>
+<input class="w-full border-slate-200 focus:border-primary focus:ring-primary/5 rounded-lg py-3 pl-8 pr-4 transition-all" name="amount" placeholder="0.00" type="number" required/>
+</div>
+</div>
+<div class="col-span-2 sm:col-span-1">
+<label class="block font-label-caps text-on-surface-variant mb-2">Fee Category</label>
+<select class="w-full border-slate-200 focus:border-primary focus:ring-primary/5 rounded-lg py-3 px-4 transition-all" name="category">
+<option>Tuition Fee</option>
+<option>Examination Fee</option>
+<option>Library Membership</option>
+<option>Hostel Deposit</option>
+</select>
+</div>
+<div class="col-span-2">
+<label class="block font-label-caps text-on-surface-variant mb-2">Reference / Receipt Number</label>
+<input class="w-full border-slate-200 focus:border-primary focus:ring-primary/5 rounded-lg py-3 px-4 transition-all" name="reference" placeholder="Automatic ID Generation if left blank" type="text"/>
+</div>
+<div class="col-span-2 pt-2">
+<button class="w-full bg-[#d4af37] text-primary font-bold py-3 px-6 rounded-lg hover:brightness-110 transition-all flex items-center justify-center gap-2" type="submit">
+<span class="material-symbols-outlined" data-icon="point_of_sale">point_of_sale</span>
+                                Finalize Payment &amp; Issue Receipt
+                            </button>
+</div>
+</form>
+</section>
+<!-- Section 3: Recent Records -->
+<section class="col-span-12 bg-white shadow-[0px_4px_12px_rgba(0,0,0,0.05)] rounded-lg overflow-hidden">
+<div class="p-6 border-b border-slate-100 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="history">history</span>
+<h3 class="font-h3 text-primary">Recent Operations Log</h3>
+</div>
+<button class="text-primary font-semibold text-body-sm flex items-center gap-1 hover:underline">
+                            View Comprehensive Log
+                            <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-slate-50 border-b border-slate-200">
+<th class="px-6 py-4 font-label-caps text-on-surface-variant">Timestamp</th>
+<th class="px-6 py-4 font-label-caps text-on-surface-variant">Operation</th>
+<th class="px-6 py-4 font-label-caps text-on-surface-variant">Entity / Name</th>
+<th class="px-6 py-4 font-label-caps text-on-surface-variant">Reference</th>
+<th class="px-6 py-4 font-label-caps text-on-surface-variant">Value</th>
+<th class="px-6 py-4 font-label-caps text-on-surface-variant">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 text-body-sm text-slate-600">10:45 AM</td>
+<td class="px-6 py-4 font-semibold text-primary">Manual Payment</td>
+<td class="px-6 py-4 text-body-sm">Elena Akello</td>
+<td class="px-6 py-4 font-mono text-body-sm">RCP-9921</td>
+<td class="px-6 py-4 font-semibold text-primary">$1,200.00</td>
+<td class="px-6 py-4">
+<span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold uppercase tracking-wider">Confirmed</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 text-body-sm text-slate-600">10:32 AM</td>
+<td class="px-6 py-4 font-semibold text-primary">Student Registration</td>
+<td class="px-6 py-4 text-body-sm">Julius O</td>
+<td class="px-6 py-4 font-mono text-body-sm">REG-2024-812</td>
+<td class="px-6 py-4 font-semibold text-primary">—</td>
+<td class="px-6 py-4">
+<span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold uppercase tracking-wider">Confirmed</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 text-body-sm text-slate-600">09:15 AM</td>
+<td class="px-6 py-4 font-semibold text-primary">Manual Payment</td>
+<td class="px-6 py-4 text-body-sm">Pius Ian</td>
+<td class="px-6 py-4 font-mono text-body-sm">RCP-9920</td>
+<td class="px-6 py-4 font-semibold text-primary">$450.00</td>
+<td class="px-6 py-4">
+<span class="inline-block px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-[11px] font-bold uppercase tracking-wider">Pending</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- FAB Suppression: Not rendered on administrative sub-pages as per rules -->
+<script>
+(() => {
+  const fallback = "{{ url_for('student_registration_fee_entry') }}";
+  const map = [
+    ["dashboard", "{{ url_for('finance_dashboard') }}"],
+    ["verification", "{{ url_for('payment_verification') }}"],
+    ["manual", "{{ url_for('manual_record_entry') }}"],
+    ["transaction", "{{ url_for('transaction_management') }}"],
+    ["assistant", "{{ url_for('student_assistant') }}"],
+    ["report", "{{ url_for('daily_report') }}"],
+    ["setting", "{{ url_for('system_configuration') }}"],
+    ["logout", "{{ url_for('logout') }}"],
+    ["view", "{{ url_for('transaction_history') }}"]
+  ];
+  document.querySelectorAll('a[href="#"]').forEach((a) => { a.href = fallback; });
+  document.querySelectorAll("button").forEach((btn) => {
+    if (btn.type === "submit") return;
+    btn.style.cursor = "pointer";
+    btn.addEventListener("click", () => {
+      const t = (btn.innerText || "").toLowerCase();
+      const m = map.find(([k]) => t.includes(k));
+      window.location.href = m ? m[1] : fallback;
+    });
+  });
+})();
+</script>
+</body></html>

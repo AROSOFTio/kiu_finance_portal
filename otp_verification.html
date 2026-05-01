@@ -1,0 +1,33 @@
+{% extends "base-auth.html" %}
+
+{% block title %}OTP Verification | KIU Financial Portal{% endblock %}
+
+{% block content %}
+<main class="min-h-screen flex items-center justify-center p-6">
+    <div class="w-full max-w-md bg-white border border-outline-variant rounded-xl shadow-sm p-8">
+        <h1 class="font-headline-md text-headline-md text-primary mb-2">Verify OTP</h1>
+        <p class="text-sm text-on-surface-variant mb-6">Enter the 6-digit OTP sent to your email.</p>
+
+        <form method="POST" action="{{ url_for('otp_verification', purpose=request.args.get('purpose', 'reset')) }}" class="space-y-4">
+            <div class="grid grid-cols-6 gap-2">
+                {% for i in range(1, 7) %}
+                <input
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="1"
+                    required
+                    id="otp{{ i }}"
+                    name="otp{{ i }}"
+                    class="h-12 text-center border border-outline-variant rounded-lg"
+                />
+                {% endfor %}
+            </div>
+            <button type="submit" class="w-full py-2.5 rounded-lg bg-secondary text-white font-semibold">Verify OTP</button>
+        </form>
+
+        <div class="mt-5 text-sm">
+            <a href="{{ url_for('login') }}" class="text-secondary hover:underline">Back to login</a>
+        </div>
+    </div>
+</main>
+{% endblock %}

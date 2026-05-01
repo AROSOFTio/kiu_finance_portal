@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Outstanding Balances — KIU</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#f0f4f8;}
+.topbar{background:#0d3b6e;color:#fff;padding:12px 32px;display:flex;justify-content:space-between;align-items:center;}
+.topbar h1{font-size:1.1rem;font-weight:700;}
+.content{max-width:1100px;margin:32px auto;padding:0 20px;}
+h2{color:#0d3b6e;font-size:1.3rem;margin-bottom:6px;}
+.sub{color:#64748b;font-size:.85rem;margin-bottom:24px;}
+.total-bar{background:#dc2626;color:#fff;border-radius:10px;padding:16px 24px;margin-bottom:20px;font-size:1.1rem;font-weight:700;}
+.actions{display:flex;gap:12px;margin-bottom:24px;}
+.btn{padding:10px 20px;border-radius:8px;font-size:.875rem;font-weight:600;cursor:pointer;border:none;text-decoration:none;display:inline-block;}
+.btn-primary{background:#0d3b6e;color:#fff;}.btn-outline{background:#fff;color:#0d3b6e;border:2px solid #0d3b6e;}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+th{background:#0d3b6e;color:#fff;padding:12px 16px;text-align:left;font-size:.8rem;text-transform:uppercase;}
+td{padding:12px 16px;border-bottom:1px solid #f1f5f9;font-size:.875rem;}
+tr:last-child td{border-bottom:none;}
+.badge-partial{background:#fef9c3;color:#92400e;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:600;}
+.badge-pending{background:#fee2e2;color:#991b1b;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:600;}
+@media print{.actions,.topbar{display:none!important;}}
+</style>
+</head>
+<body>
+<div class="topbar"><h1>🎓 KIU — Outstanding Balance Report</h1><small>{{ generated_at.strftime('%d %b %Y %H:%M') }}</small></div>
+<div class="content">
+  <h2>Outstanding Balance Report</h2>
+  <p class="sub">Students with unpaid fee balances — Academic Year 2025/2026</p>
+  <div class="actions">
+    <button class="btn btn-primary" onclick="window.print()">🖨️ Print</button>
+    <a class="btn btn-outline" href="{{ url_for('export_report_csv', report_type='outstanding') }}">⬇️ Export CSV</a>
+    <a class="btn btn-outline" href="{{ url_for('finance_dashboard') }}">← Dashboard</a>
+  </div>
+  <div class="total-bar">Total Outstanding: UGX {{ '{:,.0f}'.format(total) }}</div>
+  <table>
+    <thead><tr><th>#</th><th>Student Name</th><th>Reg. Number</th><th>Course</th><th>Total Fees</th><th>Paid</th><th>Outstanding</th><th>Status</th></tr></thead>
+    <tbody>
+    {% for u, l, p in rows %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ p.full_name if p else u.username }}</td>
+      <td>{{ p.reg_number if p else 'N/A' }}</td>
+      <td>{{ p.course if p else '—' }}</td>
+      <td>{{ '{:,.0f}'.format(l.total_billed) }}</td>
+      <td>{{ '{:,.0f}'.format(l.total_paid) }}</td>
+      <td style="color:#dc2626;font-weight:600;">{{ '{:,.0f}'.format(l.outstanding) }}</td>
+      <td><span class="badge-{{ l.status }}">{{ l.status|upper }}</span></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#031635",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#d3e4fe",
+                    "surface-container-high": "#dce9ff",
+                    "on-tertiary": "#ffffff",
+                    "secondary": "#775a19",
+                    "on-secondary-container": "#785a1a",
+                    "error-container": "#ffdad6",
+                    "outline": "#75777f",
+                    "background": "#f8f9ff",
+                    "surface-container-low": "#eff4ff",
+                    "on-primary": "#ffffff",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-secondary-fixed": "#261900",
+                    "secondary-container": "#fed488",
+                    "surface-bright": "#f8f9ff",
+                    "on-tertiary-fixed": "#191c1d",
+                    "on-tertiary-container": "#919394",
+                    "on-secondary-fixed-variant": "#5d4201",
+                    "inverse-primary": "#b6c6ef",
+                    "surface": "#f8f9ff",
+                    "tertiary-fixed": "#e1e3e4",
+                    "on-tertiary-fixed-variant": "#454748",
+                    "primary-fixed": "#d8e2ff",
+                    "surface-tint": "#4e5e81",
+                    "on-surface-variant": "#44474e",
+                    "tertiary-fixed-dim": "#c5c7c8",
+                    "tertiary-container": "#292c2d",
+                    "primary-container": "#1a2b4b",
+                    "error": "#ba1a1a",
+                    "on-surface": "#0b1c30",
+                    "on-primary-fixed": "#081b3a",
+                    "outline-variant": "#c5c6cf",
+                    "on-secondary": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#213145",
+                    "primary-fixed-dim": "#b6c6ef",
+                    "on-primary-fixed-variant": "#364768",
+                    "on-primary-container": "#8293b8",
+                    "on-background": "#0b1c30",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#cbdbf5",
+                    "surface-container": "#e5eeff",
+                    "tertiary": "#151819",
+                    "secondary-fixed-dim": "#e9c176",
+                    "secondary-fixed": "#ffdea5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-gap": "16px",
+                    "sidebar-width": "280px",
+                    "card-padding": "24px",
+                    "margin-mobile": "16px",
+                    "container-max-width": "1280px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-caps": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "h1": ["Inter"],
+                    "h2": ["Inter"],
+                    "h3": ["Inter"],
+                    "badge": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                    "h1": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "h2": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "h3": ["20px", {"lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600"}],
+                    "badge": ["12px", {"lineHeight": "1", "letterSpacing": "0", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-[#1a2b4b] dark:bg-slate-950 text-white font-['Inter'] text-sm tracking-tight shadow-2xl flex flex-col z-50">
+<div class="p-6 border-b border-white/10">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 bg-[#d4af37] flex items-center justify-center rounded-lg shadow-inner">
+<span class="material-symbols-outlined text-[#1a2b4b]" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-white">Finance Portal</h1>
+<p class="text-xs text-slate-400 font-medium uppercase tracking-widest">Administrative Staff</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 py-4 overflow-y-auto">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 px-6 py-4 bg-white/5 text-white border-l-4 border-[#d4af37] font-semibold transition-all duration-200" href="{{ url_for('finance_dashboard') }}">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1" href="{{ url_for('student_registration_fee_entry') }}">
+<span class="material-symbols-outlined" data-icon="how_to_reg">how_to_reg</span>
+<span>Student Registration</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1" href="{{ url_for('payment_verification') }}">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span>Payment Verification</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1" href="{{ url_for('manual_record_entry') }}">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+<span>Manual Record Entry</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1" href="{{ url_for('transaction_management') }}">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span>Transaction Management</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1" href="{{ url_for('student_assistant') }}">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+<span>Student Assistance</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1" href="{{ url_for('daily_report') }}">
+<span class="material-symbols-outlined" data-icon="summarize">summarize</span>
+<span>Daily Reports</span>
+</a>
+</li>
+</ul>
+</nav>
+<div class="mt-auto p-4 border-t border-white/10">
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white transition-all duration-200" href="{{ url_for('system_configuration') }}">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white transition-all duration-200" href="{{ url_for('logout') }}">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-40 flex justify-between items-center px-8 border-b border-slate-200 dark:border-slate-800 shadow-sm transition-all duration-300 ease-in-out">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-100 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all" placeholder="Search students, receipts, or transactions..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<a href="{{ url_for('audit_logs') }}" class="p-2 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</a>
+<a href="{{ url_for('help_center') }}" class="p-2 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</a>
+<div class="h-8 w-[1px] bg-slate-200 mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-sm font-semibold text-[#1a2b4b]">Elena Amongi</p>
+<p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter">Financial Officer</p>
+</div>
+<img alt="Staff Portrait" class="w-10 h-10 rounded-full border-2 border-white shadow-sm object-cover" data-alt="professional corporate headshot of a woman in business attire with a friendly confident expression and soft office lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQDjliosWp87a_fEJOaSJ61d_ur5_7RkgHqGEptw1Omep8vHomMj_eeiADACbEl27hYaFa-Lt_Ln-_xcMme3GVRlTTqNRm2e56lDGF173k-L5Avqgv1_XESjgg4lxN6PaZn3Vqm1tRLiU3fo1oFQFdhiqT29UN97_FsWBRrN4_TBQ7GURD5Wio47PiGVdw2nTx2QVb2xdJhaUJ7-zqBKYOQu3BdlDq7gWV12-7owX9ab_E9cxqFE4U_XiK2i-MPWzIuO0f5h4Irsg"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[280px] pt-24 pb-12 px-8 min-h-screen">
+<!-- Daily Activity Summary - Bento Style -->
+<section class="max-w-[1280px] mx-auto mb-gutter">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h2 class="font-h2 text-h2 text-primary mb-1">Operational Overview</h2>
+<p class="font-body-sm text-body-sm text-outline">Monitoring today's financial workflow and pending tasks.</p>
+</div>
+<div class="flex gap-3">
+<a href="{{ url_for('manual_record_entry') }}" class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg font-medium text-sm transition-transform hover:scale-[1.02] active:scale-[0.98]">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                        New Manual Entry
+                    </a>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-6">
+<!-- Transactions Today -->
+<div class="col-span-12 md:col-span-4 bg-white p-card-padding rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-slate-50">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-surface-container-low rounded-lg">
+<span class="material-symbols-outlined text-primary" data-icon="payments">payments</span>
+</div>
+<span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">+12% vs yest.</span>
+</div>
+<h3 class="font-label-caps text-label-caps text-outline uppercase mb-1">Total Revenue</h3>
+<p id="finance-total-revenue" class="font-h1 text-h1 text-primary">UGX {{ "{:,.0f}".format(total_collected|default(0)) }}</p>
+<div class="mt-4 w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[75%] rounded-full"></div>
+</div>
+</div>
+<!-- Pending Verifications -->
+<div class="col-span-12 md:col-span-4 bg-white p-card-padding rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-slate-50 relative overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-amber-50 rounded-lg">
+<span class="material-symbols-outlined text-amber-600" data-icon="pending_actions">pending_actions</span>
+</div>
+<span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-full">High Priority</span>
+</div>
+<h3 class="font-label-caps text-label-caps text-outline uppercase mb-1">Pending Verifications</h3>
+<p id="finance-pending-verifications" class="font-h1 text-h1 text-primary">{{ pending_verifications|default(0) }}</p>
+<p class="mt-4 font-body-sm text-body-sm text-amber-700">Receipts awaiting review</p>
+</div>
+<!-- Manual Entries Today -->
+<div class="col-span-12 md:col-span-4 bg-white p-card-padding rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-slate-50">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-surface-container-low rounded-lg">
+<span class="material-symbols-outlined text-primary" data-icon="history_edu">history_edu</span>
+</div>
+</div>
+<h3 class="font-label-caps text-label-caps text-outline uppercase mb-1">Outstanding Balances</h3>
+<p id="finance-total-outstanding" class="font-h1 text-h1 text-primary">UGX {{ "{:,.0f}".format(total_outstanding|default(0)) }}</p>
+<p class="mt-4 font-body-sm text-body-sm text-outline">{{ total_students|default(0) }} active students</p>
+</div>
+</div>
+</section>
+<!-- Main Workspace: Queue and Feed -->
+<section class="max-w-[1280px] mx-auto grid grid-cols-12 gap-6">
+<!-- Pending Payment Verification Queue -->
+<div class="col-span-12 lg:col-span-8 bg-white rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] overflow-hidden border border-slate-50">
+<div class="p-6 border-b border-slate-100 flex items-center justify-between bg-white">
+<div>
+<h3 class="font-h3 text-h3 text-primary">Verification Queue</h3>
+<p class="font-body-sm text-body-sm text-outline">Review student bank receipts and wire transfers.</p>
+</div>
+<a href="{{ url_for('payment_verification') }}" class="text-sm font-semibold text-primary hover:underline">View All Queue</a>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-slate-50">
+<tr>
+<th class="px-6 py-4 font-label-caps text-label-caps text-outline uppercase">Student Details</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-outline uppercase">Amount</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-outline uppercase">Ref #</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-outline uppercase">Status</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-outline uppercase text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+{% for transaction in recent_transactions|selectattr('status', 'equalto', 'Pending') %}
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-xs text-primary">{{ (transaction.user.username[:2] if transaction.user else 'NA')|upper }}</div>
+<div>
+<p class="font-body-md text-body-md text-primary font-semibold">{{ transaction.user.profile.full_name if transaction.user and transaction.user.profile else transaction.user.username if transaction.user else 'Unknown Student' }}</p>
+<p class="text-xs text-outline">ID: {{ transaction.user.profile.reg_number if transaction.user and transaction.user.profile else transaction.user_id }}</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="font-body-md text-body-md text-primary font-medium">UGX {{ "{:,.0f}".format(transaction.amount) }}</p>
+<p class="text-xs text-outline">{{ transaction.method }}</p>
+</td>
+<td class="px-6 py-4 font-body-sm text-body-sm text-outline">{{ transaction.transaction_id }}</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-amber-50 text-amber-700 text-[10px] font-bold uppercase rounded-full tracking-wider">{{ transaction.status }}</span>
+</td>
+<td class="px-6 py-4 text-right">
+<a href="{{ url_for('payment_verification') }}" class="text-primary hover:text-[#d4af37] transition-colors p-1" title="Verify">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</a>
+</td>
+</tr>
+{% else %}
+<tr><td colspan="5" class="px-6 py-8 text-center text-sm text-outline">No pending payments right now.</td></tr>
+{% endfor %}
+{% if false %}
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-xs text-primary">OA</div>
+<div>
+<p class="font-body-md text-body-md text-primary font-semibold">Omedi Ally</p>
+<p class="text-xs text-outline">ID: 2024-8842</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="font-body-md text-body-md text-primary font-medium">$2,450.00</p>
+<p class="text-xs text-outline">Tuition (Sem 1)</p>
+</td>
+<td class="px-6 py-4 font-body-sm text-body-sm text-outline">TXN-49201-B</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-amber-50 text-amber-700 text-[10px] font-bold uppercase rounded-full tracking-wider">Pending</span>
+</td>
+<td class="px-6 py-4 text-right">
+<a href="{{ url_for('payment_verification') }}" class="text-primary hover:text-[#d4af37] transition-colors p-1" title="Verify">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</a>
+<a href="{{ url_for('payment_verification') }}" class="text-slate-400 hover:text-error transition-colors p-1" title="Reject">
+<span class="material-symbols-outlined" data-icon="cancel">cancel</span>
+</a>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-xs text-primary">JO</div>
+<div>
+<p class="font-body-md text-body-md text-primary font-semibold">Juliana Omoding</p>
+<p class="text-xs text-outline">ID: 2024-9103</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="font-body-md text-body-md text-primary font-medium">$450.00</p>
+<p class="text-xs text-outline">Hostel Deposit</p>
+</td>
+<td class="px-6 py-4 font-body-sm text-body-sm text-outline">TXN-38291-C</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-amber-50 text-amber-700 text-[10px] font-bold uppercase rounded-full tracking-wider">Pending</span>
+</td>
+<td class="px-6 py-4 text-right">
+<a href="{{ url_for('payment_verification') }}" class="text-primary hover:text-[#d4af37] transition-colors p-1">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</a>
+<a href="{{ url_for('payment_verification') }}" class="text-slate-400 hover:text-error transition-colors p-1">
+<span class="material-symbols-outlined" data-icon="cancel">cancel</span>
+</a>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-xs text-primary">KA</div>
+<div>
+<p class="font-body-md text-body-md text-primary font-semibold">Kevin Atim</p>
+<p class="text-xs text-outline">ID: 2024-1122</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="font-body-md text-body-md text-primary font-medium">$1,200.00</p>
+<p class="text-xs text-outline">Graduation Fee</p>
+</td>
+<td class="px-6 py-4 font-body-sm text-body-sm text-outline">TXN-10129-D</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-amber-50 text-amber-700 text-[10px] font-bold uppercase rounded-full tracking-wider">Pending</span>
+</td>
+<td class="px-6 py-4 text-right">
+<a href="{{ url_for('payment_verification') }}" class="text-primary hover:text-[#d4af37] transition-colors p-1">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</a>
+<a href="{{ url_for('payment_verification') }}" class="text-slate-400 hover:text-error transition-colors p-1">
+<span class="material-symbols-outlined" data-icon="cancel">cancel</span>
+</a>
+</td>
+</tr>
+{% endif %}
+</tbody>
+</table>
+</div>
+</div>
+<!-- Recent Activity Feed -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<div class="bg-white p-card-padding rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-slate-50 flex-1">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-h3 text-h3 text-primary">Recent Activity</h3>
+<span class="material-symbols-outlined text-slate-400" data-icon="history">history</span>
+</div>
+<div class="space-y-6 relative">
+<div class="absolute left-[15px] top-0 bottom-0 w-[2px] bg-slate-100"></div>
+<div class="relative flex items-start gap-4 pl-8">
+<div class="absolute left-0 w-8 h-8 bg-emerald-50 rounded-full flex items-center justify-center border-2 border-white z-10">
+<span class="material-symbols-outlined text-emerald-600 text-sm" data-icon="check">check</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-primary">Payment Verified</p>
+<p class="text-xs text-outline">Receipt #88219 confirmed for Sarah Omoding</p>
+<p class="text-[10px] text-slate-400 font-medium mt-1">2 mins ago • by Admin_Rose</p>
+</div>
+</div>
+<div class="relative flex items-start gap-4 pl-8">
+<div class="absolute left-0 w-8 h-8 bg-blue-50 rounded-full flex items-center justify-center border-2 border-white z-10">
+<span class="material-symbols-outlined text-blue-600 text-sm" data-icon="edit_square">edit_square</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-primary">Manual Entry Logged</p>
+<p class="text-xs text-outline">Late registration fee waiver applied to student ID 4402</p>
+<p class="text-[10px] text-slate-400 font-medium mt-1">15 mins ago • by Admin_Davis</p>
+</div>
+</div>
+<div class="relative flex items-start gap-4 pl-8">
+<div class="absolute left-0 w-8 h-8 bg-amber-50 rounded-full flex items-center justify-center border-2 border-white z-10">
+<span class="material-symbols-outlined text-amber-600 text-sm" data-icon="flag">flag</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-primary">Discrepancy Flagged</p>
+<p class="text-xs text-outline">Receipt TXN-9921 shows insufficient amount for Semester 2</p>
+<p class="text-[10px] text-slate-400 font-medium mt-1">1 hour ago • by System_Auto</p>
+</div>
+</div>
+<div class="relative flex items-start gap-4 pl-8">
+<div class="absolute left-0 w-8 h-8 bg-emerald-50 rounded-full flex items-center justify-center border-2 border-white z-10">
+<span class="material-symbols-outlined text-emerald-600 text-sm" data-icon="verified">verified</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-primary">Payment Verified</p>
+<p class="text-xs text-outline">Bulk verify (5) for International Student Insurance</p>
+<p class="text-[10px] text-slate-400 font-medium mt-1">2 hours ago • by Admin_Rose</p>
+</div>
+</div>
+</div>
+<a href="{{ url_for('audit_logs') }}" class="w-full mt-8 py-3 text-sm font-semibold text-primary border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors text-center">
+                        View Full Audit Trail
+                    </a>
+</div>
+<!-- Action Shortcut Card -->
+<div class="bg-primary p-card-padding rounded-xl shadow-[0px_10px_25px_rgba(26,43,75,0.1)] text-white">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-[#d4af37]" data-icon="bolt">bolt</span>
+<h4 class="font-h3 text-h3">Quick Actions</h4>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<a href="{{ url_for('daily_report') }}" class="flex flex-col items-center gap-2 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all text-center">
+<span class="material-symbols-outlined text-lg" data-icon="file_download">file_download</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">End of Day</span>
+</a>
+<a href="{{ url_for('payment_verification') }}" class="flex flex-col items-center gap-2 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all text-center">
+<span class="material-symbols-outlined text-lg" data-icon="print">print</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Print Queue</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB for Critical Operational Tasks -->
+<a href="{{ url_for('transaction_management') }}" class="fixed bottom-8 right-8 w-14 h-14 bg-[#d4af37] text-[#1a2b4b] rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+</a>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  let latestTransactionId = 0;
+  const currency = new Intl.NumberFormat('en-UG', { maximumFractionDigits: 0 });
+
+  async function refreshFinanceSummary() {
+    try {
+      const response = await fetch('{{ url_for("api_finance_summary") }}', { headers: { 'Accept': 'application/json' } });
+      if (!response.ok) return;
+      const data = await response.json();
+      document.getElementById('finance-total-revenue').textContent = `UGX ${currency.format(data.total_collected || 0)}`;
+      document.getElementById('finance-pending-verifications').textContent = data.pending_verifications || 0;
+      document.getElementById('finance-total-outstanding').textContent = `UGX ${currency.format(data.total_outstanding || 0)}`;
+      if (latestTransactionId && data.latest_transaction_id > latestTransactionId) {
+        window.location.reload();
+      }
+      latestTransactionId = data.latest_transaction_id || latestTransactionId;
+    } catch (error) {
+      console.debug('Finance summary refresh skipped', error);
+    }
+  }
+
+  refreshFinanceSummary();
+  setInterval(refreshFinanceSummary, 10000);
+});
+</script>
+</body></html>

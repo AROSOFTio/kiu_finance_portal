@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Financial Summary Report — KIU</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#f0f4f8;color:#1e293b;}
+.topbar{background:#0d3b6e;color:#fff;padding:12px 32px;display:flex;justify-content:space-between;align-items:center;}
+.topbar h1{font-size:1.1rem;font-weight:700;}
+.topbar small{opacity:.7;font-size:.8rem;}
+.content{max-width:960px;margin:32px auto;padding:0 20px;}
+h2{color:#0d3b6e;font-size:1.3rem;margin-bottom:6px;}
+.sub{color:#64748b;font-size:.85rem;margin-bottom:24px;}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;}
+.kpi{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-top:4px solid #0d3b6e;}
+.kpi.green{border-top-color:#16a34a;}.kpi.red{border-top-color:#dc2626;}.kpi.amber{border-top-color:#f59e0b;}
+.kpi-val{font-size:1.8rem;font-weight:700;color:#0d3b6e;margin-bottom:4px;}
+.kpi.green .kpi-val{color:#16a34a;}.kpi.red .kpi-val{color:#dc2626;}.kpi.amber .kpi-val{color:#b45309;}
+.kpi-label{font-size:.8rem;color:#64748b;font-weight:500;text-transform:uppercase;letter-spacing:.5px;}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+th{background:#0d3b6e;color:#fff;padding:12px 16px;text-align:left;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;}
+td{padding:12px 16px;border-bottom:1px solid #f1f5f9;font-size:.875rem;}
+tr:last-child td{border-bottom:none;}
+.actions{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;}
+.btn{padding:10px 20px;border-radius:8px;font-size:.875rem;font-weight:600;cursor:pointer;border:none;text-decoration:none;display:inline-block;}
+.btn-primary{background:#0d3b6e;color:#fff;}.btn-outline{background:#fff;color:#0d3b6e;border:2px solid #0d3b6e;}
+@media print{.topbar,.actions{display:none!important;}.content{margin:0;}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>🎓 KIU Finance Portal — Financial Summary Report</h1>
+  <small>Generated: {{ generated_at.strftime('%d %b %Y %H:%M') }}</small>
+</div>
+<div class="content">
+  <h2>Financial Summary Report</h2>
+  <p class="sub">Kampala International University — Academic Year 2025/2026</p>
+  <div class="actions">
+    <button class="btn btn-primary" onclick="window.print()">🖨️ Print Report</button>
+    <a class="btn btn-outline" href="{{ url_for('export_report_csv', report_type='summary') }}">⬇️ Export CSV</a>
+    <a class="btn btn-outline" href="{{ url_for('finance_dashboard') }}">← Dashboard</a>
+  </div>
+  <div class="grid">
+    <div class="kpi"><div class="kpi-val">{{ total_students }}</div><div class="kpi-label">Total Students</div></div>
+    <div class="kpi green"><div class="kpi-val">UGX {{ '{:,.0f}'.format(total_collected) }}</div><div class="kpi-label">Total Collected</div></div>
+    <div class="kpi red"><div class="kpi-val">UGX {{ '{:,.0f}'.format(total_outstanding) }}</div><div class="kpi-label">Total Outstanding</div></div>
+    <div class="kpi green"><div class="kpi-val">{{ cleared }}</div><div class="kpi-label">Cleared Students</div></div>
+    <div class="kpi amber"><div class="kpi-val">{{ partial }}</div><div class="kpi-label">Partial Payment</div></div>
+    <div class="kpi red"><div class="kpi-val">{{ pending }}</div><div class="kpi-label">No Payment Yet</div></div>
+  </div>
+  <table>
+    <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>Total Enrolled Students</td><td>{{ total_students }}</td></tr>
+      <tr><td>Total Fees Collected (UGX)</td><td>{{ '{:,.0f}'.format(total_collected) }}</td></tr>
+      <tr><td>Total Outstanding Balance (UGX)</td><td>{{ '{:,.0f}'.format(total_outstanding) }}</td></tr>
+      <tr><td>Students Fully Cleared</td><td>{{ cleared }}</td></tr>
+      <tr><td>Students Partially Paid</td><td>{{ partial }}</td></tr>
+      <tr><td>Students with No Payment</td><td>{{ pending }}</td></tr>
+      <tr><td>Collection Rate</td><td>{% if total_students > 0 %}{{ '{:.1f}'.format((cleared / total_students) * 100) }}%{% else %}0%{% endif %}</td></tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

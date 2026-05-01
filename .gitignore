@@ -1,0 +1,55 @@
+# Environment & Secrets
+.env
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+venv/
+env/
+.venv/
+
+# Flask / SQLite (local dev only)
+instance/
+*.db
+*.sqlite3
+
+# QR Codes (generated at runtime)
+static/qrcodes/*.png
+
+# Payment proof uploads
+instance/payment_proofs/
+
+# Flask-Migrate (auto-generated)
+migrations/versions/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Docker
+*.log
+
+# Alembic
+alembic.ini
+
+# Old / unused scripts
+add_finance_role.py
+create_admin.py
+setup_finance.py
+manage.py
+env.py
+script.py.mako
+airtel_money.py
+mtn_momo.py

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2FA Verification — KIU Finance Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#0d3b6e 0%,#1a6b3c 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;}
+.card{background:#fff;border-radius:16px;padding:40px;width:100%;max-width:440px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.logo{text-align:center;margin-bottom:24px;}
+.logo h1{color:#0d3b6e;font-size:1.6rem;font-weight:700;}
+.logo p{color:#64748b;font-size:.85rem;margin-top:4px;}
+h2{text-align:center;color:#1e293b;font-size:1.2rem;margin-bottom:8px;}
+.subtitle{text-align:center;color:#64748b;font-size:.85rem;margin-bottom:28px;}
+.subtitle strong{color:#0d3b6e;}
+.otp-inputs{display:flex;gap:10px;justify-content:center;margin-bottom:24px;}
+.otp-inputs input{width:48px;height:56px;text-align:center;font-size:1.4rem;font-weight:700;border:2px solid #e2e8f0;border-radius:10px;outline:none;transition:.2s;}
+.otp-inputs input:focus{border-color:#0d3b6e;box-shadow:0 0 0 3px rgba(13,59,110,.12);}
+.btn{width:100%;padding:14px;background:#0d3b6e;color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;transition:.2s;}
+.btn:hover{background:#0a2d56;}
+.alert{padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:.875rem;}
+.alert-danger{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;}
+.alert-info{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;}
+.sim-note{background:#fef9c3;border:1px solid #fde68a;border-radius:8px;padding:12px;margin-bottom:16px;font-size:.8rem;color:#92400e;text-align:center;}
+.back{text-align:center;margin-top:20px;font-size:.85rem;}
+.back a{color:#0d3b6e;text-decoration:none;font-weight:500;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <h1>🎓 KIU Finance Portal</h1>
+    <p>Kampala International University</p>
+  </div>
+  <h2>Two-Factor Authentication</h2>
+  <p class="subtitle">Enter the 6-digit OTP sent to <strong>{{ email }}</strong></p>
+
+  <div class="sim-note">
+    ⚠️ <strong>SIMULATION MODE</strong> — OTP is printed to server console/Docker logs for local demo.
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for cat, msg in messages %}
+      <div class="alert alert-{{ 'danger' if cat == 'danger' else 'info' }}">{{ msg }}</div>
+    {% endfor %}
+  {% endwith %}
+
+  <form method="POST" action="{{ url_for('verify_2fa') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="otp-inputs">
+      <input type="text" name="otp1" id="otp1" maxlength="1" inputmode="numeric" autofocus>
+      <input type="text" name="otp2" id="otp2" maxlength="1" inputmode="numeric">
+      <input type="text" name="otp3" id="otp3" maxlength="1" inputmode="numeric">
+      <input type="text" name="otp4" id="otp4" maxlength="1" inputmode="numeric">
+      <input type="text" name="otp5" id="otp5" maxlength="1" inputmode="numeric">
+      <input type="text" name="otp6" id="otp6" maxlength="1" inputmode="numeric">
+    </div>
+    <button class="btn" type="submit">Verify & Sign In</button>
+  </form>
+  <div class="back"><a href="{{ url_for('login') }}">← Back to Login</a></div>
+</div>
+<script>
+const inputs = document.querySelectorAll('.otp-inputs input');
+inputs.forEach((el, i) => {
+  el.addEventListener('input', () => { if(el.value && i < inputs.length-1) inputs[i+1].focus(); });
+  el.addEventListener('keydown', e => { if(e.key==='Backspace' && !el.value && i>0) inputs[i-1].focus(); });
+});
+</script>
+</body>
+</html>

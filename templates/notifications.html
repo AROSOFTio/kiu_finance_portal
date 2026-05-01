@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notifications — KIU Finance Portal</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#f0f4f8;min-height:100vh;}
+.container{max-width:720px;margin:40px auto;padding:0 20px;}
+h1{color:#0d3b6e;font-size:1.5rem;margin-bottom:24px;}
+.note-card{background:#fff;border-radius:10px;padding:16px 20px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:4px solid #0d3b6e;display:flex;justify-content:space-between;align-items:flex-start;}
+.note-card.unread{border-left-color:#f59e0b;background:#fffbeb;}
+.note-msg{font-size:.9rem;color:#1e293b;flex:1;}
+.note-time{font-size:.78rem;color:#94a3b8;margin-left:16px;white-space:nowrap;}
+.note-type{display:inline-block;font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:10px;background:#dbeafe;color:#1d4ed8;margin-bottom:4px;}
+.empty{text-align:center;padding:60px;color:#94a3b8;}
+.btn-back{display:inline-block;margin-bottom:20px;color:#0d3b6e;font-weight:500;text-decoration:none;font-size:.875rem;}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="btn-back" href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+  <h1>🔔 Notifications</h1>
+  {% if notifications %}
+    {% for n in notifications %}
+    <div class="note-card {{ 'unread' if n.status == 'unread' else '' }}">
+      <div>
+        <span class="note-type">{{ n.type|upper }}</span>
+        <div class="note-msg">{{ n.message }}</div>
+      </div>
+      <div class="note-time">{{ n.created_at.strftime('%d %b %Y %H:%M') if n.created_at else '' }}</div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty">No notifications yet.</div>
+  {% endif %}
+</div>
+</body>
+</html>

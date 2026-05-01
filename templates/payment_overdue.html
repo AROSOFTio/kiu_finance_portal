@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed-variant": "#00522f",
+                      "outline": "#74777e",
+                      "on-surface": "#191c1e",
+                      "inverse-on-surface": "#eff1f3",
+                      "tertiary-fixed": "#ffdeae",
+                      "surface-container-high": "#e6e8ea",
+                      "on-tertiary": "#ffffff",
+                      "primary": "#000d21",
+                      "surface-variant": "#e0e3e5",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary-fixed-dim": "#ffba3e",
+                      "on-primary-fixed": "#031c38",
+                      "tertiary": "#140a00",
+                      "error-container": "#ffdad6",
+                      "secondary-container": "#8af5b4",
+                      "inverse-surface": "#2d3133",
+                      "surface-dim": "#d8dadc",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#b3c7ec",
+                      "error": "#ba1a1a",
+                      "on-error": "#ffffff",
+                      "background": "#f7f9fb",
+                      "tertiary-container": "#311f00",
+                      "on-primary-fixed-variant": "#334766",
+                      "on-background": "#191c1e",
+                      "on-tertiary-fixed-variant": "#604100",
+                      "on-secondary-container": "#007243",
+                      "on-secondary": "#ffffff",
+                      "surface-bright": "#f7f9fb",
+                      "surface": "#f7f9fb",
+                      "surface-container-highest": "#e0e3e5",
+                      "secondary-fixed-dim": "#70db9d",
+                      "secondary": "#006d40",
+                      "primary-fixed-dim": "#b3c7ec",
+                      "on-tertiary-fixed": "#281900",
+                      "on-surface-variant": "#44474d",
+                      "surface-container": "#eceef0",
+                      "surface-tint": "#4b5f7f",
+                      "on-tertiary-container": "#b87f00",
+                      "on-primary-container": "#778bad",
+                      "on-error-container": "#93000a",
+                      "primary-fixed": "#d5e3ff",
+                      "on-secondary-fixed": "#002110",
+                      "surface-container-low": "#f2f4f6",
+                      "secondary-fixed": "#8df8b7",
+                      "primary-container": "#0c2340",
+                      "outline-variant": "#c4c6ce"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "unit": "8px",
+                      "stack-xs": "4px",
+                      "stack-xl": "32px",
+                      "stack-md": "16px",
+                      "margin-page": "40px",
+                      "container-max": "1440px"
+              },
+              "fontFamily": {
+                      "body-md": ["Inter"],
+                      "title-sm": ["Inter"],
+                      "display-lg": ["Public Sans"],
+                      "headline-md": ["Public Sans"],
+                      "label-caps": ["Inter"],
+                      "data-tabular": ["Inter"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "title-sm": ["18px", {"lineHeight": "1.5", "fontWeight": "600"}],
+                      "display-lg": ["48px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "data-tabular": ["14px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f7f9fb;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-background">
+<!-- TopAppBar Container -->
+<header class="w-full border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+<div class="flex justify-between items-center px-8 py-4 max-w-[800px] mx-auto">
+<div class="flex items-center gap-3">
+<img alt="KIU Logo" class="w-10 h-10 rounded" data-alt="University seal logo of Kampala International University featuring traditional academic motifs in deep navy blue" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0PRiMnonmTpClcz8o4W01ept-fogAMNQjm7MvC_Jn_evwoGZSkFZESdd7izBapicrzOp0VmQCzSkembGC2QdeRIl1aDBiP0V7Zld8WvDt0F2Qzqn_U4AZbZzJHpdLzq2wbaKL6O_BJW0f1EW1rdcnqkTfsd4cGoTlQl2dPERUZRlGH0-CXbQaQEiKVxrtQNlu-9WTt1OpAcZ9kaIYZuqaVoR9RFV3pzCYn-ALNcqsq5zIVy8lLzIYQPMCYh8Mw8xxxfyTFLjRDNk"/>
+<span class="text-xl font-bold text-[#0C2340] dark:text-white uppercase tracking-tight font-headline-md">KIU Financial Portal</span>
+</div>
+<div class="flex gap-4 items-center text-[#0C2340]">
+<span class="material-symbols-outlined text-outline" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-outline" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<main class="max-w-[800px] mx-auto py-stack-xl px-8">
+<!-- Urgent Heading Section -->
+<div class="mb-stack-xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-error-container text-on-error-container text-label-caps mb-4 uppercase">
+<span class="material-symbols-outlined text-[16px]" data-icon="warning" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+                Immediate Attention Required
+            </div>
+<h1 class="font-headline-md text-display-lg text-primary-container mb-2">Urgent: Your Tuition Payment is Overdue</h1>
+<p class="font-body-md text-on-surface-variant max-w-[600px]">This is a formal reminder regarding your outstanding financial balance for the current academic semester at Kampala International University.</p>
+</div>
+<!-- Student & Financial Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter mb-stack-xl">
+<!-- Student Profile Card -->
+<div class="bg-white p-6 border border-slate-200 rounded-xl shadow-[0px_4px_12px_rgba(12,35,64,0.05)]">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary-fixed rounded-full flex items-center justify-center text-on-primary-fixed">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</div>
+<div>
+<p class="text-label-caps text-outline uppercase">Student Name</p>
+<p class="font-title-sm text-on-surface">Mugisha John</p>
+</div>
+</div>
+<div class="border-t border-slate-100 pt-4">
+<p class="text-label-caps text-outline uppercase">Registration Number</p>
+<p class="font-data-tabular text-on-surface">KIU/2024/001</p>
+</div>
+</div>
+</div>
+<!-- Summary Status Card -->
+<div class="bg-[#0C2340] p-6 rounded-xl shadow-[0px_4px_12px_rgba(12,35,64,0.1)] text-white relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-[80px]" data-icon="payments">payments</span>
+</div>
+<div class="relative z-10">
+<p class="text-label-caps text-on-primary-container uppercase opacity-80">Total Outstanding Balance</p>
+<p class="text-[32px] font-bold mt-1">1,250,000 UGX</p>
+<div class="mt-4 flex items-center gap-2 text-secondary-fixed">
+<span class="material-symbols-outlined text-[18px]" data-icon="event_busy">event_busy</span>
+<span class="font-data-tabular">Due Date: Oct 15, 2023</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Detailed Breakdown -->
+<div class="bg-white border border-slate-200 rounded-xl overflow-hidden mb-stack-xl shadow-[0px_4px_12px_rgba(12,35,64,0.05)]">
+<div class="bg-surface-container px-6 py-3 border-b border-slate-200">
+<h3 class="font-title-sm text-primary-container">Account Summary Breakdown</h3>
+</div>
+<table class="w-full font-data-tabular text-left">
+<thead class="bg-surface-container-low text-label-caps text-outline">
+<tr>
+<th class="px-6 py-3 border-b border-slate-200">Description</th>
+<th class="px-6 py-3 border-b border-slate-200">Amount (UGX)</th>
+</tr>
+</thead>
+<tbody class="text-on-surface">
+<tr class="hover:bg-slate-50">
+<td class="px-6 py-4 border-b border-slate-100">Semester II Tuition Balance</td>
+<td class="px-6 py-4 border-b border-slate-100 font-bold">1,100,000</td>
+</tr>
+<tr class="bg-slate-50/50 hover:bg-slate-50">
+<td class="px-6 py-4 border-b border-slate-100">Late Payment Penalty (5%)</td>
+<td class="px-6 py-4 border-b border-slate-100 font-bold text-error">55,000</td>
+</tr>
+<tr class="hover:bg-slate-50">
+<td class="px-6 py-4 border-b border-slate-100">Library &amp; Laboratory Arrears</td>
+<td class="px-6 py-4 border-b border-slate-100 font-bold">95,000</td>
+</tr>
+</tbody>
+</table>
+<div class="p-6 bg-surface-container-highest flex justify-between items-center">
+<span class="text-label-caps text-on-surface-variant">Account Status</span>
+<span class="px-3 py-1 bg-error-container text-on-error-container rounded-full text-label-caps font-bold">14 DAYS OVERDUE</span>
+</div>
+</div>
+<!-- CTA Section -->
+<div class="bg-white p-8 border border-slate-200 rounded-xl mb-stack-xl text-center shadow-[0px_4px_12px_rgba(12,35,64,0.05)]">
+<p class="font-body-md mb-6 text-on-surface-variant">To avoid further penalties and ensure academic clearance, please settle your balance immediately through the university portal.</p>
+<a class="inline-flex items-center justify-center gap-2 px-10 py-4 bg-secondary text-white font-bold rounded-lg hover:opacity-90 transition-all shadow-lg shadow-secondary/20" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+                Pay Now via Portal
+            </a>
+<p class="mt-6 text-xs text-outline italic">Payments processed via the portal are reflected in your student ledger instantly.</p>
+</div>
+<!-- Warning / Consequences -->
+<div class="flex gap-4 p-6 bg-surface-container-high rounded-xl border-l-4 border-primary-container mb-stack-xl">
+<span class="material-symbols-outlined text-primary-container text-[28px] mt-1" data-icon="info" data-weight="fill" style="font-variation-settings: 'FILL' 1;">info</span>
+<div>
+<h4 class="font-title-sm text-primary-container mb-2">Important Notice on Academic Clearance</h4>
+<ul class="font-body-md text-on-surface-variant space-y-2 list-disc ml-4">
+<li>Unpaid balances exceeding 14 days incur a daily 0.5% late fee surcharge.</li>
+<li><span class="font-bold text-primary-container">Examination Cards</span> will not be issued to students with outstanding balances.</li>
+<li>Access to university facilities including the digital library and LMS may be restricted.</li>
+</ul>
+</div>
+</div>
+<!-- Support -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter text-on-surface-variant text-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-outline" data-icon="support_agent">support_agent</span>
+</div>
+<div>
+<p class="font-bold">Bursar's Office Support</p>
+<p>+256 700 000 000 | accounts@kiu.ac.ug</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-outline" data-icon="schedule">schedule</span>
+</div>
+<div>
+<p class="font-bold">Operating Hours</p>
+<p>Mon - Fri: 8:00 AM - 5:00 PM</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Container -->
+<footer class="w-full mt-12 border-t border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-slate-950">
+<div class="max-w-[800px] mx-auto py-10 px-8 flex flex-col gap-4 text-center">
+<div class="text-sm font-semibold text-slate-400 font-headline-md">KAMPALA INTERNATIONAL UNIVERSITY</div>
+<div class="font-['Public_Sans'] text-xs leading-5 text-slate-500 dark:text-slate-400">
+                © 2024 Kampala International University. All rights reserved. Licensed by the National Council for Higher Education.
+            </div>
+<div class="flex justify-center gap-6 mt-2">
+<a class="text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 text-xs transition-colors" href="#">Contact Support</a>
+<a class="text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 text-xs transition-colors" href="#">Financial Privacy</a>
+<a class="text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 text-xs transition-colors" href="#">Legal Disclaimers</a>
+<a class="text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 text-xs transition-colors" href="#">Transaction Portal</a>
+</div>
+</div>
+</footer>
+<script src="/static/js/shared.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+
+</html>

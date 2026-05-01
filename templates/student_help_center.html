@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Support - KIU Financial Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f2f4f6",
+                        "on-primary-fixed": "#031c38",
+                        "on-tertiary-fixed": "#281900",
+                        "on-surface": "#191c1e",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#ffdeae",
+                        "surface-container-high": "#e6e8ea",
+                        "primary-fixed-dim": "#b3c7ec",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-container": "#b87f00",
+                        "on-secondary-fixed-variant": "#00522f",
+                        "on-tertiary-fixed-variant": "#604100",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#d5e3ff",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-tint": "#4b5f7f",
+                        "tertiary-fixed-dim": "#ffba3e",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#140a00",
+                        "on-secondary-container": "#007243",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#f7f9fb",
+                        "on-background": "#191c1e",
+                        "surface": "#f7f9fb",
+                        "on-secondary-fixed": "#002110",
+                        "secondary-fixed": "#8df8b7",
+                        "secondary": "#006d40",
+                        "surface-container": "#eceef0",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "surface-container-highest": "#e0e3e5",
+                        "secondary-container": "#8af5b4",
+                        "on-primary-container": "#778bad",
+                        "outline-variant": "#c4c6ce",
+                        "on-surface-variant": "#44474d",
+                        "inverse-surface": "#2d3133",
+                        "primary": "#000d21",
+                        "on-primary-fixed-variant": "#334766",
+                        "tertiary-container": "#311f00",
+                        "secondary-fixed-dim": "#70db9d",
+                        "inverse-primary": "#b3c7ec",
+                        "on-error": "#ffffff",
+                        "outline": "#74777e",
+                        "primary-container": "#0c2340"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "margin-page": "40px",
+                        "stack-xl": "32px",
+                        "stack-md": "16px",
+                        "container-max": "1440px",
+                        "stack-xs": "4px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Public Sans"],
+                        "body-md": ["Inter"],
+                        "title-sm": ["Inter"],
+                        "display-lg": ["Public Sans"],
+                        "data-tabular": ["Inter"],
+                        "label-caps": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "title-sm": ["18px", {"lineHeight": "1.5", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "data-tabular": ["14px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                        "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #f7f9fb;
+            color: #191c1e;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-6 h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#0C2340] dark:text-white font-headline-md">KIU Financial Portal</span>
+<nav class="hidden md:flex items-center gap-6 h-16">
+<a class="font-['Public_Sans'] text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-[#0C2340] dark:hover:text-white transition-colors cursor-pointer active:opacity-80" href="#">Dashboard</a>
+<a class="font-['Public_Sans'] text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-[#0C2340] dark:hover:text-white transition-colors cursor-pointer active:opacity-80" href="#">Payments</a>
+<a class="font-['Public_Sans'] text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-[#0C2340] dark:hover:text-white transition-colors cursor-pointer active:opacity-80" href="#">Scholarships</a>
+<a class="font-['Public_Sans'] text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-[#0C2340] dark:hover:text-white transition-colors cursor-pointer active:opacity-80" href="#">History</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-slate-50 border border-slate-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-[#0C2340] focus:border-transparent w-64" placeholder="Search documentation..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-slate-500 hover:bg-slate-50 p-2 rounded-full transition-colors" data-icon="help">help</button>
+<button class="material-symbols-outlined text-slate-500 hover:bg-slate-50 p-2 rounded-full transition-colors" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined text-slate-500 hover:bg-slate-50 p-2 rounded-full transition-colors" data-icon="settings">settings</button>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-slate-200 ml-2">
+<img alt="Student Profile Avatar" class="w-full h-full object-cover" data-alt="professional portrait of a young female student with a warm smile in a university setting with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR94-bvA2d7C6pVFcBnVIC_FZEcKsCC8mEJPUyoEov0QQER_dv1VvpQ5wD1q26xOWUgf6lul29dgfXWaqfii491EsSSGxAzN6nBkEdeIz34QOnt7vjhVZX-4qYBLiWS-Igoh8Qly-hMHa_W8ybfBWwTWMjneK6mm8jJkgE5xcJmcNextETZ5Lpb3GgnhAIWxqaMSs6WCiJxpzwGdF-_d86bEb5AaNfGxhgJC4le3P3ceWhdFjTCbH3WAprxwCf9X5tZgik79Ur_K4"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col py-4 w-[280px] z-40 bg-[#0C2340] dark:bg-slate-950 border-r border-slate-700 dark:border-slate-800 shadow-xl pt-20">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-white/10 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div>
+<h2 class="text-lg font-black text-white font-headline-md">Student Support</h2>
+<p class="text-xs text-slate-400">Financial Services</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 bg-emerald-600 text-white rounded-md mx-2 transition-all scale-95 active:scale-90 font-['Public_Sans'] text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+                Help Center
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-md mx-2 transition-all scale-95 active:scale-90 font-['Public_Sans'] text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+                User Guides
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-md mx-2 transition-all scale-95 active:scale-90 font-['Public_Sans'] text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="quiz">quiz</span>
+                FAQs
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-md mx-2 transition-all scale-95 active:scale-90 font-['Public_Sans'] text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="play_circle">play_circle</span>
+                Video Tutorials
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-md mx-2 transition-all scale-95 active:scale-90 font-['Public_Sans'] text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+                Contact Support
+            </a>
+</nav>
+<div class="px-6 py-4">
+<div class="bg-slate-800/50 rounded-xl p-4">
+<p class="text-xs text-slate-400 mb-2">Need immediate help?</p>
+<button class="w-full py-2 bg-emerald-600 text-white text-xs font-bold rounded hover:bg-emerald-500 transition-colors">Start Live Chat</button>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-[280px] pt-16 min-h-screen">
+<div class="max-w-[1440px] mx-auto p-10">
+<!-- Hero Section -->
+<div class="relative overflow-hidden bg-[#0C2340] rounded-xl p-12 mb-10 text-white">
+<div class="absolute top-0 right-0 w-1/3 h-full opacity-10">
+<img alt="background pattern" class="w-full h-full object-cover" data-alt="abstract geometric pattern with dark navy and teal gradients representing institutional stability and flow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_LLLh5SgS0C33oFvIGZgJRSmb2tLfJ-5p9QhoT6_775M4WHxt3r05OotDrIvfldzPU241LFZXIbEHjKekj-QV3YGxvYBbYsYx5zv6w--QpKJZbzilFOukpWzCGbJjafkYHTltmKId78N55tU1P-4Xm6nt-nk0_G1U0e8lkxZOQxGaFIPSUrIETmhgebF7LSZeb17va3MptwozNxUZ_vlPExNElbVFTanFlGhN1TnTOmXF9FyKsygXv6Wcv0nyYNh2MWifMroc5ms"/>
+</div>
+<div class="relative z-10 max-w-2xl">
+<h1 class="font-headline-md text-display-lg mb-4">How can we help you today?</h1>
+<p class="text-slate-300 text-lg mb-8">Search our knowledge base for guides on tuition payments, clearance, and scholarship applications.</p>
+<div class="flex items-center bg-white rounded-lg p-1.5 shadow-lg max-w-xl">
+<span class="material-symbols-outlined text-slate-400 px-3">search</span>
+<input class="flex-1 border-none focus:ring-0 text-slate-900 py-2" placeholder="Describe your issue (e.g., how to pay via mobile money)" type="text"/>
+<button class="bg-secondary px-6 py-2 rounded text-white font-bold hover:bg-secondary-container hover:text-on-secondary-container transition-colors">Search</button>
+</div>
+</div>
+</div>
+<!-- Bento Grid - Categories -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<!-- Payments & Fees -->
+<div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-700 mb-4">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<h3 class="font-headline-md text-title-sm mb-2">Payments &amp; Fees</h3>
+<p class="text-slate-500 text-sm mb-4">Everything you need to know about tuition, functional fees, and payment deadlines.</p>
+<ul class="space-y-2">
+<li><a class="text-sm text-emerald-600 hover:underline flex items-center gap-2" href="#">View tuition schedule <span class="material-symbols-outlined text-xs">arrow_forward</span></a></li>
+<li><a class="text-sm text-emerald-600 hover:underline flex items-center gap-2" href="#">Generating payment PRNs <span class="material-symbols-outlined text-xs">arrow_forward</span></a></li>
+<li><a class="text-sm text-emerald-600 hover:underline flex items-center gap-2" href="#">Refund policies <span class="material-symbols-outlined text-xs">arrow_forward</span></a></li>
+</ul>
+</div>
+<!-- Examination Clearance -->
+<div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-700 mb-4">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment_turned_in</span>
+</div>
+<h3 class="font-headline-md text-title-sm mb-2">Examination Clearance</h3>
+<p class="text-slate-500 text-sm mb-4">Step-by-step guides for obtaining your exam permit and financial clearance status.</p>
+<ul class="space-y-2">
+<li><a class="text-sm text-emerald-600 hover:underline flex items-center gap-2" href="#">Check clearance status <span class="material-symbols-outlined text-xs">arrow_forward</span></a></li>
+<li><a class="text-sm text-emerald-600 hover:underline flex items-center gap-2" href="#">Missing permit issues <span class="material-symbols-outlined text-xs">arrow_forward</span></a></li>
+<li><a class="text-sm text-emerald-600 hover:underline flex items-center gap-2" href="#">Clearance deadlines <span class="material-symbols-outlined text-xs">arrow_forward</span></a></li>
+</ul>
+</div>
+<!-- Mobile Money Guides -->
+<div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center text-amber-700 mb-4">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">smartphone</span>
+</div>
+<h3 class="font-headline-md text-title-sm mb-2">Mobile Money Guides</h3>
+<p class="text-slate-500 text-sm mb-4">Tutorials for using MTN and Airtel mobile money services for university payments.</p>
+<ul class="space-y-2">
+<li><a class="text-sm text-emerald-600 hover:underline flex items-center gap-2" href="#">MTN MoMo step-by-step <span class="material-symbols-outlined text-xs">arrow_forward</span></a></li>
+<li><a class="text-sm text-emerald-600 hover:underline flex items-center gap-2" href="#">Airtel Money process <span class="material-symbols-outlined text-xs">arrow_forward</span></a></li>
+<li><a class="text-sm text-emerald-600 hover:underline flex items-center gap-2" href="#">Transaction confirmation <span class="material-symbols-outlined text-xs">arrow_forward</span></a></li>
+</ul>
+</div>
+</div>
+<!-- FAQ Accordion Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
+<div class="lg:col-span-2">
+<h2 class="font-headline-md text-headline-md mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">forum</span>
+                        Frequently Asked Questions
+                    </h2>
+<div class="space-y-4">
+<!-- FAQ Item -->
+<div class="bg-white border border-slate-200 rounded-lg overflow-hidden">
+<button class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors text-left">
+<span class="font-semibold text-slate-800">How do I verify my payment if it's not reflecting in the portal?</span>
+<span class="material-symbols-outlined text-slate-400">expand_more</span>
+</button>
+</div>
+<div class="bg-white border border-slate-200 rounded-lg overflow-hidden">
+<button class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors text-left">
+<span class="font-semibold text-slate-800">What documents are required for a financial appeal?</span>
+<span class="material-symbols-outlined text-slate-400">expand_more</span>
+</button>
+</div>
+<div class="bg-white border border-slate-200 rounded-lg overflow-hidden">
+<button class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors text-left">
+<span class="font-semibold text-slate-800">How can I reset my account security PIN?</span>
+<span class="material-symbols-outlined text-slate-400">expand_more</span>
+</button>
+</div>
+<div class="bg-white border border-slate-200 rounded-lg overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+<span class="font-semibold text-primary">Can I pay tuition in installments?</span>
+<span class="material-symbols-outlined text-primary">expand_less</span>
+</div>
+<div class="p-6 text-sm text-slate-600 leading-relaxed">
+                                Yes, KIU allows installment payments. Students are required to pay at least 60% of the tuition and 100% of functional fees by the midterm examinations. The remaining 40% must be cleared before final examinations. Please visit the Finance Office if you need a specialized payment plan.
+                            </div>
+</div>
+</div>
+</div>
+<!-- Support Channels -->
+<div class="space-y-6">
+<h2 class="font-headline-md text-headline-md mb-6">Contact Support</h2>
+<div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-10 h-10 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">chat</span>
+</div>
+<div>
+<h4 class="font-bold">Live Chat</h4>
+<p class="text-xs text-slate-400">Response time: ~2 mins</p>
+</div>
+</div>
+<p class="text-sm text-slate-500 mb-4">Chat directly with a finance officer for real-time assistance.</p>
+<button class="w-full py-2.5 border border-emerald-600 text-emerald-700 font-bold rounded hover:bg-emerald-50 transition-colors">Start Conversation</button>
+</div>
+<div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-10 h-10 bg-[#0C2340]/10 text-[#0C2340] rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div>
+<h4 class="font-bold">Email Support</h4>
+<p class="text-xs text-slate-400">Response time: ~24 hours</p>
+</div>
+</div>
+<p class="text-sm text-slate-500 mb-4">Send us your detailed query or attach documents for review.</p>
+<button class="w-full py-2.5 bg-[#0C2340] text-white font-bold rounded hover:bg-[#1a3d66] transition-colors">Email Finance Dept</button>
+</div>
+<div class="bg-slate-100 border border-slate-200 rounded-xl p-6">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-10 h-10 bg-white text-slate-700 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">call</span>
+</div>
+<div>
+<h4 class="font-bold text-slate-700">Phone Support</h4>
+<p class="text-xs text-slate-500">Mon-Fri, 8AM - 5PM</p>
+</div>
+</div>
+<p class="text-sm font-bold text-slate-800">+256 (0) 414 266 813</p>
+</div>
+</div>
+</div>
+<!-- Knowledge Base Footer -->
+<div class="mt-20 pt-10 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-2 text-slate-400">
+<span class="material-symbols-outlined">verified</span>
+<span class="text-xs">Official Knowledge Base - Kampala International University © 2024</span>
+</div>
+<div class="flex gap-8">
+<a class="text-xs text-slate-500 hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-xs text-slate-500 hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="text-xs text-slate-500 hover:text-primary transition-colors" href="#">Student Handbook</a>
+</div>
+</div>
+</div>
+</main>
+<script src="/static/js/shared.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+
+</html>

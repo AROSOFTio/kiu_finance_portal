@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Daily Reports Dashboard - Finance Office</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#191c1d",
+                        "surface-bright": "#f8f9ff",
+                        "surface": "#f8f9ff",
+                        "on-secondary-fixed-variant": "#5d4201",
+                        "inverse-primary": "#b6c6ef",
+                        "on-tertiary-container": "#919394",
+                        "tertiary-fixed": "#e1e3e4",
+                        "on-tertiary-fixed-variant": "#454748",
+                        "primary": "#031635",
+                        "on-secondary-container": "#785a1a",
+                        "secondary": "#775a19",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#75777f",
+                        "background": "#f8f9ff",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#fed488",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-secondary-fixed": "#261900",
+                        "surface-container-low": "#eff4ff",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#364768",
+                        "on-primary-container": "#8293b8",
+                        "on-background": "#0b1c30",
+                        "primary-fixed-dim": "#b6c6ef",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#cbdbf5",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed": "#ffdea5",
+                        "tertiary": "#151819",
+                        "secondary-fixed-dim": "#e9c176",
+                        "surface-tint": "#4e5e81",
+                        "on-surface-variant": "#44474e",
+                        "primary-fixed": "#d8e2ff",
+                        "primary-container": "#1a2b4b",
+                        "tertiary-fixed-dim": "#c5c7c8",
+                        "tertiary-container": "#292c2d",
+                        "on-primary-fixed": "#081b3a",
+                        "on-surface": "#0b1c30",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#213145",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-secondary": "#ffffff",
+                        "outline-variant": "#c5c6cf"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "container-max-width": "1280px",
+                        "sidebar-width": "280px",
+                        "card-padding": "24px",
+                        "stack-gap": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "h2": ["Inter"],
+                        "h3": ["Inter"],
+                        "badge": ["Inter"],
+                        "h1": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                        "h2": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "h3": ["20px", {"lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600"}],
+                        "badge": ["12px", {"lineHeight": "1", "letterSpacing": "0", "fontWeight": "600"}],
+                        "h1": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-screen w-[280px] z-50 bg-[#1a2b4b] border-r border-white/10 shadow-2xl flex flex-col h-full font-['Inter'] text-sm tracking-wide">
+<div class="p-8 flex flex-col items-center">
+<div class="w-16 h-16 mb-4 rounded-full bg-white/10 flex items-center justify-center overflow-hidden border border-white/20">
+<img class="w-full h-full object-cover" data-alt="Official university institutional seal with intricate crest design in gold and navy colors on a clean white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDP413fxtrKaZa9Kaul6hUdp9XsS0cIAHv4WbTyUrzFEihySEJWYThZ6Z_WYHkCbp1huqp-WLuCRke1Qq0Ix4nWBcb2WELCncjgjw4IHZApdh9cAsyAX5OsX4DWZtBFR2tQAZD29nYGe2FGxL_DPu_LqX_CVOuTDeSv5csj2B4a-2uMjrJo2RJPhB8Ge2LR-18U_G284Rv9lJLxGeXbgNW1ZG2wOw2Lk_gpbpkLfjkvTtKZUfJfelMDg4w4D78LfGVeEBE7jNxfUQc"/>
+</div>
+<h2 class="text-xl font-bold text-white tracking-tighter">Finance Office</h2>
+<p class="text-xs text-slate-400 uppercase tracking-widest mt-1">Academic Portal</p>
+</div>
+<nav class="flex-1 mt-4">
+<a class="flex items-center px-6 py-4 text-slate-400 hover:text-white hover:bg-white/5 transition-all scale-98 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center px-6 py-4 text-slate-400 hover:text-white hover:bg-white/5 transition-all scale-98 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="person_add">person_add</span>
+                Student Registration
+            </a>
+<a class="flex items-center px-6 py-4 text-slate-400 hover:text-white hover:bg-white/5 transition-all scale-98 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="verified_user">verified_user</span>
+                Payment Verification
+            </a>
+<a class="flex items-center px-6 py-4 text-slate-400 hover:text-white hover:bg-white/5 transition-all scale-98 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="edit_note">edit_note</span>
+                Manual Record Entry
+            </a>
+<a class="flex items-center px-6 py-4 text-slate-400 hover:text-white hover:bg-white/5 transition-all scale-98 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="receipt_long">receipt_long</span>
+                Transaction Management
+            </a>
+<a class="flex items-center px-6 py-4 text-slate-400 hover:text-white hover:bg-white/5 transition-all scale-98 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="handshake">handshake</span>
+                Student Assistance
+            </a>
+<a class="border-l-4 border-[#FFD700] bg-white/10 text-white font-semibold flex items-center px-6 py-4 transition-all scale-98 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="assessment" style="font-variation-settings: 'FILL' 1;">assessment</span>
+                Daily Reports
+            </a>
+</nav>
+<div class="p-6 mt-auto">
+<div class="bg-white/5 rounded-xl p-4 border border-white/10">
+<div class="flex items-center mb-3">
+<span class="material-symbols-outlined text-[#FFD700] mr-2" data-icon="security">security</span>
+<span class="text-xs font-bold text-white">SECURE SESSION</span>
+</div>
+<p class="text-[10px] text-slate-400 leading-tight">Your access is logged for institutional auditing purposes.</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[280px] min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] z-40 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm flex items-center justify-between px-8 h-20 font-['Inter'] font-medium">
+<div class="flex items-center gap-6 flex-1">
+<h1 class="text-lg font-black text-[#1a2b4b] uppercase tracking-tight">Financial Operations</h1>
+<div class="relative w-96 group focus-within:ring-2 focus-within:ring-[#1a2b4b] rounded-lg overflow-hidden">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-icon="search">search</span>
+<input class="w-full bg-slate-100 border-none pl-10 pr-4 py-2 text-sm focus:ring-0 focus:outline-none" placeholder="Search reports or records..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex gap-4">
+<button class="p-2 text-slate-500 hover:text-[#1a2b4b] transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-[#1a2b4b] transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-[#1a2b4b] transition-colors">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+<button class="bg-[#1a2b4b] text-white px-6 py-2.5 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-opacity-90 transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                    New Transaction
+                </button>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="pt-28 pb-12 px-gutter max-w-container-max-width mx-auto">
+<!-- Page Heading -->
+<div class="mb-8 flex justify-between items-end">
+<div>
+<h2 class="font-h1 text-h1 text-[#1a2b4b]">Daily Reports Dashboard</h2>
+<p class="font-body-md text-slate-500 mt-1">Operational summaries for October 24, 2023</p>
+</div>
+<div class="flex gap-3">
+<div class="flex items-center gap-2 bg-secondary-container/20 text-on-secondary-container px-4 py-2 rounded-full border border-secondary-container/30">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<span class="font-badge text-badge">SYSTEMS SYNCED</span>
+</div>
+</div>
+</div>
+<!-- Bento Grid - Operational Metrics -->
+<div class="grid grid-cols-12 gap-gutter mb-gutter">
+<!-- Daily Payment Summary Card -->
+<div class="col-span-8 bg-white rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] p-card-padding border border-slate-100">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-h3 text-h3 text-[#1a2b4b]">Daily Payment Activity</h3>
+<span class="font-label-caps text-label-caps text-slate-400">REAL-TIME DATA</span>
+</div>
+<div class="grid grid-cols-3 gap-8">
+<div class="border-r border-slate-100 pr-8">
+<div class="flex items-center gap-2 text-slate-500 mb-2">
+<span class="material-symbols-outlined text-lg" data-icon="payments">payments</span>
+<span class="text-sm font-medium">Total Transactions</span>
+</div>
+<div class="text-3xl font-black text-[#1a2b4b]">1,248</div>
+<div class="mt-2 flex items-center text-xs text-green-600 font-bold">
+<span class="material-symbols-outlined text-xs mr-1" data-icon="trending_up">trending_up</span>
+                                +12% vs yesterday
+                            </div>
+</div>
+<div class="border-r border-slate-100 pr-8">
+<div class="flex items-center gap-2 text-slate-500 mb-2">
+<span class="material-symbols-outlined text-lg" data-icon="edit_note">edit_note</span>
+<span class="text-sm font-medium">Manual Entries</span>
+</div>
+<div class="text-3xl font-black text-[#1a2b4b]">34</div>
+<div class="mt-2 text-xs text-slate-400">Requiring verification: 02</div>
+</div>
+<div>
+<div class="flex items-center gap-2 text-slate-500 mb-2">
+<span class="material-symbols-outlined text-lg" data-icon="smartphone">smartphone</span>
+<span class="text-sm font-medium">Mobile Sync</span>
+</div>
+<div class="text-3xl font-black text-secondary">ACTIVE</div>
+<div class="mt-2 text-xs text-slate-400">Last sync: 2 mins ago</div>
+</div>
+</div>
+</div>
+<!-- Status Card -->
+<div class="col-span-4 bg-primary-container text-white rounded-xl shadow-2xl p-card-padding flex flex-col justify-between relative overflow-hidden">
+<div class="absolute -right-10 -top-10 opacity-10">
+<span class="material-symbols-outlined text-[160px]" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<div class="bg-white/10 w-fit p-2 rounded-lg mb-4">
+<span class="material-symbols-outlined text-white" data-icon="hub">hub</span>
+</div>
+<h3 class="font-h3 text-h3">Operational Health</h3>
+<p class="text-sm text-slate-300 mt-2">All financial sub-systems are currently operational and communicating.</p>
+</div>
+<div class="mt-6 flex flex-col gap-2">
+<div class="flex justify-between items-center text-xs">
+<span class="text-slate-400">Core Ledger</span>
+<span class="font-bold text-green-400">99.9% Up</span>
+</div>
+<div class="w-full bg-white/10 h-1 rounded-full">
+<div class="bg-green-400 h-full w-[99%]" style="border-radius: inherit;"></div>
+</div>
+</div>
+</div>
+<!-- Report Generator -->
+<div class="col-span-4 bg-white rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] p-card-padding border border-slate-100">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary" data-icon="settings_suggest">settings_suggest</span>
+<h3 class="font-h3 text-h3 text-[#1a2b4b]">Report Generator</h3>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Report Type</label>
+<select class="w-full border-slate-200 rounded-lg text-sm focus:ring-[#1a2b4b] focus:border-[#1a2b4b]">
+<option>Daily Payment Report</option>
+<option>Student Payment Records</option>
+<option>Outstanding Fee Reports</option>
+</select>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Date Range</label>
+<div class="grid grid-cols-2 gap-2">
+<input class="border-slate-200 rounded-lg text-xs focus:ring-[#1a2b4b]" type="date" value="2023-10-24"/>
+<input class="border-slate-200 rounded-lg text-xs focus:ring-[#1a2b4b]" type="date" value="2023-10-24"/>
+</div>
+</div>
+<div class="pt-4">
+<button class="w-full bg-[#FFD700] text-[#1a2b4b] font-black py-3 rounded-lg text-sm uppercase tracking-widest hover:brightness-95 transition-all shadow-md">
+                                Generate Report
+                            </button>
+</div>
+</div>
+</div>
+<!-- Recent Reports Table -->
+<div class="col-span-8 bg-white rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-slate-100 overflow-hidden">
+<div class="px-card-padding pt-card-padding pb-4 flex justify-between items-center">
+<h3 class="font-h3 text-h3 text-[#1a2b4b]">Recent Reports</h3>
+<button class="text-sm font-bold text-[#1a2b4b] hover:underline">View Archive</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-slate-50 text-slate-400 font-label-caps text-label-caps uppercase tracking-widest">
+<tr>
+<th class="px-6 py-4">Report Name</th>
+<th class="px-6 py-4">Generated By</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4">Timestamp</th>
+<th class="px-6 py-4 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 text-sm">
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 font-bold text-[#1a2b4b]">Daily_Payments_241023.pdf</td>
+<td class="px-6 py-4 text-slate-500">John Olet</td>
+<td class="px-6 py-4">
+<span class="bg-green-100 text-green-800 font-badge text-[10px] px-3 py-1 rounded-full uppercase">Confirmed</span>
+</td>
+<td class="px-6 py-4 text-slate-400">10:45 AM</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-[#1a2b4b] hover:bg-slate-200 rounded-lg">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 font-bold text-[#1a2b4b]">Outstanding_Fees_Q4_Draft.pdf</td>
+<td class="px-6 py-4 text-slate-500">John Olet</td>
+<td class="px-6 py-4">
+<span class="bg-amber-100 text-amber-800 font-badge text-[10px] px-3 py-1 rounded-full uppercase">Pending</span>
+</td>
+<td class="px-6 py-4 text-slate-400">09:12 AM</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-[#1a2b4b] hover:bg-slate-200 rounded-lg">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 font-bold text-[#1a2b4b]">Manual_Correction_Log.pdf</td>
+<td class="px-6 py-4 text-slate-500">Mark Omella</td>
+<td class="px-6 py-4">
+<span class="bg-green-100 text-green-800 font-badge text-[10px] px-3 py-1 rounded-full uppercase">Confirmed</span>
+</td>
+<td class="px-6 py-4 text-slate-400">Yesterday</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-[#1a2b4b] hover:bg-slate-200 rounded-lg">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 font-bold text-[#1a2b4b]">Scholarship_Allocations_Audit.pdf</td>
+<td class="px-6 py-4 text-slate-500">System Auto</td>
+<td class="px-6 py-4">
+<span class="bg-red-100 text-red-800 font-badge text-[10px] px-3 py-1 rounded-full uppercase">Ineligible</span>
+</td>
+<td class="px-6 py-4 text-slate-400">Yesterday</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-[#1a2b4b] hover:bg-slate-200 rounded-lg">
+<span class="material-symbols-outlined" data-icon="error_outline">error_outline</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Asymmetric Utility Section -->
+<div class="flex gap-gutter">
+<!-- Activity Feed -->
+<div class="flex-grow bg-white rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] p-card-padding border border-slate-100">
+<h3 class="font-h3 text-h3 text-[#1a2b4b] mb-6">Staff Activity Feed</h3>
+<div class="space-y-6">
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[#1a2b4b]" data-icon="sync">sync</span>
+</div>
+<div>
+<p class="text-sm"><span class="font-bold">System</span> initiated bank reconciliation sync for mobile portals.</p>
+<p class="text-xs text-slate-400 mt-1">14 minutes ago</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[#1a2b4b]" data-icon="edit_note">edit_note</span>
+</div>
+<div>
+<p class="text-sm"><span class="font-bold">Marie Emmadek</span> updated manual transaction <span class="text-secondary font-mono">#TXN-9021</span>.</p>
+<p class="text-xs text-slate-400 mt-1">42 minutes ago</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[#1a2b4b]" data-icon="print">print</span>
+</div>
+<div>
+<p class="text-sm"><span class="font-bold">James Opolot</span> printed 'Daily Cashier Summary'.</p>
+<p class="text-xs text-slate-400 mt-1">2 hours ago</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Informational Side Card -->
+<div class="w-1/3 shrink-0">
+<div class="bg-white rounded-xl border border-slate-100 overflow-hidden shadow-[0px_4px_12px_rgba(0,0,0,0.05)]">
+<div class="h-32 relative">
+<img class="w-full h-full object-cover" data-alt="Close up of high-end business documents and a sophisticated fountain pen on a mahogany desk with warm library lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6r7FJpRYyvKO6KvRlpLyFFK9iUdWN02l_zwj-W4OCGAdv2QBD-7c_LeO3oXfmyoWKZ_VNhZeHU8WEmnsqS_L65SPV63d5O66FrGDFEC5T-pDPJqRXB1W8JLyfqbdJ7Rh6bO5gyowgkWEZJ5dmx1DWF-Ll8KS-nyKvgDKPvt403f9__-3amHrwSVn8TasYNkj5RRgLb2B-JcxX2zl9OdPrQ538WHicq8_NPmetcNSMgRH_dDnBFJozRtjwJrH4wzJNUlE3iNhWgCM"/>
+<div class="absolute inset-0 bg-primary/40"></div>
+</div>
+<div class="p-6">
+<h4 class="font-bold text-[#1a2b4b] mb-2">Compliance Reminder</h4>
+<p class="text-xs text-slate-500 leading-relaxed mb-4">
+                                All daily summaries must be finalized and digitally signed by the Duty Bursar before 17:00 PM for the overnight audit cycle.
+                            </p>
+<a class="text-xs font-bold text-secondary flex items-center gap-1 hover:gap-2 transition-all" href="#">
+                                VIEW COMPLIANCE GUIDELINES
+                                <span class="material-symbols-outlined text-xs" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+(() => {
+  const fallback = "{{ url_for('daily_report') }}";
+  const map = [
+    ["dashboard", "{{ url_for('finance_dashboard') }}"],
+    ["student registration", "{{ url_for('student_registration_fee_entry') }}"],
+    ["verification", "{{ url_for('payment_verification') }}"],
+    ["manual", "{{ url_for('manual_record_entry') }}"],
+    ["transaction", "{{ url_for('transaction_management') }}"],
+    ["assistant", "{{ url_for('student_assistant') }}"],
+    ["archive", "{{ url_for('daily_report') }}"],
+    ["download", "{{ url_for('finance_admin_reports') }}"],
+    ["setting", "{{ url_for('system_configuration') }}"],
+    ["help", "{{ url_for('help_center') }}"]
+  ];
+  document.querySelectorAll('a[href="#"]').forEach((a) => { a.href = fallback; });
+  document.querySelectorAll("button").forEach((btn) => {
+    if (btn.type === "submit") return;
+    btn.style.cursor = "pointer";
+    btn.addEventListener("click", () => {
+      const t = (btn.innerText || "").toLowerCase();
+      const m = map.find(([k]) => t.includes(k));
+      window.location.href = m ? m[1] : fallback;
+    });
+  });
+})();
+</script>
+</body></html>

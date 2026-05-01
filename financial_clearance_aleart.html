@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#b87f00",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#4b5f7f",
+                        "on-tertiary-fixed": "#281900",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-secondary-container": "#007243",
+                        "secondary-fixed": "#8df8b7",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-variant": "#e0e3e5",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#b3c7ec",
+                        "outline-variant": "#c4c6ce",
+                        "on-surface": "#191c1e",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "inverse-on-surface": "#eff1f3",
+                        "secondary-container": "#8af5b4",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#d5e3ff",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-low": "#f2f4f6",
+                        "surface": "#f7f9fb",
+                        "primary-container": "#0c2340",
+                        "background": "#f7f9fb",
+                        "on-primary-fixed-variant": "#334766",
+                        "secondary": "#006d40",
+                        "primary": "#000d21",
+                        "on-background": "#191c1e",
+                        "secondary-fixed-dim": "#70db9d",
+                        "on-primary-fixed": "#031c38",
+                        "tertiary-fixed": "#ffdeae",
+                        "on-primary-container": "#778bad",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#f7f9fb",
+                        "on-tertiary-fixed-variant": "#604100",
+                        "primary-fixed-dim": "#b3c7ec",
+                        "on-surface-variant": "#44474d",
+                        "surface-container": "#eceef0",
+                        "tertiary-container": "#311f00",
+                        "on-secondary-fixed-variant": "#00522f",
+                        "tertiary-fixed-dim": "#ffba3e",
+                        "tertiary": "#140a00",
+                        "on-secondary-fixed": "#002110",
+                        "outline": "#74777e",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-page": "40px",
+                        "container-max": "1440px",
+                        "gutter": "24px",
+                        "stack-md": "16px",
+                        "unit": "8px",
+                        "stack-xs": "4px",
+                        "stack-xl": "32px"
+                    },
+                    "fontFamily": {
+                        "title-sm": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-md": ["Public Sans"],
+                        "data-tabular": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "title-sm": ["18px", {"lineHeight": "1.5", "fontWeight": "600"}],
+                        "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "data-tabular": ["14px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.2", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #F8FAFC;
+        }
+    </style>
+</head>
+<body class="antialiased">
+<!-- Transactional Layout Wrapper (No Nav Shell per rules) -->
+<div class="min-h-screen flex flex-col items-center justify-center py-12 px-4">
+<!-- Main Email Container -->
+<div class="w-full max-w-2xl bg-white shadow-[0px_4px_12px_rgba(12,35,64,0.05)] border border-slate-200 overflow-hidden">
+<!-- TopAppBar Internal Section (As specified in JSON but localized for email context) -->
+<header class="flex justify-between items-center w-full px-8 py-6 bg-white border-b border-slate-200">
+<div class="flex items-center gap-3">
+<img alt="KIU Logo" class="h-10 w-10 object-contain" data-alt="University crest logo with elegant gold and navy blue accents on a clean white background representing institutional authority." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgl9QKnErW_Wd-Rjm_708bA46gkULtXRxqzS-WkImUOqefF5wZf5J-vqafQlSLIy-RJxoJUSIUMxcVzkxCjo_4dCfUQx3L6e81yWOaRE3h3T9_cVr0zejnEXlTM2vRPJJJUwFPQx_DlnOhSjCM3o8TG7oLk-rvI7t6o_MovP65uNYQBAJB1hjLQ5bdSXzc6ClWR0Ly2W3CVDDpRdzeKZcposuuKd6DTknkkZ4plrbR-gyIB22L9S5d3cXmhX3XazFsihTwp7ZDBYY"/>
+<span class="text-xl font-bold text-[#0C2340] font-['Public_Sans']">KIU Financial Portal</span>
+</div>
+<div class="flex items-center gap-4 text-slate-500">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</div>
+</header>
+<!-- Hero/Success Image Section -->
+<div class="relative h-48 bg-primary-container overflow-hidden">
+<div class="absolute inset-0 opacity-20 mix-blend-overlay">
+<img class="w-full h-full object-cover" data-alt="abstract architectural background with sharp lines and blue tones representing a modern university campus structure under clear sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAU5U817ng_LSTqN0p0yH8rCnvSY4ZwjP-y19HxpmbQzHlW-VVi8SKLDlO58gsqutTOcEyEMgKYD9XXWsvA-4oCwlhn1aLAQQAMzJANNmfRXEJj7ovo0gmVwIs8sTQ0XhTLOejSQ4-D1qVPVXD3DhZvFdHXtO4IlrdFEtKdbDsgMYr_o5r3znQvLrhg_b4As01SNz8PDrop1BdIZrznsG3-WioFMyGQA0kZGCAuf4sA2IgytTluBSAs2_zWOgkr_0ud9og1SLxv-2U"/>
+</div>
+<div class="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
+<div class="bg-secondary-container text-on-secondary-container px-4 py-2 rounded-full font-label-caps text-label-caps mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        CLEARED: BALANCE 0.00 UGX
+                    </div>
+<h1 class="font-headline-md text-headline-md text-white">Congratulations!</h1>
+</div>
+</div>
+<!-- Content Area -->
+<main class="p-8 md:p-12">
+<div class="space-y-6">
+<div class="space-y-2">
+<p class="font-title-sm text-title-sm text-on-surface">Dear [Student Name],</p>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            We are pleased to inform you that your financial obligations for the current semester have been fully met. Your account balance is now zero.
+                        </p>
+</div>
+<!-- Status Highlight Card -->
+<div class="bg-surface-container-low border border-slate-200 p-6 rounded-lg flex items-center justify-between">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">Current Standing</p>
+<p class="font-headline-md text-headline-md text-secondary mt-1">Financial Clearance Approved</p>
+</div>
+<div class="text-right">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">Semester</p>
+<p class="font-data-tabular text-data-tabular text-on-surface font-bold">JAN-MAY 2024</p>
+</div>
+</div>
+<!-- CTA Section -->
+<div class="pt-4 flex flex-col items-center text-center space-y-4">
+<button class="w-full bg-secondary hover:bg-on-secondary-fixed-variant text-white font-title-sm py-4 px-8 rounded-lg shadow-sm transition-all active:scale-[0.98] flex items-center justify-center gap-3">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                            Download Examination Card
+                        </button>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md italic">
+                            Important: This card contains a unique QR code required for exam entry. Please print or keep a digital copy on your mobile device.
+                        </p>
+</div>
+<!-- QR Information Bento -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+<div class="border border-slate-200 p-4 rounded-lg flex items-start gap-4">
+<div class="bg-primary-container/10 p-2 rounded">
+<span class="material-symbols-outlined text-primary-container" data-icon="qr_code_2">qr_code_2</span>
+</div>
+<div>
+<h4 class="font-title-sm text-[16px] text-primary-container">Secure Access</h4>
+<p class="text-sm text-slate-500 font-body-md leading-tight mt-1">Encrypted QR ensures your identity and payment status are verified instantly.</p>
+</div>
+</div>
+<div class="border border-slate-200 p-4 rounded-lg flex items-start gap-4">
+<div class="bg-primary-container/10 p-2 rounded">
+<span class="material-symbols-outlined text-primary-container" data-icon="school">school</span>
+</div>
+<div>
+<h4 class="font-title-sm text-[16px] text-primary-container">Exam Eligibility</h4>
+<p class="text-sm text-slate-500 font-body-md leading-tight mt-1">Clearance automatically registers you for the scheduled final assessments.</p>
+</div>
+</div>
+</div>
+<div class="pt-8 border-t border-slate-100">
+<p class="font-body-md text-body-md text-on-surface-variant text-center">
+                            If you have any questions or noticed any discrepancy, please contact the <span class="font-bold text-primary-container">Bursar's Office</span> immediately.
+                        </p>
+</div>
+</div>
+</main>
+<!-- Footer Section (Mapping from JSON) -->
+<footer class="bg-[#F8FAFC] border-t border-slate-200 px-8 py-12">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
+<div>
+<p class="font-semibold text-[#0C2340] mb-4">Kampala International University</p>
+<p class="text-sm font-['Public_Sans'] text-slate-600">
+                            © 2024 Kampala International University. All rights reserved.
+                        </p>
+</div>
+<div class="flex flex-wrap gap-x-6 gap-y-2 md:justify-end items-center">
+<a class="text-sm font-['Public_Sans'] text-slate-500 hover:text-emerald-600 transition-colors inline-block py-2" href="#">Support Center</a>
+<a class="text-sm font-['Public_Sans'] text-slate-500 hover:text-emerald-600 transition-colors inline-block py-2" href="#">Financial Policy</a>
+<a class="text-sm font-['Public_Sans'] text-slate-500 hover:text-emerald-600 transition-colors inline-block py-2" href="#">Terms of Service</a>
+<a class="text-sm font-['Public_Sans'] text-slate-500 hover:text-emerald-600 transition-colors inline-block py-2" href="#">Privacy Registry</a>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-slate-200 text-center">
+<p class="text-[12px] text-slate-400 font-body-md">
+                        This is an automated institutional message from the KIU Financial Portal. Please do not reply directly to this email.
+                    </p>
+</div>
+</footer>
+</div>
+</div>
+<script src="/static/js/shared.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+
+</html>

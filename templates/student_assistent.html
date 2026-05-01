@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#031635",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#d3e4fe",
+                    "surface-container-high": "#dce9ff",
+                    "on-tertiary": "#ffffff",
+                    "secondary": "#775a19",
+                    "on-secondary-container": "#785a1a",
+                    "error-container": "#ffdad6",
+                    "outline": "#75777f",
+                    "background": "#f8f9ff",
+                    "surface-container-low": "#eff4ff",
+                    "on-primary": "#ffffff",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-secondary-fixed": "#261900",
+                    "secondary-container": "#fed488",
+                    "surface-bright": "#f8f9ff",
+                    "on-tertiary-fixed": "#191c1d",
+                    "on-tertiary-container": "#919394",
+                    "on-secondary-fixed-variant": "#5d4201",
+                    "inverse-primary": "#b6c6ef",
+                    "surface": "#f8f9ff",
+                    "tertiary-fixed": "#e1e3e4",
+                    "on-tertiary-fixed-variant": "#454748",
+                    "primary-fixed": "#d8e2ff",
+                    "surface-tint": "#4e5e81",
+                    "on-surface-variant": "#44474e",
+                    "tertiary-fixed-dim": "#c5c7c8",
+                    "tertiary-container": "#292c2d",
+                    "primary-container": "#1a2b4b",
+                    "error": "#ba1a1a",
+                    "on-surface": "#0b1c30",
+                    "on-primary-fixed": "#081b3a",
+                    "outline-variant": "#c5c6cf",
+                    "on-secondary": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#213145",
+                    "primary-fixed-dim": "#b6c6ef",
+                    "on-primary-fixed-variant": "#364768",
+                    "on-primary-container": "#8293b8",
+                    "on-background": "#0b1c30",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#cbdbf5",
+                    "surface-container": "#e5eeff",
+                    "tertiary": "#151819",
+                    "secondary-fixed-dim": "#e9c176",
+                    "secondary-fixed": "#ffdea5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-gap": "16px",
+                    "sidebar-width": "280px",
+                    "card-padding": "24px",
+                    "margin-mobile": "16px",
+                    "container-max-width": "1280px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-caps": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "h1": ["Inter"],
+                    "h2": ["Inter"],
+                    "h3": ["Inter"],
+                    "badge": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                    "h1": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "h2": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "h3": ["20px", {"lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600"}],
+                    "badge": ["12px", {"lineHeight": "1", "letterSpacing": "0", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9ff; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .active-gold-bar { border-left: 4px solid #d4af37; }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-[#1a2b4b] dark:bg-slate-950 text-white shadow-2xl flex flex-col z-50">
+<div class="p-8 border-b border-white/10">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 bg-white/10 rounded flex items-center justify-center">
+<img alt="University Seal" class="w-8 h-8 opacity-90" data-alt="professional university crest or seal with eagle and shield emblem on a dark blue background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1xn16hE3jO1qu7nJ_WvkMgL7I8rg_vm8o5Z4EISIbhx9uCFEob3lY83jeNsqFE_l_6Y2x4KiHhmASXrIR1QkZuljfdBn10OWJai9qpW4jySwxGqk5YPjNHaW66bvg6cIyorO54YHjeIXpxF21_oVNfoace_VfrqIsoy9BQiD9u9mI1yfMq-xt8Olhr67XaIuLdYQ3dRZMLtw57FGVVlSqvcttmYE4V3ekn_-F0ux5L2DWS37qlHSQ5S183s-nNBuMfhA_pSghNUU"/>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-white leading-tight">Finance Portal</h1>
+<p class="text-[11px] uppercase tracking-widest text-slate-400 font-semibold">Administrative Staff</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto py-6 flex flex-col font-['Inter'] text-sm tracking-tight">
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="how_to_reg">how_to_reg</span>
+<span>Student Registration</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span>Payment Verification</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+<span>Manual Record Entry</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span>Transaction Management</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 bg-white/5 text-white active-gold-bar font-semibold" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+<span>Student Assistance</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="summarize">summarize</span>
+<span>Daily Reports</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-white/10 p-4 space-y-1">
+<a class="flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white transition-colors text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white transition-colors text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center px-8 z-40">
+<div class="flex items-center gap-6 flex-1">
+<span class="text-lg font-extrabold text-[#1a2b4b] dark:text-slate-50">Finance Operations</span>
+<div class="relative w-full max-w-xl">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-icon="search">search</span>
+<input class="w-full bg-slate-50 border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all" placeholder="Global Search: Student ID, Name, or Transaction Reference..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary overflow-hidden ml-2 ring-2 ring-slate-100">
+<img alt="Staff Portrait" class="w-full h-full object-cover" data-alt="professional portrait of a university administrative staff member in business attire against a neutral office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYzQksEjw-fF6M2JwcqkIzmdTpCfni1n2KrocJUSV5WkKtlHQsYT0LcSWkWmnwAuPHYpP8c-JEUBkXfiLbZqmOi0uulJKIH2pNowo_14SD3tcv8gIISUUKiCcKxi8yfwYEaIb5usTdPk_rngr63AH17CqQyWqnqXmd5Lr0Ri1QNQvmU6d2Kyyotzl5tC8lYujvp_QSHrk4jRSAYtzHQ8GwHmVFApK-w3pU3j7qmfSajS_rOhH6ljZpvDRoQYcAa-FMZSgZml-wtdw"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[280px] mt-16 p-8 min-h-screen">
+<div class="max-w-7xl mx-auto space-y-gutter">
+<!-- Page Header -->
+<div class="flex items-end justify-between">
+<div>
+<h2 class="font-h1 text-h1 text-primary">Student Assistance Hub</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Real-time financial verification and desk support</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 border border-primary text-primary font-semibold rounded hover:bg-primary/5 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="print">print</span>
+                        Print View
+                    </button>
+<button class="px-6 py-2 bg-[#d4af37] text-primary font-bold rounded shadow hover:bg-[#c2a032] transition-all flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                        New Walk-in Entry
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Student Identification Card -->
+<div class="col-span-12 lg:col-span-4 bg-white rounded shadow-[0_4px_12px_rgba(0,0,0,0.05)] p-card-padding">
+<div class="flex justify-between items-start mb-6">
+<h3 class="font-h3 text-h3 text-primary">Student Selected</h3>
+<span class="material-symbols-outlined text-primary-container" data-icon="person_search">person_search</span>
+</div>
+<div class="flex flex-col items-center text-center pb-6 border-b border-slate-100">
+<div class="w-24 h-24 rounded-full border-4 border-surface-container-high overflow-hidden mb-4 shadow-sm">
+<img alt="Student Portrait" class="w-full h-full object-cover" data-alt="clean profile headshot of a college student smiling naturally with soft lighting in a campus setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDV5Ua2qL_o5kCyEEKobTOYvK-N7fw6ak0apQNNeyPHE9tcSyf18lku3Ag3Ldl1aL51msKEi4swo1C8xxtbgQBZPqd8eF11m_IqZU40EhcMeWbvE7CSce__BKB7k0gXtQZm0AntD30g7AgMSrFERsJtrPVCz0ldad4HHvHUTBhzV7ZgVkHclKJOmBcGAzU3S-zg928N3Jbe7ksiUlayPNGRx8s4vl7cnml2z1OGVauG6K-MON7b2zMmIpQSBfgGbPnC3uwkl7WPm-0"/>
+</div>
+<h4 class="font-h2 text-h2 text-primary">Pius O</h4>
+<p class="font-label-caps text-label-caps text-primary/60 mt-1 uppercase">ID: 2024-STU-8842</p>
+<div class="mt-4 inline-flex items-center px-3 py-1 bg-green-50 text-green-700 rounded-full text-badge font-badge uppercase border border-green-200">
+                            Confirmed Registration
+                        </div>
+</div>
+<div class="mt-6 space-y-4">
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Program:</span>
+<span class="font-semibold">BSc. Computer Science</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Academic Year:</span>
+<span class="font-semibold">Junior Year (2024/25)</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Advisor:</span>
+<span class="font-semibold text-primary">Dr. Marcus Emojong</span>
+</div>
+</div>
+</div>
+<!-- Financial Quick-View Card -->
+<div class="col-span-12 lg:col-span-8 space-y-gutter">
+<!-- Balance Summary Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="bg-white p-6 rounded shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-l-4 border-primary">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase">Current Balance</p>
+<h4 class="text-3xl font-bold text-primary">$1,240.00</h4>
+<p class="text-xs text-error mt-2 font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="error">error</span>
+                                Due in 12 days
+                            </p>
+</div>
+<div class="bg-white p-6 rounded shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-l-4 border-green-500">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase">Total Paid</p>
+<h4 class="text-3xl font-bold text-on-surface">$14,500.00</h4>
+<p class="text-xs text-on-surface-variant mt-2 font-medium">Semester Tuition</p>
+</div>
+<div class="bg-white p-6 rounded shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-l-4 border-secondary">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase">Financial Aid</p>
+<h4 class="text-3xl font-bold text-on-surface">$2,500.00</h4>
+<p class="text-xs text-secondary mt-2 font-medium">Merit Scholarship Applied</p>
+</div>
+</div>
+<!-- Transactions & Actions -->
+<div class="bg-white rounded shadow-[0_4px_12px_rgba(0,0,0,0.05)] flex flex-col">
+<div class="p-card-padding flex justify-between items-center border-b border-slate-100">
+<h3 class="font-h3 text-h3 text-primary">Last 3 Transactions</h3>
+<button class="px-4 py-2 bg-primary text-white text-sm font-bold rounded flex items-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-lg" data-icon="download">download</span>
+                                Download Account Statement
+                            </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-slate-50 text-label-caps text-on-surface-variant">
+<tr>
+<th class="px-6 py-4 font-bold">DATE</th>
+<th class="px-6 py-4 font-bold">REFERENCE</th>
+<th class="px-6 py-4 font-bold">TYPE</th>
+<th class="px-6 py-4 font-bold">AMOUNT</th>
+<th class="px-6 py-4 font-bold">STATUS</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4 font-body-sm text-on-surface">Oct 12, 2024</td>
+<td class="px-6 py-4 font-body-sm font-mono text-slate-500">TXN-0092183</td>
+<td class="px-6 py-4 font-body-sm">Lab Equipment Fee</td>
+<td class="px-6 py-4 font-body-sm font-bold">$150.00</td>
+<td class="px-6 py-4">
+<span class="inline-block px-2 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded uppercase">Confirmed</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4 font-body-sm text-on-surface">Oct 01, 2024</td>
+<td class="px-6 py-4 font-body-sm font-mono text-slate-500">TXN-0088211</td>
+<td class="px-6 py-4 font-body-sm">Tuition Installment</td>
+<td class="px-6 py-4 font-body-sm font-bold">$4,500.00</td>
+<td class="px-6 py-4">
+<span class="inline-block px-2 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded uppercase">Confirmed</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4 font-body-sm text-on-surface">Sep 28, 2024</td>
+<td class="px-6 py-4 font-body-sm font-mono text-slate-500">TXN-0088190</td>
+<td class="px-6 py-4 font-body-sm">Parking Permit</td>
+<td class="px-6 py-4 font-body-sm font-bold">$75.00</td>
+<td class="px-6 py-4">
+<span class="inline-block px-2 py-1 bg-amber-100 text-amber-700 text-[10px] font-bold rounded uppercase">Pending</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 bg-slate-50 flex justify-center">
+<button class="text-primary font-semibold text-sm hover:underline">View All Transactions</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Utility Assistant Actions -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mt-8">
+<div class="bg-white p-card-padding rounded shadow-[0_4px_12px_rgba(0,0,0,0.05)] flex items-center gap-4 hover:border-primary border border-transparent transition-all cursor-pointer group">
+<div class="w-12 h-12 bg-surface-container-high rounded flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
+<span class="material-symbols-outlined" data-icon="edit_calendar">edit_calendar</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Payment Plan</p>
+<p class="text-xs text-on-surface-variant">Request restructuring</p>
+</div>
+</div>
+<div class="bg-white p-card-padding rounded shadow-[0_4px_12px_rgba(0,0,0,0.05)] flex items-center gap-4 hover:border-primary border border-transparent transition-all cursor-pointer group">
+<div class="w-12 h-12 bg-surface-container-high rounded flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Clearance Status</p>
+<p class="text-xs text-on-surface-variant">Verify exam eligibility</p>
+</div>
+</div>
+<div class="bg-white p-card-padding rounded shadow-[0_4px_12px_rgba(0,0,0,0.05)] flex items-center gap-4 hover:border-primary border border-transparent transition-all cursor-pointer group">
+<div class="w-12 h-12 bg-surface-container-high rounded flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
+<span class="material-symbols-outlined" data-icon="local_atm">local_atm</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Grant Refund</p>
+<p class="text-xs text-on-surface-variant">Initiate reversal request</p>
+</div>
+</div>
+<div class="bg-white p-card-padding rounded shadow-[0_4px_12px_rgba(0,0,0,0.05)] flex items-center gap-4 hover:border-primary border border-transparent transition-all cursor-pointer group">
+<div class="w-12 h-12 bg-surface-container-high rounded flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
+<span class="material-symbols-outlined" data-icon="forward_to_inbox">forward_to_inbox</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Email Statement</p>
+<p class="text-xs text-on-surface-variant">Send to student mail</p>
+</div>
+</div>
+</div>
+<!-- Notes Section for Desk Support -->
+<div class="bg-primary/5 border border-primary/10 rounded-xl p-card-padding mt-8">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary" data-icon="sticky_note_2">sticky_note_2</span>
+<h4 class="font-h3 text-h3 text-primary">Internal Staff Notes</h4>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="bg-white/80 p-4 rounded border border-white">
+<p class="text-xs text-primary/60 font-bold uppercase mb-2">Staff Interaction Log - Oct 14</p>
+<p class="text-sm italic">"Student inquired about late fee waiver. Advised to submit proof of medical leave for Registrar's consideration. Handed over 'Policy Form B'."</p>
+</div>
+<div class="bg-white/80 p-4 rounded border border-white">
+<p class="text-xs text-primary/60 font-bold uppercase mb-2">Upcoming Requirements</p>
+<p class="text-sm">Final semester clearance requires all library dues to be settled. Balance currently shows $0.00 but awaiting system sync.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+(() => {
+  const fallback = "{{ url_for('student_assistant') }}";
+  const map = [
+    ["dashboard", "{{ url_for('finance_dashboard') }}"],
+    ["student registration", "{{ url_for('student_registration_fee_entry') }}"],
+    ["verification", "{{ url_for('payment_verification') }}"],
+    ["manual", "{{ url_for('manual_record_entry') }}"],
+    ["transaction", "{{ url_for('transaction_management') }}"],
+    ["report", "{{ url_for('daily_report') }}"],
+    ["setting", "{{ url_for('system_configuration') }}"],
+    ["logout", "{{ url_for('logout') }}"]
+  ];
+  document.querySelectorAll('a[href="#"]').forEach((a) => { a.href = fallback; });
+  document.querySelectorAll("button").forEach((btn) => {
+    if (btn.type === "submit") return;
+    btn.style.cursor = "pointer";
+    btn.addEventListener("click", () => {
+      const t = (btn.innerText || "").toLowerCase();
+      const m = map.find(([k]) => t.includes(k));
+      window.location.href = m ? m[1] : fallback;
+    });
+  });
+})();
+</script>
+</body></html>

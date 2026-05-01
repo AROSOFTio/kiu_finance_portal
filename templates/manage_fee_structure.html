@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Add Fee Structure</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="mb-2">
+                            <label>Academic Year</label>
+                            <input type="text" name="academic_year" class="form-control" required placeholder="2025/2026">
+                        </div>
+                        <div class="mb-2">
+                            <label>Semester</label>
+                            <select name="semester" class="form-control" required>
+                                <option>Semester I</option>
+                                <option>Semester II</option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label>Programme</label>
+                            <input type="text" name="programme" class="form-control" placeholder="Bachelor of IT">
+                        </div>
+                        <div class="mb-2">
+                            <label>Amount (UGX)</label>
+                            <input type="number" name="amount" class="form-control" required>
+                        </div>
+                        <div class="mb-2">
+                            <label>Due Date</label>
+                            <input type="date" name="due_date" class="form-control">
+                        </div>
+                        <div class="mb-2">
+                            <label>Late Penalty (%)</label>
+                            <input type="number" name="late_penalty" class="form-control" value="0" step="0.01">
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Add Fee Structure</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Existing Fee Structures</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Academic Year</th>
+                                    <th>Semester</th>
+                                    <th>Programme</th>
+                                    <th>Amount</th>
+                                    <th>Due Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for fs in fee_structures|default([]) %}
+                                <tr>
+                                    <td>{{ fs.academic_year }}</td>
+                                    <td>{{ fs.semester }}</td>
+                                    <td>{{ fs.programme|default('All') }}</td>
+                                    <td>UGX {{ "{:,.0f}".format(fs.amount) }}</td>
+                                    <td>{{ fs.due_date.strftime('%Y-%m-%d') if fs.due_date else 'N/A' }}</td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="5">No fee structures added</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

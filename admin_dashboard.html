@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Dashboard | KIU Finance Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    body { font-family: 'Inter', sans-serif; background-color: #f8f9ff; }
+    .nav-active {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-left: 4px solid #FFD700;
+        color: white;
+        font-weight: 600;
+    }
+    .nav-inactive {
+        color: #94a3b8;
+        border-left: 4px solid transparent;
+    }
+    .nav-inactive:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: white;
+    }
+</style>
+</head>
+<body class="bg-background text-on-background">
+
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-[#1a2b4b] shadow-2xl z-50 flex flex-col">
+    <div class="p-8">
+        <div class="flex items-center gap-3 mb-8">
+            <div class="w-10 h-10 bg-[#FFD700] rounded-lg flex items-center justify-center">
+                <span class="material-symbols-outlined text-[#1a2b4b] text-2xl">admin_panel_settings</span>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-white tracking-widest uppercase">Admin Portal</h1>
+                <p class="text-[10px] text-slate-400 font-medium tracking-wider">System Administrator</p>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="flex-1 space-y-1">
+        <!-- Dashboard - Active -->
+        <a href="{{ url_for('admin_dashboard') }}" 
+           class="flex items-center gap-3 px-6 py-4 {% if request.endpoint == 'admin_dashboard' %}nav-active{% else %}nav-inactive{% endif %} transition-all duration-200">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="font-inter text-sm tracking-wide">Dashboard</span>
+        </a>
+        
+        <!-- User Management -->
+        <a href="{{ url_for('user_management') }}" 
+           class="flex items-center gap-3 px-6 py-4 {% if request.endpoint == 'user_management' %}nav-active{% else %}nav-inactive{% endif %} transition-all duration-200">
+            <span class="material-symbols-outlined">group</span>
+            <span class="font-inter text-sm tracking-wide">User Management</span>
+        </a>
+        
+        <!-- Role Management -->
+        <a href="{{ url_for('role_management') }}" 
+           class="flex items-center gap-3 px-6 py-4 {% if request.endpoint == 'role_management' %}nav-active{% else %}nav-inactive{% endif %} transition-all duration-200">
+            <span class="material-symbols-outlined">security</span>
+            <span class="font-inter text-sm tracking-wide">Role Management</span>
+        </a>
+        
+        <!-- System Configuration -->
+        <a href="{{ url_for('system_configuration') }}" 
+           class="flex items-center gap-3 px-6 py-4 {% if request.endpoint == 'system_configuration' %}nav-active{% else %}nav-inactive{% endif %} transition-all duration-200">
+            <span class="material-symbols-outlined">settings</span>
+            <span class="font-inter text-sm tracking-wide">System Config</span>
+        </a>
+        
+        <!-- Finance Admin Dashboard -->
+        <a href="{{ url_for('finance_admin_dashboard') }}" 
+           class="flex items-center gap-3 px-6 py-4 {% if request.endpoint == 'finance_admin_dashboard' %}nav-active{% else %}nav-inactive{% endif %} transition-all duration-200">
+            <span class="material-symbols-outlined">monitoring</span>
+            <span class="font-inter text-sm tracking-wide">Finance Oversight</span>
+        </a>
+        
+        <!-- Audit Logs -->
+        <a href="{{ url_for('audit_logs') }}" 
+           class="flex items-center gap-3 px-6 py-4 {% if request.endpoint == 'audit_logs' %}nav-active{% else %}nav-inactive{% endif %} transition-all duration-200">
+            <span class="material-symbols-outlined">history</span>
+            <span class="font-inter text-sm tracking-wide">Audit Logs</span>
+        </a>
+        
+        <!-- Financial Reports -->
+        <a href="{{ url_for('finance_collection_report') }}" 
+           class="flex items-center gap-3 px-6 py-4 {% if request.endpoint == 'finance_collection_report' %}nav-active{% else %}nav-inactive{% endif %} transition-all duration-200">
+            <span class="material-symbols-outlined">assessment</span>
+            <span class="font-inter text-sm tracking-wide">Reports</span>
+        </a>
+    </nav>
+    
+    <div class="mt-auto p-6 border-t border-white/10">
+        <div class="bg-white/5 rounded-xl p-4">
+            <p class="text-xs text-slate-400 mb-1">Logged in as</p>
+            <p class="text-sm font-semibold text-white">{{ current_user.username }}</p>
+            <p class="text-[10px] text-slate-400 mt-1">Administrator</p>
+        </div>
+        <a href="{{ url_for('logout') }}" class="flex items-center gap-3 px-6 py-4 text-slate-400 hover:text-white transition-colors mt-2">
+            <span class="material-symbols-outlined">logout</span>
+            <span class="font-inter text-sm tracking-wide">Logout</span>
+        </a>
+    </div>
+</aside>
+
+<!-- Main Content -->
+<main class="ml-[280px] min-h-screen">
+    <!-- Top Bar -->
+    <header class="fixed top-0 right-0 w-[calc(100%-280px)] h-16 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm flex justify-between items-center px-8 z-40">
+        <div class="flex items-center gap-6 flex-1">
+            <h1 class="text-lg font-bold text-[#1a2b4b]">Administrator Console</h1>
+            <div class="relative w-96">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                <input class="w-full bg-slate-50 border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-[#1a2b4b] transition-all" placeholder="Search users, roles, or settings..." type="text"/>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="text-right">
+                    <p class="text-sm font-semibold text-[#1a2b4b]">{{ current_user.username }}</p>
+                    <p class="text-[10px] text-slate-500 uppercase tracking-wide">Administrator</p>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-[#1a2b4b] flex items-center justify-center text-white font-bold">
+                    {{ current_user.username[0]|upper if current_user.username else 'A' }}
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Content Area -->
+    <div class="pt-24 px-8 pb-12 max-w-[1400px] mx-auto">
+        <!-- Welcome Banner -->
+        <div class="bg-gradient-to-r from-[#1a2b4b] to-[#2a3b5b] rounded-xl p-8 mb-8 text-white">
+            <h1 class="text-2xl font-bold mb-2">Welcome back, {{ current_user.username }}!</h1>
+            <p class="text-slate-300">Manage system users, roles, configurations, and monitor financial operations from this central dashboard.</p>
+        </div>
+        
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-primary">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">Total Users</p>
+                        <p class="text-3xl font-bold text-primary">{{ stats.total_users|default(0) }}</p>
+                    </div>
+                    <span class="material-symbols-outlined text-primary text-4xl">group</span>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-secondary">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">Students</p>
+                        <p class="text-3xl font-bold text-secondary">{{ stats.total_students|default(0) }}</p>
+                    </div>
+                    <span class="material-symbols-outlined text-secondary text-4xl">school</span>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-amber-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">Finance Staff</p>
+                        <p class="text-3xl font-bold text-amber-600">{{ stats.total_finance_staff|default(0) }}</p>
+                    </div>
+                    <span class="material-symbols-outlined text-amber-500 text-4xl">account_balance</span>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-green-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">Admins</p>
+                        <p class="text-3xl font-bold text-green-600">{{ stats.total_admins|default(0) }}</p>
+                    </div>
+                    <span class="material-symbols-outlined text-green-500 text-4xl">admin_panel_settings</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <a href="{{ url_for('user_management') }}" class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all border border-slate-100">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary">person_add</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-primary">Manage Users</h3>
+                        <p class="text-xs text-slate-500">Add, edit, or deactivate user accounts</p>
+                    </div>
+                </div>
+            </a>
+            <a href="{{ url_for('role_management') }}" class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all border border-slate-100">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-secondary">security</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-secondary">Manage Roles</h3>
+                        <p class="text-xs text-slate-500">Configure permissions and access levels</p>
+                    </div>
+                </div>
+            </a>
+            <a href="{{ url_for('system_configuration') }}" class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all border border-slate-100">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-slate-600">settings</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-700">System Settings</h3>
+                        <p class="text-xs text-slate-500">Configure system parameters</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 mb-8">
+            <div class="flex items-center justify-between gap-4 flex-wrap">
+                <div>
+                    <h2 class="text-lg font-bold text-primary">Raw Data Exports</h2>
+                    <p class="text-sm text-slate-500">System administrators can export operational data directly from the shared database.</p>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <a href="{{ url_for('admin_raw_export', data_type='users') }}" class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-bold">Users CSV</a>
+                    <a href="{{ url_for('admin_raw_export', data_type='transactions') }}" class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-bold">Transactions CSV</a>
+                    <a href="{{ url_for('admin_raw_export', data_type='ledgers') }}" class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-bold">Ledgers CSV</a>
+                    <a href="{{ url_for('admin_raw_export', data_type='audit-logs') }}" class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-bold">Logs CSV</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Users Table -->
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center">
+                <h2 class="text-lg font-bold text-primary">Recent Users</h2>
+                <a href="{{ url_for('user_management') }}" class="text-sm text-primary hover:underline">View All</a>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-slate-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Username</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Role</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Joined</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        {% for user in recent_users|default([]) %}
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="px-6 py-4 text-sm font-medium text-primary">{{ user.username }}</td>
+                            <td class="px-6 py-4 text-sm">{{ user.email }}</td>
+                            <td class="px-6 py-4 text-sm">
+                                {% if user.is_admin %}
+                                    <span class="px-2 py-1 rounded-full text-xs bg-purple-100 text-purple-700">Admin</span>
+                                {% elif user.is_finance_staff %}
+                                    <span class="px-2 py-1 rounded-full text-xs bg-amber-100 text-amber-700">Finance Staff</span>
+                                {% else %}
+                                    <span class="px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-700">Student</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 text-sm">
+                                {% if user.is_active %}
+                                    <span class="px-2 py-1 rounded-full text-xs bg-green-100 text-green-700">Active</span>
+                                {% else %}
+                                    <span class="px-2 py-1 rounded-full text-xs bg-red-100 text-red-700">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-slate-500">{{ user.created_at.strftime('%Y-%m-%d') if user.created_at else 'N/A' }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="px-6 py-8 text-center text-slate-500">No users found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
