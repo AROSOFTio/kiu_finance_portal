@@ -56,7 +56,7 @@ docker compose up --build
 
 # 4. Access the system
 #    App:        http://localhost:4005
-#    phpMyAdmin: http://localhost:8080
+#    phpMyAdmin: http://localhost:8088
 ```
 
 ### Stop the system
