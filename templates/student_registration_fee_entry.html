@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
@@ -307,7 +307,7 @@
 <td class="px-6 py-4 font-semibold text-primary">Student Registration</td>
 <td class="px-6 py-4 text-body-sm">Julius O</td>
 <td class="px-6 py-4 font-mono text-body-sm">REG-2024-812</td>
-<td class="px-6 py-4 font-semibold text-primary">—</td>
+<td class="px-6 py-4 font-semibold text-primary">â€”</td>
 <td class="px-6 py-4">
 <span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold uppercase tracking-wider">Confirmed</span>
 </td>
@@ -330,30 +330,6 @@
 </div>
 </main>
 <!-- FAB Suppression: Not rendered on administrative sub-pages as per rules -->
-<script>
-(() => {
-  const fallback = "{{ url_for('student_registration_fee_entry') }}";
-  const map = [
-    ["dashboard", "{{ url_for('finance_dashboard') }}"],
-    ["verification", "{{ url_for('payment_verification') }}"],
-    ["manual", "{{ url_for('manual_record_entry') }}"],
-    ["transaction", "{{ url_for('transaction_management') }}"],
-    ["assistant", "{{ url_for('student_assistant') }}"],
-    ["report", "{{ url_for('daily_report') }}"],
-    ["setting", "{{ url_for('system_configuration') }}"],
-    ["logout", "{{ url_for('logout') }}"],
-    ["view", "{{ url_for('transaction_history') }}"]
-  ];
-  document.querySelectorAll('a[href="#"]').forEach((a) => { a.href = fallback; });
-  document.querySelectorAll("button").forEach((btn) => {
-    if (btn.type === "submit") return;
-    btn.style.cursor = "pointer";
-    btn.addEventListener("click", () => {
-      const t = (btn.innerText || "").toLowerCase();
-      const m = map.find(([k]) => t.includes(k));
-      window.location.href = m ? m[1] : fallback;
-    });
-  });
-})();
-</script>
+
 </body></html>
+

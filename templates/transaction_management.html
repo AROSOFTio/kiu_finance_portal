@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
@@ -516,30 +516,6 @@
 </div>
 </main>
 <!-- FAB Contextual (Suppressed per rules as we are in Management/Details level) -->
-<script>
-(() => {
-  const fallback = "{{ url_for('transaction_management') }}";
-  const map = [
-    ["dashboard", "{{ url_for('finance_dashboard') }}"],
-    ["student registration", "{{ url_for('student_registration_fee_entry') }}"],
-    ["verification", "{{ url_for('payment_verification') }}"],
-    ["manual", "{{ url_for('manual_record_entry') }}"],
-    ["assistant", "{{ url_for('student_assistant') }}"],
-    ["report", "{{ url_for('daily_report') }}"],
-    ["export", "{{ url_for('transaction_history') }}"],
-    ["setting", "{{ url_for('system_configuration') }}"],
-    ["logout", "{{ url_for('logout') }}"]
-  ];
-  document.querySelectorAll('a[href="#"]').forEach((a) => { a.href = fallback; });
-  document.querySelectorAll("button").forEach((btn) => {
-    if (btn.type === "submit") return;
-    btn.style.cursor = "pointer";
-    btn.addEventListener("click", () => {
-      const t = (btn.innerText || "").toLowerCase();
-      const m = map.find(([k]) => t.includes(k));
-      window.location.href = m ? m[1] : fallback;
-    });
-  });
-})();
-</script>
+
 </body></html>
+

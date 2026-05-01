@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
@@ -119,37 +119,37 @@
 </div>
 </div>
 <nav class="flex-1 space-y-1">
-<a class="flex items-center text-slate-300 py-3 px-6 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="#">
+<a class="flex items-center text-slate-300 py-3 px-6 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="{{ url_for('admin_dashboard') }}">
 <span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
 <span>Dashboard</span>
 </a>
-<a class="flex items-center text-white bg-white/10 border-l-4 border-[#FFD700] py-3 px-6 transition-all" href="#">
+<a class="flex items-center text-white bg-white/10 border-l-4 border-[#FFD700] py-3 px-6 transition-all" href="{{ url_for('user_management') }}">
 <span class="material-symbols-outlined mr-3" data-icon="group">group</span>
 <span>User Management</span>
 </a>
-<a class="flex items-center text-slate-300 py-3 px-6 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="#">
+<a class="flex items-center text-slate-300 py-3 px-6 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="{{ url_for('role_management') }}">
 <span class="material-symbols-outlined mr-3" data-icon="security">security</span>
 <span>Role Management</span>
 </a>
-<a class="flex items-center text-slate-300 py-3 px-6 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="#">
+<a class="flex items-center text-slate-300 py-3 px-6 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="{{ url_for('manage_fee_structure') }}">
 <span class="material-symbols-outlined mr-3" data-icon="payments">payments</span>
 <span>Fee Structure</span>
 </a>
-<a class="flex items-center text-slate-300 py-3 px-6 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="#">
+<a class="flex items-center text-slate-300 py-3 px-6 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="{{ url_for('system_configuration') }}">
 <span class="material-symbols-outlined mr-3" data-icon="settings_applications">settings_applications</span>
 <span>System Config</span>
 </a>
-<a class="flex items-center text-slate-300 py-3 px-6 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="#">
+<a class="flex items-center text-slate-300 py-3 px-6 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="{{ url_for('audit_logs') }}">
 <span class="material-symbols-outlined mr-3" data-icon="history">history</span>
 <span>Audit Logs</span>
 </a>
 </nav>
 <div class="mt-auto border-t border-white/10 pt-4">
-<a class="flex items-center text-slate-300 py-3 px-6 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="#">
+<a class="flex items-center text-slate-300 py-3 px-6 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="{{ url_for('help_center') }}">
 <span class="material-symbols-outlined mr-3" data-icon="help">help</span>
 <span>Help</span>
 </a>
-<a class="flex items-center text-slate-300 py-3 px-6 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="#">
+<a class="flex items-center text-slate-300 py-3 px-6 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="{{ url_for('logout') }}">
 <span class="material-symbols-outlined mr-3" data-icon="logout">logout</span>
 <span>Logout</span>
 </a>
@@ -511,29 +511,6 @@
 </div>
 </div>
 </main>
-<script>
-(() => {
-  const fallback = "{{ url_for('user_management') }}";
-  const map = [
-    ["role", "{{ url_for('role_management') }}"],
-    ["system", "{{ url_for('system_configuration') }}"],
-    ["fee", "{{ url_for('fee_structure') }}"],
-    ["security", "{{ url_for('financial_oversight') }}"],
-    ["log", "{{ url_for('audit_logs') }}"],
-    ["logout", "{{ url_for('logout') }}"],
-    ["create", "{{ url_for('user_management') }}"],
-    ["support", "{{ url_for('help_center') }}"]
-  ];
-  document.querySelectorAll('a[href="#"]').forEach((a) => { a.href = fallback; });
-  document.querySelectorAll("button").forEach((btn) => {
-    if (btn.type === "submit") return;
-    btn.style.cursor = "pointer";
-    btn.addEventListener("click", () => {
-      const t = (btn.innerText || "").toLowerCase();
-      const m = map.find(([k]) => t.includes(k));
-      window.location.href = m ? m[1] : fallback;
-    });
-  });
-})();
-</script>
+
 </body></html>
+

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
@@ -422,33 +422,10 @@
 <span>Any changes to the <strong>Super Admin</strong> role will be logged in the system audit trail immediately.</span>
 </div>
 <div class="text-on-surface-variant text-body-sm">
-                    Last modified by <span class="font-bold text-primary">James Wilson</span> — 2 hours ago
+                    Last modified by <span class="font-bold text-primary">James Wilson</span> â€” 2 hours ago
                 </div>
 </div>
 </div>
 </main>
-<script>
-(() => {
-  const fallback = "{{ url_for('role_management') }}";
-  const map = [
-    ["user", "{{ url_for('user_management') }}"],
-    ["system", "{{ url_for('system_configuration') }}"],
-    ["log", "{{ url_for('audit_logs') }}"],
-    ["fee", "{{ url_for('fee_structure') }}"],
-    ["support", "{{ url_for('help_center') }}"],
-    ["discard", "{{ url_for('role_management') }}"],
-    ["apply", "{{ url_for('role_management') }}"]
-  ];
-  document.querySelectorAll('a[href="#"]').forEach((a) => { a.href = fallback; });
-  document.querySelectorAll("button").forEach((btn) => {
-    if (btn.type === "submit") return;
-    btn.style.cursor = "pointer";
-    btn.addEventListener("click", () => {
-      const t = (btn.innerText || "").toLowerCase();
-      const m = map.find(([k]) => t.includes(k));
-      window.location.href = m ? m[1] : fallback;
-    });
-  });
-})();
-</script>
+
 </body></html>
