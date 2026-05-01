@@ -82,17 +82,22 @@ def generate_registration_number():
     sequence = random.randint(10000, 99999)
     return f"KIU/{year}/{sequence}"
 
+from threading import Thread
+
+def send_async_email(app, msg, user_email, otp):
+    with app.app_context():
+        try:
+            mail.send(msg)
+            print(f"OTP sent to {user_email}: {otp}")
+        except Exception as e:
+            print(f"[EMAIL FALLBACK] OTP for {user_email}: {otp}  (reason: {e})")
+
 def send_otp_email(user_email, otp, purpose='reset'):
     subject = f'Your {purpose} OTP for KIU Financial Portal'
     body = f'Your OTP code is: {otp}. It will expire in 10 minutes.'
-    try:
-        msg = Message(subject, recipients=[user_email], body=body)
-        mail.send(msg)
-        print(f"OTP sent to {user_email}: {otp}")
-        return True
-    except Exception as e:
-        print(f"[EMAIL FALLBACK] OTP for {user_email}: {otp}  (reason: {e})")
-        return False
+    msg = Message(subject, recipients=[user_email], body=body)
+    Thread(target=send_async_email, args=(app, msg, user_email, otp)).start()
+    return True
 
 
 def generate_qr_code(data, filename):
