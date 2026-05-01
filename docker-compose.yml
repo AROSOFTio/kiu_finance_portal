@@ -33,8 +33,6 @@ services:
       MYSQL_DATABASE: ${MYSQL_DB:-kiu_finance}
       MYSQL_USER: ${MYSQL_USER:-kiu_user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-kiu_secure_pass}
-    ports:
-      - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
