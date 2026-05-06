@@ -184,15 +184,34 @@
             </div>
             <div>
                 <label for="password" class="block text-sm font-semibold text-on-surface-variant mb-1">Password</label>
-                <input id="password" name="password" type="password" required class="w-full px-3 py-2 border border-outline-variant rounded-lg">
+                <div class="relative">
+                    <input id="password" name="password" type="password" required class="w-full px-3 py-2 pr-11 border border-outline-variant rounded-lg">
+                    <button type="button" id="toggle-password" class="absolute inset-y-0 right-2 my-auto h-8 w-8 rounded-lg text-on-surface-variant hover:bg-surface-container-low flex items-center justify-center" aria-label="Show password">
+                        <span id="toggle-password-icon" class="material-symbols-outlined text-xl">visibility</span>
+                    </button>
+                </div>
             </div>
             <button type="submit" class="w-full py-2.5 rounded-lg bg-secondary text-white font-semibold">Login</button>
         </form>
 
-        <div class="mt-5 text-sm text-on-surface-variant flex justify-between">
+        <div class="mt-5 text-sm text-on-surface-variant">
             <a href="{{ url_for('forgot_password') }}" class="text-secondary hover:underline">Forgot password?</a>
-            <a href="{{ url_for('register') }}" class="text-secondary hover:underline">Create account</a>
         </div>
     </div>
 </main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const password = document.getElementById('password');
+    const button = document.getElementById('toggle-password');
+    const icon = document.getElementById('toggle-password-icon');
+    if (!password || !button || !icon) return;
+
+    button.addEventListener('click', () => {
+        const showing = password.type === 'text';
+        password.type = showing ? 'password' : 'text';
+        icon.textContent = showing ? 'visibility' : 'visibility_off';
+        button.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+    });
+});
+</script>
 {% endblock %}

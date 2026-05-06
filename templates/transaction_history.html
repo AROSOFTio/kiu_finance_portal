@@ -203,10 +203,10 @@
 <span class="material-symbols-outlined" data-icon="payments">payments</span>
 </div>
 </div>
-<p class="font-h2 text-h2 text-primary">UGX 4,250,000</p>
+<p class="font-h2 text-h2 text-primary">UGX {{ "{:,.0f}".format(ledger.total_paid if ledger else 0) }}</p>
 <p class="text-xs text-green-600 font-bold mt-2 flex items-center">
 <span class="material-symbols-outlined text-sm mr-1" data-icon="trending_up">trending_up</span>
-                        85% of total fees cleared
+                        {{ "{:,.0f}".format(((ledger.total_paid or 0) / (ledger.total_billed or 1)) * 100 if ledger else 0) }}% of total fees cleared
                     </p>
 </div>
 <div class="col-span-4 bg-white p-card-padding rounded-xl shadow-sm border border-slate-100">
@@ -216,8 +216,13 @@
 <span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
 </div>
 </div>
-<p class="font-h2 text-h2 text-secondary">UGX 750,000</p>
+<p class="font-h2 text-h2 text-secondary">UGX {{ "{:,.0f}".format(ledger.outstanding if ledger else 0) }}</p>
+{% if credit_amount and credit_amount > 0 %}
+<p class="text-xs text-emerald-700 font-bold mt-2">Credit: UGX {{ "{:,.0f}".format(credit_amount) }}</p>
+<p class="text-xs text-emerald-700 mt-1">You paid extra amount and you demand the university this amount.</p>
+{% else %}
 <p class="text-xs text-on-surface-variant mt-2 italic">Due by: 15 Nov, 2023</p>
+{% endif %}
 </div>
 <div class="col-span-4 bg-[#031635] p-card-padding rounded-xl shadow-sm relative overflow-hidden">
 <div class="relative z-10">

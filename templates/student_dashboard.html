@@ -74,6 +74,13 @@
                         {{ (100 - percent_paid)|int }}% remaining
                     {% endif %}
                 </div>
+                {% if credit_amount and credit_amount > 0 %}
+                <div class="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-emerald-800">
+                    <p class="text-xs font-black uppercase">Credit Balance</p>
+                    <p class="mt-1 text-lg font-black">UGX {{ "{:,.2f}".format(credit_amount) }}</p>
+                    <p class="mt-1 text-xs font-semibold">You paid extra amount and you demand the university this amount.</p>
+                </div>
+                {% endif %}
             </div>
 <!-- Recent Transactions Table -->
 <div class="col-span-3 bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">

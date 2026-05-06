@@ -185,6 +185,15 @@ Your payment has been received and is waiting for finance team verification.
 <td class="p-4 text-white font-semibold">New Outstanding Balance</td>
 <td class="p-4 text-right text-white font-bold text-lg">UGX {{ "{:,.0f}".format(ledger.outstanding if ledger else 0) }}</td>
 </tr>
+{% if credit_amount and credit_amount > 0 %}
+<tr class="bg-emerald-50">
+<td class="p-4 text-emerald-800 font-semibold">Credit Balance</td>
+<td class="p-4 text-right text-emerald-800 font-bold text-lg">UGX {{ "{:,.0f}".format(credit_amount) }}</td>
+</tr>
+<tr class="bg-emerald-50">
+<td colspan="2" class="p-4 text-sm font-semibold text-emerald-700">You paid extra amount and you demand the university this amount.</td>
+</tr>
+{% endif %}
 </tbody>
 </table>
 </div>

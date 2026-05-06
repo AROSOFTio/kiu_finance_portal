@@ -219,18 +219,18 @@ def post_payment(user, amount, method, description, status='Confirmed', referenc
     db.session.add(transaction)
     return transaction
 
+def ledger_credit_amount(ledger):
+    if not ledger:
+        return 0.0
+    return max(0.0, float(ledger.total_paid or 0) - float(ledger.total_billed or 0))
+
 def simulate_mobile_money_payment(user, amount, provider, phone_number):
     if not user.ledger:
         user.ledger = FeeLedger(user_id=user.id, total_billed=STUDENT_TOTAL_DUES, total_paid=0, outstanding=STUDENT_TOTAL_DUES)
         db.session.add(user.ledger)
 
-    outstanding = max(float(user.ledger.outstanding or 0), 0)
-    if outstanding <= 0:
-        raise ValueError('Your fees are already fully paid.')
     if amount <= 0:
         raise ValueError('Payment amount must be greater than zero.')
-    if amount > outstanding:
-        amount = outstanding
 
     provider_label = 'MTN MoMo' if provider == 'mtn' else 'Airtel Money'
     reference = f"SIM-{provider.upper()}-{datetime.now().strftime('%Y%m%d%H%M%S')}-{random.randint(100, 999)}"
@@ -249,12 +249,9 @@ def normalize_payment_amount(user, amount):
         user.ledger = FeeLedger(user_id=user.id, total_billed=STUDENT_TOTAL_DUES, total_paid=0, outstanding=STUDENT_TOTAL_DUES)
         db.session.add(user.ledger)
 
-    outstanding = max(float(user.ledger.outstanding or 0), 0)
-    if outstanding <= 0:
-        raise ValueError('Your fees are already fully paid.')
     if amount <= 0:
         raise ValueError('Payment amount must be greater than zero.')
-    return min(amount, outstanding)
+    return amount
 
 def save_payment_proof(file_storage):
     if not file_storage or not file_storage.filename:
@@ -547,47 +544,8 @@ def home():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
-    if request.method == 'POST':
-        username = request.form.get('username')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        confirm = request.form.get('confirm_password')
-        full_name = request.form.get('full_name')
-        phone = request.form.get('phone')
-        
-        if password != confirm:
-            flash('Passwords do not match', 'danger')
-            return render_template('register.html')
-        if User.query.filter((User.username == username) | (User.email == email)).first():
-            flash('Username or email already exists', 'danger')
-            return render_template('register.html')
-            
-        user = User(username=username, email=email, phone=phone, is_active=True)
-        user.set_password(password)
-        db.session.add(user)
-        db.session.flush()
-        
-        profile = StudentProfile(
-            user_id=user.id,
-            reg_number=generate_registration_number(),
-            full_name=full_name or username.title(),
-            course='Bachelor of Information Technology',
-            year_of_study=1,
-            phone_primary=phone
-        )
-        ledger = FeeLedger(
-            user_id=user.id,
-            total_billed=3200000.00,
-            total_paid=0,
-            outstanding=3200000.00
-        )
-        db.session.add_all([profile, ledger])
-        db.session.commit()
-        flash('Registration successful! Please log in.', 'success')
-        return redirect(url_for('login'))
-    return render_template('register.html')
+    flash('Self-service account creation is disabled. Please contact an administrator for account access.', 'warning')
+    return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 @csrf.exempt
@@ -763,7 +721,8 @@ def dashboard():
                                reg_eligible=threshold['reg_eligible'],
                                percent_paid=threshold['percent_paid'],
                                fee_breakdown=STUDENT_FEE_BREAKDOWN,
-                               total_dues=STUDENT_TOTAL_DUES)
+                               total_dues=STUDENT_TOTAL_DUES,
+                               credit_amount=ledger_credit_amount(ledger))
 
 # ------------------------------
 # ADMIN MODULE ROUTES (FIXED AND WORKING)
@@ -1084,7 +1043,14 @@ def verify_payment(transaction_id, action):
             transaction.user.ledger.update_balance()
             transaction.user.ledger.last_updated = datetime.utcnow()
         audit_action = 'PAYMENT_APPROVED'
-        flash('Payment approved and posted to the student ledger.', 'success')
+        credit_amount = ledger_credit_amount(transaction.user.ledger)
+        if credit_amount > 0:
+            flash(
+                f'Payment approved and posted. The student paid extra amount of UGX {credit_amount:,.2f}; the university owes the student this amount.',
+                'success'
+            )
+        else:
+            flash('Payment approved and posted to the student ledger.', 'success')
     elif action == 'reject':
         transaction.status = 'Rejected'
         audit_action = 'PAYMENT_REJECTED'
@@ -1283,7 +1249,14 @@ def make_payment():
                                 details=f'{transaction.method}: {transaction.transaction_id}', ip_address=request.remote_addr))
         db.session.commit()
 
-        flash(flash_message, 'success')
+        credit_amount = ledger_credit_amount(current_user.ledger)
+        if credit_amount > 0:
+            flash(
+                f'{flash_message} You paid extra amount of UGX {credit_amount:,.2f}; the university owes you this amount.',
+                'success'
+            )
+        else:
+            flash(flash_message, 'success')
         return redirect(url_for('payment_confirmation', tx_id=transaction.transaction_id))
 
     previous_page = request.args.get('next') or request.referrer or url_for('dashboard')
@@ -1293,14 +1266,16 @@ def make_payment():
     return render_template('make_payment_dashboard.html', user=current_user, ledger=current_user.ledger,
                            has_mtn_creds=True, credentials=None,
                            fee_breakdown=STUDENT_FEE_BREAKDOWN, total_dues=STUDENT_TOTAL_DUES,
-                           previous_page=previous_page)
+                           previous_page=previous_page,
+                           credit_amount=ledger_credit_amount(current_user.ledger))
 
 @app.route('/payment-confirmation/<tx_id>')
 @role_required('student')
 def payment_confirmation(tx_id):
     transaction = Transaction.query.filter_by(transaction_id=tx_id, user_id=current_user.id).first_or_404()
     back_url = request.args.get('next') or session.get('payment_back_url') or url_for('dashboard')
-    return render_template('payment_confirmation.html', transaction=transaction, ledger=current_user.ledger, back_url=back_url)
+    return render_template('payment_confirmation.html', transaction=transaction, ledger=current_user.ledger,
+                           back_url=back_url, credit_amount=ledger_credit_amount(current_user.ledger))
 
 @app.route('/transaction-history')
 @role_required('student')
@@ -1310,7 +1285,9 @@ def transaction_history():
     pagination = current_user.transactions.order_by(Transaction.created_at.desc()).paginate(
         page=page, per_page=per_page, error_out=False
     )
-    return render_template('transaction_history.html', transactions=pagination.items, pagination=pagination, user=current_user)
+    return render_template('transaction_history.html', transactions=pagination.items, pagination=pagination,
+                           user=current_user, ledger=current_user.ledger,
+                           credit_amount=ledger_credit_amount(current_user.ledger))
 
 @app.route('/transaction-history/export')
 @role_required('student')
@@ -1497,7 +1474,14 @@ def process_mtn_payment():
     db.session.add(AuditLog(user_id=current_user.id, action='DEMO_MOBILE_MONEY_PAYMENT',
                             details=f'{transaction.method}: {transaction.transaction_id}', ip_address=request.remote_addr))
     db.session.commit()
-    flash(f'Demo {transaction.method} payment of UGX {transaction.amount:,.2f} successful.', 'success')
+    credit_amount = ledger_credit_amount(current_user.ledger)
+    if credit_amount > 0:
+        flash(
+            f'Demo {transaction.method} payment of UGX {transaction.amount:,.2f} successful. You paid extra amount of UGX {credit_amount:,.2f}; the university owes you this amount.',
+            'success'
+        )
+    else:
+        flash(f'Demo {transaction.method} payment of UGX {transaction.amount:,.2f} successful.', 'success')
     return redirect(url_for('payment_confirmation', tx_id=transaction.transaction_id))
 
 @app.route('/student-profile')
@@ -1870,7 +1854,14 @@ def simulate_payment_callback(transaction_id, action):
                f'[SIMULATION] Payment of UGX {txn.amount:,.0f} confirmed. Ref: {txn.transaction_id}')
         db.session.add(AuditLog(user_id=current_user.id, action='SIM_PAYMENT_COMPLETED',
                                 details=txn.transaction_id, ip_address=request.remote_addr))
-        flash(f'[SIMULATION] Payment {txn.transaction_id} marked as Confirmed.', 'success')
+        credit_amount = ledger_credit_amount(txn.user.ledger if txn.user else None)
+        if credit_amount > 0:
+            flash(
+                f'[SIMULATION] Payment {txn.transaction_id} marked as Confirmed. The student paid extra amount of UGX {credit_amount:,.2f}; the university owes the student this amount.',
+                'success'
+            )
+        else:
+            flash(f'[SIMULATION] Payment {txn.transaction_id} marked as Confirmed.', 'success')
     else:
         txn.status = 'Failed'
         notify(txn.user_id, f'Payment {txn.transaction_id} failed. Please retry.')
