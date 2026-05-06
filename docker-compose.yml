@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   # ─── Flask Application ─────────────────────────────────────
   app:
@@ -13,6 +11,8 @@ services:
     environment:
       MYSQL_HOST: db
       MYSQL_PORT: 3306
+    extra_hosts:
+      - "mail.arosoft.io:host-gateway"
     volumes:
       - .:/app
       - qrcode_data:/app/static/qrcodes
