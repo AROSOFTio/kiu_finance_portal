@@ -160,7 +160,7 @@ def seed():
         print('  bob.mwangi@...        / student123  (PARTIAL)')
         print('  carol.auma@...        / student123  (PENDING)')
         print('─' * 40)
-        print('  2FA OTPs appear in Docker logs / console')
+        print('  2FA OTPs are delivered by configured SMTP email')
         print('─' * 40)
 
 if __name__ == '__main__':

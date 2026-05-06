@@ -75,7 +75,7 @@ docker compose up --build
 ## Default Login Accounts
 
 > **All accounts require 2FA OTP verification after password entry.**
-> OTP codes print to the Docker logs console (Simulation Mode for local demo).
+> OTP codes are delivered by the configured SMTP email account.
 
 | Role             | Email                              | Password     | Notes                      |
 |------------------|------------------------------------|--------------|----------------------------|
@@ -85,12 +85,8 @@ docker compose up --build
 | Student (Partial)| bob.mwangi@student.kiu.ac.ug       | student123   | 50% paid                   |
 | Student (Pending)| carol.auma@student.kiu.ac.ug       | student123   | No payment yet             |
 
-### How to get the OTP during demo
-```bash
-# View Docker logs in real time
-docker compose logs -f app
-# Look for line: [2FA LOGIN OTP] User: admin@kiu.ac.ug  OTP: 123456
-```
+### OTP email delivery
+Configure `MAIL_SERVER`, `MAIL_PORT`, `MAIL_USE_TLS`, `MAIL_USE_SSL`, `MAIL_USERNAME`, `MAIL_PASSWORD`, and `MAIL_DEFAULT_SENDER` in `.env` before deploying.
 
 ---
 
@@ -155,7 +151,7 @@ This system uses **Simulation Mode** for mobile money payments (MTN MoMo / Airte
 ## How to Test QR Examination Card Verification
 
 1. Login as **Alice Nakato** (alice.nakato@student.kiu.ac.ug / student123)
-2. Complete 2FA with OTP from Docker logs
+2. Complete 2FA with OTP from email
 3. Go to **Examination Card** — card generates automatically (fully cleared)
 4. Note the **Card Number** (format: KIU-EC-XXXXXXXX)
 5. Open in browser: `http://localhost:4005/verify-card/KIU-EC-XXXXXXXX`

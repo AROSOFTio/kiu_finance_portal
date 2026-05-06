@@ -47,13 +47,18 @@ app.config['PAYMENT_PROOF_UPLOAD_FOLDER'] = os.path.join(app.instance_path, 'pay
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
 app.config['WTF_CSRF_TIME_LIMIT'] = 3600
 
-app.config['MAIL_SERVER']         = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
-app.config['MAIL_PORT']           = int(os.environ.get('MAIL_PORT', 587))
-app.config['MAIL_USE_TLS']        = os.environ.get('MAIL_USE_TLS', 'True').lower() in ['true', '1', 'yes']
-app.config['MAIL_USE_SSL']        = os.environ.get('MAIL_USE_SSL', 'False').lower() in ['true', '1', 'yes']
-app.config['MAIL_USERNAME']       = os.environ.get('MAIL_USERNAME', '')
-app.config['MAIL_PASSWORD']       = os.environ.get('MAIL_PASSWORD', '')
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_DEFAULT_SENDER', 'noreply@kiu.ac.ug')
+app.config['MAIL_SERVER']         = os.environ.get('MAIL_SERVER', 'smtp.gmail.com').strip()
+app.config['MAIL_PORT']           = int(os.environ.get('MAIL_PORT', '587').strip())
+app.config['MAIL_USE_TLS']        = os.environ.get('MAIL_USE_TLS', 'True').strip().lower() in ['true', '1', 'yes']
+app.config['MAIL_USE_SSL']        = os.environ.get('MAIL_USE_SSL', 'False').strip().lower() in ['true', '1', 'yes']
+app.config['MAIL_USERNAME']       = os.environ.get('MAIL_USERNAME', '').strip()
+app.config['MAIL_PASSWORD']       = os.environ.get('MAIL_PASSWORD', '').strip()
+app.config['MAIL_DEFAULT_SENDER'] = (
+    os.environ.get('MAIL_DEFAULT_SENDER')
+    or os.environ.get('MAIL_USERNAME')
+    or 'noreply@kiu.ac.ug'
+).strip()
+app.config['MAIL_TIMEOUT']        = int(os.environ.get('MAIL_TIMEOUT', '20').strip())
 
 APP_BASE_URL = os.environ.get('APP_BASE_URL', 'http://localhost:5000')
 
@@ -83,22 +88,35 @@ def generate_registration_number():
     sequence = random.randint(10000, 99999)
     return f"KIU/{year}/{sequence}"
 
-from threading import Thread
-
-def send_async_email(app, msg, user_email, otp):
-    with app.app_context():
-        try:
-            mail.send(msg)
-            print(f"OTP sent to {user_email}: {otp}")
-        except Exception as e:
-            print(f"[EMAIL FALLBACK] OTP for {user_email}: {otp}  (reason: {e})")
+def mail_is_configured():
+    return bool(
+        app.config.get('MAIL_SERVER')
+        and app.config.get('MAIL_USERNAME')
+        and app.config.get('MAIL_PASSWORD')
+        and app.config.get('MAIL_DEFAULT_SENDER')
+    )
 
 def send_otp_email(user_email, otp, purpose='reset'):
     subject = f'Your {purpose} OTP for KIU Financial Portal'
     body = f'Your OTP code is: {otp}. It will expire in 10 minutes.'
     msg = Message(subject, recipients=[user_email], body=body)
-    Thread(target=send_async_email, args=(app, msg, user_email, otp)).start()
-    return True
+    if not mail_is_configured():
+        reason = 'MAIL_USERNAME and MAIL_PASSWORD are not configured'
+        print(f"[EMAIL NOT SENT] Recipient: {user_email}  Purpose: {purpose}  Reason: {reason}")
+        return False, reason
+    try:
+        mail.send(msg)
+        print(f"OTP email sent to {user_email} for {purpose}.")
+        return True, None
+    except Exception as e:
+        print(f"[EMAIL FAILED] Recipient: {user_email}  Purpose: {purpose}  Reason: {e}")
+        return False, str(e)
+
+
+def otp_delivery_failure_message():
+    return (
+        'OTP email could not be delivered. Please contact support or try again shortly.'
+    )
 
 
 def generate_qr_code(data, filename):
@@ -593,10 +611,11 @@ def login():
             db.session.commit()
             session['_2fa_uid'] = user.id
             
-            # Send real email
-            send_otp_email(user.email, otp, purpose='login verification')
-            
-            flash('An OTP has been sent to your registered email.', 'info')
+            sent = send_otp_email(user.email, otp, purpose='login verification')[0]
+            if sent:
+                flash('An OTP has been sent to your registered email.', 'info')
+            else:
+                flash(otp_delivery_failure_message(), 'danger')
             return redirect(url_for('verify_2fa'))
         else:
             flash('Invalid credentials', 'danger')
@@ -663,9 +682,12 @@ def forgot_password():
         otp_record = PasswordResetOTP(user_id=user.id, otp_code=otp, expires_at=expire_time, purpose='reset')
         db.session.add(otp_record)
         db.session.commit()
-        send_otp_email(user.email, otp, 'password reset')
+        sent = send_otp_email(user.email, otp, 'password reset')[0]
         session['reset_user_id'] = user.id
-        flash('OTP sent to your registered email.', 'info')
+        if sent:
+            flash('OTP sent to your registered email.', 'info')
+        else:
+            flash(otp_delivery_failure_message(), 'danger')
         return redirect(url_for('otp_verification', purpose='reset'))
     return render_template('forgot_password.html')
 
@@ -1992,6 +2014,6 @@ if __name__ == '__main__':
         print('Admin: admin / admin123')
         print('Finance: finance / finance123')
         print('Student: student / student123')
-        print('2FA OTPs print to console (simulation mode)')
+        print('2FA OTPs are delivered by configured SMTP email.')
         print('=' * 50)
     app.run(debug=True, host='0.0.0.0', port=5000)
