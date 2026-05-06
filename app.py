@@ -1674,22 +1674,31 @@ def activate_placeholder_buttons(response):
         }.items()
         if url
     }
+    role_home = routes.get('dashboard')
+    if current_user.is_authenticated:
+        if current_user.role == 'admin':
+            role_home = routes.get('adminDashboard') or role_home
+        elif current_user.role == 'finance_staff':
+            role_home = routes.get('financeDashboard') or role_home
 
     route_script = f"""
 <script data-kiu-button-activator>
 (function () {{
   const routes = {json.dumps(routes)};
+  const userRole = {json.dumps(current_user.role if current_user.is_authenticated else '')};
+  routes.roleHome = {json.dumps(role_home)};
   const rules = [
     [/logout|sign out/i, routes.logout],
-    [/setting|configuration|setup/i, routes.systemConfiguration || routes.mtnSetup],
-    [/notification|bell|audit|log|history icon/i, routes.auditLogs || routes.transactionHistory],
+    [/setting|configuration|setup/i, userRole === 'admin' ? routes.systemConfiguration : (userRole === 'student' ? (routes.studentProfile || routes.mtnSetup) : (routes.helpCenter || routes.roleHome))],
+    [/notification|bell/i, routes.notifications || routes.auditLogs],
+    [/audit|log/i, routes.auditLogs],
     [/support|help|chat|conversation|email finance|contact|troubleshoot|privacy|terms|handbook|policy/i, routes.helpCenter],
     [/admin/i, routes.adminDashboard],
-    [/dashboard|overview/i, routes.financeDashboard || routes.dashboard],
+    [/dashboard|overview/i, routes.roleHome || routes.dashboard],
     [/student registration|register student/i, routes.studentRegistration],
-    [/registration form|semester|university registration/i, routes.semesterRegistration],
-    [/make payment|payment|pay|mtn|airtel|card|prn/i, routes.makePayment],
     [/verify|verification|queue|pending|approved|flagged|reject/i, routes.paymentVerification],
+    [/registration form|semester|university registration/i, routes.semesterRegistration],
+    [/make payment|^payments$|mobile money|\\bpay\\b|mtn|airtel|card|prn/i, routes.makePayment],
     [/manual|record entry|cash/i, routes.manualRecordEntry],
     [/transaction management/i, routes.transactionManagement],
     [/transaction|statement|receipt|history/i, routes.transactionHistory],
@@ -1699,8 +1708,8 @@ def activate_placeholder_buttons(response):
     [/outstanding|overdue|balance/i, routes.outstandingReport || routes.financeReports],
     [/trend|forecast/i, routes.trendsReport || routes.financeReports],
     [/daily|archive/i, routes.dailyReport],
-    [/report|pdf|print|export/i, routes.financeReports || routes.financialReports],
-    [/fee structure|tuition schedule|program|global update|fee/i, routes.manageFeeStructure || routes.feeStructure],
+    [/report|pdf|print|export/i, userRole === 'student' ? (routes.financialReports || routes.financeReports) : (routes.financeReports || routes.financialReports)],
+    [/fee structure|tuition schedule|program|global update|fee/i, userRole === 'student' ? routes.feeStructure : (routes.manageFeeStructure || routes.feeStructure)],
     [/deadline/i, routes.paymentDeadlines],
     [/profile|account/i, routes.studentProfile],
     [/user|create/i, routes.userManagement],
@@ -1781,6 +1790,7 @@ def activate_placeholder_buttons(response):
   }}
 
   document.addEventListener('DOMContentLoaded', () => {{
+    document.title = 'KIU Finance Portal';
     document.querySelectorAll('a[href="#"]').forEach(wireLink);
     document.querySelectorAll('button').forEach(wireButton);
   }});

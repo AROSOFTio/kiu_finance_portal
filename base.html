@@ -140,13 +140,13 @@
                 </div>
                 <div>
                     <h1 class="text-2xl font-black text-white tracking-widest leading-none">KIU Finance</h1>
-                    <p class="text-white/50 text-[10px] uppercase tracking-widest mt-1">Student Portal</p>
+                    <p class="text-white/50 text-[10px] uppercase tracking-widest mt-1">Financial Portal</p>
                 </div>
             </div>
 
             <!-- Navigation -->
             <nav class="space-y-1">
-                <a href="{{ url_for('dashboard') }}" class="{% if request.endpoint == 'dashboard' %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 font-bold py-3 px-6 flex items-center gap-3 transition-all duration-200">
+                <a href="{{ url_for('dashboard') }}" class="{% if request.endpoint in ['dashboard', 'admin_dashboard', 'finance_dashboard', 'finance_admin_dashboard'] %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 font-bold py-3 px-6 flex items-center gap-3 transition-all duration-200">
                     <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
                     Dashboard
                 </a>
@@ -176,17 +176,33 @@
                     Help Center
                 </a>
                 {% elif current_user.role == 'finance_staff' %}
+                <a href="{{ url_for('student_registration_fee_entry') }}" class="{% if request.endpoint == 'student_registration_fee_entry' %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 py-3 px-6 flex items-center gap-3 transition-colors">
+                    <span class="material-symbols-outlined" data-icon="how_to_reg">how_to_reg</span>
+                    Student Registration
+                </a>
                 <a href="{{ url_for('payment_verification') }}" class="{% if request.endpoint == 'payment_verification' %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 py-3 px-6 flex items-center gap-3 transition-colors">
                     <span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
                     Verification
+                </a>
+                <a href="{{ url_for('manual_record_entry') }}" class="{% if request.endpoint == 'manual_record_entry' %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 py-3 px-6 flex items-center gap-3 transition-colors">
+                    <span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+                    Manual Entry
                 </a>
                 <a href="{{ url_for('transaction_management') }}" class="{% if request.endpoint == 'transaction_management' %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 py-3 px-6 flex items-center gap-3 transition-colors">
                     <span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
                     All Transactions
                 </a>
+                <a href="{{ url_for('student_assistant') }}" class="{% if request.endpoint == 'student_assistant' %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 py-3 px-6 flex items-center gap-3 transition-colors">
+                    <span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+                    Student Assistance
+                </a>
                 <a href="{{ url_for('finance_outstanding_report') }}" class="{% if request.endpoint == 'finance_outstanding_report' %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 py-3 px-6 flex items-center gap-3 transition-colors">
                     <span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
                     Outstanding
+                </a>
+                <a href="{{ url_for('daily_report') }}" class="{% if request.endpoint == 'daily_report' %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 py-3 px-6 flex items-center gap-3 transition-colors">
+                    <span class="material-symbols-outlined" data-icon="summarize">summarize</span>
+                    Daily Reports
                 </a>
                 {% elif current_user.role == 'admin' %}
                 <a href="{{ url_for('user_management') }}" class="{% if request.endpoint == 'user_management' %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 py-3 px-6 flex items-center gap-3 transition-colors">
@@ -196,6 +212,14 @@
                 <a href="{{ url_for('role_management') }}" class="{% if request.endpoint == 'role_management' %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 py-3 px-6 flex items-center gap-3 transition-colors">
                     <span class="material-symbols-outlined" data-icon="security">security</span>
                     Roles
+                </a>
+                <a href="{{ url_for('manage_fee_structure') }}" class="{% if request.endpoint == 'manage_fee_structure' %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 py-3 px-6 flex items-center gap-3 transition-colors">
+                    <span class="material-symbols-outlined" data-icon="payments">payments</span>
+                    Fee Structure
+                </a>
+                <a href="{{ url_for('system_configuration') }}" class="{% if request.endpoint == 'system_configuration' %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 py-3 px-6 flex items-center gap-3 transition-colors">
+                    <span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    System Config
                 </a>
                 <a href="{{ url_for('audit_logs') }}" class="{% if request.endpoint == 'audit_logs' %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 py-3 px-6 flex items-center gap-3 transition-colors">
                     <span class="material-symbols-outlined" data-icon="history">history</span>
@@ -211,7 +235,7 @@
                 <img alt="User avatar" class="w-10 h-10 rounded-full bg-slate-200 border-2 border-white/20" src="https://via.placeholder.com/40">
                 <div class="overflow-hidden flex-1">
                     <p class="text-white font-bold text-sm truncate">{{ current_user.username.title() if current_user.is_authenticated else 'Guest' }}</p>
-                    <p class="text-white/50 text-xs truncate">{{ current_user.profile.reg_number if current_user.profile else 'Not set' }}</p>
+                    <p class="text-white/50 text-xs truncate">{{ current_user.role.replace('_', ' ').title() if current_user.is_authenticated else 'Not set' }}</p>
                 </div>
             </div>
             <a href="{{ url_for('logout') }}" class="w-full bg-red-500/20 hover:bg-red-500/30 text-white border border-red-500/30 py-2 rounded-lg font-bold transition-all text-center text-sm">
