@@ -17,6 +17,7 @@
                             <small>API User ID: {{ credentials.api_user_id[:20] }}...</small>
                         </div>
                         <form method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="subscription_key" value="{{ credentials.subscription_key }}">
                             <button type="submit" class="btn btn-warning">Reconfigure Credentials</button>
                             <a href="{{ url_for('make_payment') }}" class="btn btn-primary">Go to Payments</a>
@@ -35,6 +36,7 @@
                             </ol>
                         </div>
                         <form method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <div class="mb-3">
                                 <label for="subscription_key" class="form-label">Ocp-Apim-Subscription-Key (Primary Key)</label>
                                 <input type="text" class="form-control" id="subscription_key" name="subscription_key" required>

@@ -209,6 +209,7 @@
 </div>
 </div>
 <form class="space-y-4" method="POST" action="{{ url_for('register_student_by_finance') }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 <div>
 <label class="block font-label-caps text-on-surface-variant mb-2">Student Full Name</label>
 <input class="w-full border-slate-200 focus:border-primary focus:ring-primary/5 rounded-lg py-3 px-4 transition-all" name="full_name" placeholder="e.g. Julius O" type="text" required/>
@@ -235,6 +236,7 @@
 <span class="bg-secondary-container text-on-secondary-container px-3 py-1 font-badge text-badge rounded-full">OFFICE CASH ONLY</span>
 </div>
 <form class="grid grid-cols-2 gap-4" method="POST" action="{{ url_for('manual_record_entry') }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 <div class="col-span-2">
 <label class="block font-label-caps text-on-surface-variant mb-2">Student Username, Email, Reg No, or Name</label>
 <input class="w-full border-slate-200 focus:border-primary focus:ring-primary/5 rounded-lg py-3 px-4 transition-all" name="student_identifier" placeholder="e.g. student or KIU/2026/12345" type="text" required/>

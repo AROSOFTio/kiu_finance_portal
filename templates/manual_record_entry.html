@@ -188,6 +188,7 @@
 <span class="text-label-caps font-label-caps text-on-tertiary-container uppercase">Form ID: REF-992-B</span>
 </div>
 <form class="space-y-6" method="POST" action="{{ url_for('manual_record_entry') }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 <div class="space-y-2">
 <label class="text-label-caps font-label-caps text-on-surface-variant">Student Name</label>

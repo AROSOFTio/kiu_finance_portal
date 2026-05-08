@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% block title %}Refund Management | KIU Finance Portal{% endblock %}
+
+{% block content %}
+<div class="max-w-[1200px] mx-auto">
+
+  <!-- Header -->
+  <div class="flex justify-between items-end mb-8">
+    <div>
+      <h2 class="text-3xl font-black text-primary">Refund Management</h2>
+      <p class="text-on-surface-variant mt-1">Review and process student overpayment refund claims.</p>
+    </div>
+    <a href="{{ url_for('finance_dashboard') }}" class="text-sm text-slate-500 hover:text-primary flex items-center gap-1 transition-colors">
+      <span class="material-symbols-outlined text-sm">arrow_back</span> Back to Dashboard
+    </a>
+  </div>
+
+  <!-- Status Filter Tabs -->
+  <div class="flex gap-2 mb-6 flex-wrap">
+    {% for s in ['all', 'Pending', 'Approved', 'Rejected', 'Paid'] %}
+    <a href="{{ url_for('finance_refunds', status=s) }}"
+       class="px-4 py-2 rounded-full text-sm font-bold transition-all
+         {% if status_filter == s %}bg-primary text-white shadow-sm{% else %}bg-white text-slate-600 border border-slate-200 hover:border-primary hover:text-primary{% endif %}">
+      {{ s.title() if s != 'all' else 'All' }}
+    </a>
+    {% endfor %}
+  </div>
+
+  <!-- Refund Requests Table -->
+  <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+    <table class="w-full text-left">
+      <thead>
+        <tr class="bg-slate-50 border-b border-slate-100">
+          <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Student</th>
+          <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Amount</th>
+          <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Method</th>
+          <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Account Details</th>
+          <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Date</th>
+          <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+          <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        {% for r in refunds %}
+        <tr class="hover:bg-slate-50 transition-colors">
+          <!-- Student -->
+          <td class="px-6 py-4">
+            <div>
+              <p class="text-sm font-semibold text-primary">
+                {{ r.student.profile.full_name if r.student and r.student.profile else (r.student.username if r.student else 'Unknown') }}
+              </p>
+              <p class="text-xs text-slate-400">
+                {{ r.student.profile.reg_number if r.student and r.student.profile else '' }}
+              </p>
+            </div>
+          </td>
+
+          <!-- Amount -->
+          <td class="px-6 py-4">
+            <span class="text-lg font-black text-primary">UGX {{ '{:,.0f}'.format(r.amount) }}</span>
+          </td>
+
+          <!-- Method -->
+          <td class="px-6 py-4 text-sm text-slate-600 capitalize">
+            {{ r.claim_method.replace('_', ' ') }}
+          </td>
+
+          <!-- Account Details -->
+          <td class="px-6 py-4 text-xs text-slate-500">
+            {% if r.claim_method != 'student_account' %}
+              {{ r.bank_name or '' }}{% if r.bank_name and r.account_number %} — {% endif %}{{ r.account_number or '' }}<br>
+              <span class="text-slate-400">{{ r.account_name or '' }}</span>
+            {% else %}
+              <span class="text-slate-400 italic">Keep as credit</span>
+            {% endif %}
+          </td>
+
+          <!-- Date -->
+          <td class="px-6 py-4 text-xs text-slate-500">
+            {{ r.requested_at.strftime('%d %b %Y %H:%M') }}
+          </td>
+
+          <!-- Status badge -->
+          <td class="px-6 py-4">
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider
+              {% if r.status == 'Pending' %}bg-amber-100 text-amber-700
+              {% elif r.status == 'Approved' %}bg-blue-100 text-blue-700
+              {% elif r.status == 'Paid' %}bg-green-100 text-green-700
+              {% else %}bg-red-100 text-red-700{% endif %}">
+              {{ r.status }}
+            </span>
+          </td>
+
+          <!-- Actions -->
+          <td class="px-6 py-4">
+            <div class="flex items-center justify-end gap-2">
+              {% if r.status == 'Pending' %}
+              <!-- Approve -->
+              <form method="POST" action="{{ url_for('approve_refund', refund_id=r.id) }}" class="inline">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="comment" value="Approved by {{ current_user.username }}">
+                <button type="submit"
+                        onclick="return confirm('Approve refund of UGX {{ '{:,.0f}'.format(r.amount) }} for {{ r.student.username if r.student else 'student' }}?')"
+                        class="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700 transition-colors">
+                  Approve
+                </button>
+              </form>
+              <!-- Reject (with comment prompt) -->
+              <button onclick="openRejectModal({{ r.id }}, '{{ r.student.username if r.student else '' }}')"
+                      class="px-3 py-1.5 bg-red-50 text-red-600 border border-red-200 rounded-lg text-xs font-bold hover:bg-red-100 transition-colors">
+                Reject
+              </button>
+              {% elif r.status == 'Approved' %}
+              <!-- Mark Paid -->
+              <form method="POST" action="{{ url_for('mark_refund_paid', refund_id=r.id) }}" class="inline">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit"
+                        onclick="return confirm('Mark refund of UGX {{ '{:,.0f}'.format(r.amount) }} as PAID? This will update the student ledger.')"
+                        class="px-3 py-1.5 bg-green-600 text-white rounded-lg text-xs font-bold hover:bg-green-700 transition-colors">
+                  Mark Paid
+                </button>
+              </form>
+              {% else %}
+              <span class="text-xs text-slate-300 italic">No action</span>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="7" class="px-6 py-16 text-center text-slate-400">
+            <span class="material-symbols-outlined text-5xl mb-3 block text-slate-300">request_quote</span>
+            No refund requests found{% if status_filter != 'all' %} with status "{{ status_filter }}"{% endif %}.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Reject Modal -->
+<div id="reject-modal" class="hidden fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
+    <h3 class="text-lg font-bold text-red-600 mb-4 flex items-center gap-2">
+      <span class="material-symbols-outlined">block</span>
+      Reject Refund Claim
+    </h3>
+    <form id="reject-form" method="POST" action="" class="space-y-4">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div>
+        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Rejection Reason *</label>
+        <textarea name="comment" rows="3" required
+                  class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm resize-none focus:ring-2 focus:ring-red-200 focus:border-red-400"
+                  placeholder="Explain why this claim is being rejected..."></textarea>
+      </div>
+      <div class="flex gap-3">
+        <button type="submit" class="flex-1 bg-red-600 text-white rounded-lg py-2.5 font-bold text-sm hover:bg-red-700 transition-colors">
+          Reject Claim
+        </button>
+        <button type="button" onclick="closeRejectModal()"
+                class="flex-1 bg-slate-100 text-slate-700 rounded-lg py-2.5 font-bold text-sm hover:bg-slate-200 transition-colors">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+function openRejectModal(refundId, username) {
+  document.getElementById('reject-form').action = '/finance/refunds/' + refundId + '/reject';
+  document.getElementById('reject-modal').classList.remove('hidden');
+}
+function closeRejectModal() {
+  document.getElementById('reject-modal').classList.add('hidden');
+}
+</script>
+{% endblock %}

@@ -200,6 +200,7 @@
 </div>
 <div class="mt-auto pt-6 border-t border-dashed border-slate-200">
 <form method="POST" action="{{ url_for('semester_registration') }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 <div class="grid grid-cols-1 gap-2 mb-5">
 {% for code, title in predefined_courses %}
 <label class="flex items-center gap-3 p-3 rounded-lg bg-slate-50 border border-slate-100 text-sm font-semibold text-primary">

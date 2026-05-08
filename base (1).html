@@ -1,5 +1,0 @@
-{% if current_user.is_authenticated %}
-    {% if current_user.is_finance_staff or current_user.is_admin %}
-    <a class="nav-link" href="{{ url_for('finance_dashboard') }}">💰 Finance Dashboard</a>
-    {% endif %}
-{% endif %}

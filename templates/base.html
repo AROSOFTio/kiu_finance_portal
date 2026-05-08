@@ -175,6 +175,10 @@
                     <span class="material-symbols-outlined" data-icon="help">help</span>
                     Help Center
                 </a>
+                <a href="{{ url_for('refund_request') }}" class="{% if request.endpoint == 'refund_request' %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 py-3 px-6 flex items-center gap-3 transition-colors">
+                    <span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+                    Claim Refund
+                </a>
                 {% elif current_user.role == 'finance_staff' %}
                 <a href="{{ url_for('student_registration_fee_entry') }}" class="{% if request.endpoint == 'student_registration_fee_entry' %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 py-3 px-6 flex items-center gap-3 transition-colors">
                     <span class="material-symbols-outlined" data-icon="how_to_reg">how_to_reg</span>
@@ -203,6 +207,10 @@
                 <a href="{{ url_for('daily_report') }}" class="{% if request.endpoint == 'daily_report' %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 py-3 px-6 flex items-center gap-3 transition-colors">
                     <span class="material-symbols-outlined" data-icon="summarize">summarize</span>
                     Daily Reports
+                </a>
+                <a href="{{ url_for('finance_refunds') }}" class="{% if request.endpoint in ['finance_refunds', 'approve_refund', 'reject_refund', 'mark_refund_paid'] %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 py-3 px-6 flex items-center gap-3 transition-colors">
+                    <span class="material-symbols-outlined" data-icon="request_quote">request_quote</span>
+                    Refund Claims
                 </a>
                 {% elif current_user.role == 'admin' %}
                 <a href="{{ url_for('user_management') }}" class="{% if request.endpoint == 'user_management' %}border-l-4 border-[#FFD700] bg-white/10{% else %}border-l-4 border-transparent{% endif %} text-white/70 hover:text-white hover:bg-white/5 py-3 px-6 flex items-center gap-3 transition-colors">

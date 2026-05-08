@@ -261,6 +261,7 @@ Back to previous page
 <p class="text-sm text-on-secondary-container">Standard network transaction fees apply. Ensure you have sufficient balance before initiating the transaction. Your student reference is mandatory for automated mapping.</p>
 </div>
 <form id="simulated-payment-form" method="POST" action="{{ url_for('process_mtn_payment') }}" class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-3 rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 <input type="hidden" name="back_url" value="{{ previous_page or url_for('dashboard') }}">
 <input type="hidden" id="payment_method" name="payment_method" value="mtn">
 <input id="amount" class="rounded-lg border-slate-200 text-sm" type="number" name="amount" min="1000" required placeholder="Amount to simulate (UGX)">
@@ -299,6 +300,7 @@ Back to previous page
 </button>
 </div>
 <form id="bank-payment-form" method="POST" action="{{ url_for('make_payment') }}" class="mt-6 space-y-3">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 <input type="hidden" name="payment_method" value="bank">
 <input type="hidden" name="back_url" value="{{ previous_page or url_for('dashboard') }}">
 <input type="hidden" id="bank_name" name="bank_name" value="Centenary Bank">
@@ -320,6 +322,7 @@ Back to previous page
 </div>
 </div>
 <form method="POST" action="{{ url_for('make_payment') }}" class="space-y-3">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 <input type="hidden" name="payment_method" value="card">
 <input type="hidden" name="back_url" value="{{ previous_page or url_for('dashboard') }}">
 <input class="w-full rounded-lg border-white/20 bg-white/10 text-white placeholder:text-white/50 text-sm" type="number" name="amount" min="1000" required placeholder="Amount to pay (UGX)">
@@ -373,6 +376,7 @@ Back to previous page
 </div>
 <!-- Proof Upload Section -->
 <form id="proof-payment-panel" class="bg-white p-6 rounded-xl border border-dashed border-slate-300 shadow-sm payment-panel" data-payment-panel="proof" method="POST" action="{{ url_for('make_payment') }}" enctype="multipart/form-data">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 <input type="hidden" name="payment_method" value="proof">
 <input type="hidden" name="back_url" value="{{ previous_page or url_for('dashboard') }}">
 <div class="flex items-center gap-3 mb-4">
@@ -440,170 +444,4 @@ Back to previous page
 <span class="material-symbols-outlined text-2xl">support_agent</span>
 </a>
 </div>
-{% extends "base.html" %}
-
-{% block content %}
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Make a Payment</h4>
-                </div>
-                <div class="card-body">
-                    {% if false %}
-                        <div class="alert alert-warning">
-                            <strong>⚠️ MTN MoMo not configured!</strong>
-                            <p>To make mobile money payments, please <a href="{{ url_for('mtn_setup') }}">configure your MTN MoMo credentials</a> first.</p>
-                        </div>
-                    {% endif %}
-                    
-                    <div class="alert alert-warning">
-                        <strong>Demo mode:</strong>
-                        <p>This page simulates MTN and Airtel mobile money payments. No real API call or real money transfer is made.</p>
-                    </div>
-
-                    <form id="simulated-payment-form-legacy" method="POST" action="{{ url_for('process_mtn_payment') }}">
-                        <input type="hidden" name="back_url" value="{{ previous_page or url_for('dashboard') }}">
-                        <div class="mb-3">
-                            <label for="legacy_amount" class="form-label">Amount (UGX)</label>
-                            <input type="number" class="form-control" id="legacy_amount" name="amount"
-                                   placeholder="Enter amount" required min="1000">
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="phone_number" class="form-label">Mobile Money Phone Number</label>
-                            <input type="tel" class="form-control" id="phone_number" name="phone_number" 
-                                   placeholder="e.g., 0771234567" required>
-                            <div class="form-text">For demo use, any valid-looking number is accepted.</div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="legacy_payment_method" class="form-label">Payment Method</label>
-                            <select class="form-control" id="legacy_payment_method" name="payment_method" required>
-                                <option value="mtn">MTN MoMo Simulation</option>
-                                <option value="airtel">Airtel Money Simulation</option>
-                            </select>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-success btn-lg w-100">
-                            <i class="fas fa-mobile-alt"></i> Simulate Payment
-                        </button>
-                    </form>
-                    
-                    <hr>
-                    
-                    <div class="alert alert-info small">
-                        <strong>📱 How it works:</strong>
-                        <ol class="mb-0">
-                            <li>Enter the amount you want to pay</li>
-                            <li>Choose MTN or Airtel simulation</li>
-                            <li>Enter your mobile money phone number</li>
-                            <li>Click "Simulate Payment"</li>
-                            <li>The portal immediately records a confirmed demo payment</li>
-                            <li>50% paid unlocks semester registration; 100% paid unlocks exam card download</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card mt-3">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-6">
-                            <strong>Current Balance:</strong><br>
-                            UGX {{ current_user.ledger.outstanding|round(2) if current_user.ledger else 'N/A' }}
-                        </div>
-                        <div class="col-6">
-                            <strong>Total Paid:</strong><br>
-                            UGX {{ current_user.ledger.total_paid|round(2) if current_user.ledger else '0' }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('simulated-payment-form');
-    const method = document.getElementById('payment_method');
-    const amount = document.getElementById('amount');
-    const tabButtons = document.querySelectorAll('.payment-tab');
-    const panels = document.querySelectorAll('.payment-panel');
-    const bankName = document.getElementById('bank_name');
-    const selectedBankLabel = document.getElementById('selected-bank-label');
-    const bankAmount = document.getElementById('bank-amount');
-    const proofFile = document.getElementById('proof_file');
-    const proofFileLabel = document.getElementById('proof-file-label');
-
-    function showPanel(name) {
-        panels.forEach((panel) => {
-            panel.classList.toggle('hidden', panel.dataset.paymentPanel !== name);
-        });
-        tabButtons.forEach((button) => {
-            const active = button.dataset.paymentTab === name;
-            button.classList.toggle('text-primary', active);
-            button.classList.toggle('font-bold', active);
-            button.classList.toggle('border-b-2', active);
-            button.classList.toggle('border-[#1a2b4b]', active);
-            button.classList.toggle('text-slate-400', !active);
-        });
-    }
-
-    tabButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-            showPanel(button.dataset.paymentTab);
-            const target = button.dataset.paymentTab === 'proof'
-                ? document.getElementById('proof-payment-panel')
-                : document.getElementById('bank-card-payment-panel');
-            if (target && button.dataset.paymentTab !== 'mobile') {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-    });
-
-    document.querySelectorAll('.bank-option').forEach((option) => {
-        option.addEventListener('click', () => {
-            document.querySelectorAll('.bank-option').forEach((item) => {
-                item.classList.remove('ring-4', 'ring-[#FFD700]/40', 'border-[#1a2b4b]');
-            });
-            option.classList.add('ring-4', 'ring-[#FFD700]/40', 'border-[#1a2b4b]');
-            if (bankName) bankName.value = option.dataset.bank;
-            if (selectedBankLabel) selectedBankLabel.textContent = option.dataset.bank;
-            document.getElementById('bank-payment-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            if (bankAmount) setTimeout(() => bankAmount.focus(), 350);
-        });
-    });
-
-    document.querySelector('.bank-option')?.click();
-
-    if (proofFile && proofFileLabel) {
-        proofFile.addEventListener('change', () => {
-            proofFileLabel.textContent = proofFile.files.length ? proofFile.files[0].name : 'Choose scanned receipt';
-        });
-    }
-
-    showPanel('mobile');
-
-    document.querySelectorAll('.provider-select').forEach((button) => {
-        button.addEventListener('click', () => {
-            const provider = button.dataset.provider;
-            if (method) method.value = provider;
-            if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            if (amount) setTimeout(() => amount.focus(), 350);
-
-            document.querySelectorAll('.provider-select').forEach((item) => {
-                item.classList.remove('ring-4', 'ring-[#FFD700]/40', 'border-[#1a2b4b]', 'text-primary');
-            });
-            button.classList.add('ring-4', 'ring-[#FFD700]/40', 'border-[#1a2b4b]', 'text-primary');
-        });
-    });
-});
-</script>
-
-
-
-{% endblock %}
-
 </body></html>

@@ -380,12 +380,14 @@
 </div>
 <div class="flex gap-4">
 <form id="approve-payment-form" class="flex-1" method="POST" action="{{ url_for('verify_payment', transaction_id=selected_transaction.id, action='approve') }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 <button class="w-full bg-amber-400 hover:bg-amber-500 text-primary font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98]" type="submit">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
                                 Approve Payment
                             </button>
 </form>
 <form class="flex-1" method="POST" action="{{ url_for('verify_payment', transaction_id=selected_transaction.id, action='reject') }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 <button class="w-full bg-white border border-error text-error font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-error/5 transition-all active:scale-[0.98]" type="submit">
 <span class="material-symbols-outlined">cancel</span>
                                 Reject &amp; Flag

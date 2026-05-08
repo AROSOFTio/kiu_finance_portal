@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% block title %}Claim Refund | KIU Finance Portal{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto">
+
+  <!-- Header -->
+  <div class="mb-8">
+    <h2 class="text-3xl font-black text-primary">Claim Refund</h2>
+    <p class="text-on-surface-variant mt-1">Submit a refund claim for your credit balance.</p>
+  </div>
+
+  <!-- Credit Balance Card -->
+  <div class="bg-gradient-to-r from-[#1a2b4b] to-[#2a3b5b] rounded-2xl p-6 text-white mb-8 flex items-center justify-between">
+    <div>
+      <p class="text-white/60 text-sm uppercase tracking-wider font-bold mb-1">Available Credit Balance</p>
+      <p class="text-4xl font-black">UGX {{ '{:,.0f}'.format(credit) }}</p>
+      <p class="text-white/60 text-xs mt-2">Total Billed: UGX {{ '{:,.0f}'.format(ledger.total_billed) if ledger else 0 }} &nbsp;|&nbsp;
+         Total Paid: UGX {{ '{:,.0f}'.format(ledger.total_paid) if ledger else 0 }}</p>
+    </div>
+    <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center">
+      <span class="material-symbols-outlined text-3xl">account_balance_wallet</span>
+    </div>
+  </div>
+
+  {% if credit > 0 %}
+  <!-- Check for existing pending claim -->
+  {% set pending = my_refunds | selectattr('status', 'eq', 'Pending') | list %}
+  {% if pending %}
+  <div class="bg-amber-50 border border-amber-200 rounded-xl p-5 mb-8 flex items-start gap-4">
+    <span class="material-symbols-outlined text-amber-500 mt-0.5">hourglass_top</span>
+    <div>
+      <p class="font-bold text-amber-700">Pending Claim Exists</p>
+      <p class="text-sm text-amber-600 mt-1">You already have a pending refund claim of
+        <strong>UGX {{ '{:,.0f}'.format(pending[0].amount) }}</strong> submitted on
+        {{ pending[0].requested_at.strftime('%d %b %Y') }}. Wait for it to be reviewed before submitting another.
+      </p>
+    </div>
+  </div>
+  {% else %}
+  <!-- Refund Claim Form -->
+  <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 mb-8">
+    <h3 class="text-lg font-bold text-primary mb-6 flex items-center gap-2">
+      <span class="material-symbols-outlined">request_quote</span>
+      New Refund Claim
+    </h3>
+    <form method="POST" action="{{ url_for('refund_request') }}" class="space-y-5">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+      <div class="grid grid-cols-2 gap-5">
+        <div>
+          <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Claim Amount (UGX) *</label>
+          <input type="number" name="amount" min="1" max="{{ credit | int }}" step="any" required
+                 class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                 placeholder="Max: {{ '{:,.0f}'.format(credit) }}">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Refund Method *</label>
+          <select name="claim_method" id="claim_method"
+                  onchange="toggleRefundFields(this.value)"
+                  class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary">
+            <option value="student_account">Keep as Student Account Credit</option>
+            <option value="mobile_money">Mobile Money</option>
+            <option value="bank">Bank Transfer</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Mobile Money fields -->
+      <div id="mobile-fields" class="hidden space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Provider</label>
+            <input name="bank_name" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" placeholder="e.g. MTN, Airtel">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Phone Number</label>
+            <input name="account_number" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" placeholder="+256...">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Account Name</label>
+          <input name="account_name" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" placeholder="Registered name on account">
+        </div>
+      </div>
+
+      <!-- Bank fields -->
+      <div id="bank-fields" class="hidden space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Bank Name</label>
+            <input name="bank_name" id="bank-name-input" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" placeholder="e.g. Stanbic, DFCU">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Account Number</label>
+            <input name="account_number" id="bank-acc-input" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" placeholder="Account number">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Account Name</label>
+          <input name="account_name" id="bank-name-acc" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" placeholder="Name on bank account">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Reason (optional)</label>
+        <textarea name="reason" rows="3"
+                  class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary resize-none"
+                  placeholder="Brief reason for the refund claim..."></textarea>
+      </div>
+
+      <button type="submit"
+              class="w-full bg-[#1a2b4b] text-white py-3 rounded-lg font-bold text-sm hover:bg-[#2a3b5b] transition-colors flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined">send</span>
+        Submit Refund Claim
+      </button>
+    </form>
+  </div>
+  {% endif %}
+  {% else %}
+  <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8 flex items-start gap-4">
+    <span class="material-symbols-outlined text-blue-500 mt-0.5">info</span>
+    <div>
+      <p class="font-bold text-blue-700">No Credit Balance</p>
+      <p class="text-sm text-blue-600 mt-1">You currently have no overpayment credit to claim. Credits appear when your total payments exceed your total billed amount.</p>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Previous Claims -->
+  {% if my_refunds %}
+  <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+    <div class="px-6 py-4 border-b border-slate-100">
+      <h3 class="font-bold text-primary">My Refund Claims</h3>
+    </div>
+    <table class="w-full text-sm">
+      <thead class="bg-slate-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-bold text-slate-500 uppercase">Date</th>
+          <th class="px-6 py-3 text-left text-xs font-bold text-slate-500 uppercase">Amount</th>
+          <th class="px-6 py-3 text-left text-xs font-bold text-slate-500 uppercase">Method</th>
+          <th class="px-6 py-3 text-left text-xs font-bold text-slate-500 uppercase">Status</th>
+          <th class="px-6 py-3 text-left text-xs font-bold text-slate-500 uppercase">Note</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        {% for r in my_refunds %}
+        <tr class="hover:bg-slate-50 transition-colors">
+          <td class="px-6 py-4 text-slate-600">{{ r.requested_at.strftime('%d %b %Y') }}</td>
+          <td class="px-6 py-4 font-bold text-primary">UGX {{ '{:,.0f}'.format(r.amount) }}</td>
+          <td class="px-6 py-4 text-slate-600 capitalize">{{ r.claim_method.replace('_', ' ') }}</td>
+          <td class="px-6 py-4">
+            <span class="px-2 py-1 rounded-full text-xs font-bold uppercase
+              {% if r.status == 'Pending' %}bg-amber-100 text-amber-700
+              {% elif r.status == 'Approved' %}bg-blue-100 text-blue-700
+              {% elif r.status == 'Paid' %}bg-green-100 text-green-700
+              {% else %}bg-red-100 text-red-700{% endif %}">
+              {{ r.status }}
+            </span>
+          </td>
+          <td class="px-6 py-4 text-slate-400 text-xs">{{ r.finance_comment or '—' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+function toggleRefundFields(method) {
+  document.getElementById('mobile-fields').classList.toggle('hidden', method !== 'mobile_money');
+  document.getElementById('bank-fields').classList.toggle('hidden', method !== 'bank');
+}
+</script>
+{% endblock %}

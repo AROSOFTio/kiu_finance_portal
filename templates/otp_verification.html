@@ -9,6 +9,7 @@
         <p class="text-sm text-on-surface-variant mb-6">Enter the 6-digit OTP sent to your email.</p>
 
         <form method="POST" action="{{ url_for('otp_verification', purpose=request.args.get('purpose', 'reset')) }}" class="space-y-4">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="grid grid-cols-6 gap-2">
                 {% for i in range(1, 7) %}
                 <input

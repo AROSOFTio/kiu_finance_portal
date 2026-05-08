@@ -62,6 +62,12 @@ app.config['MAIL_TIMEOUT']        = int(os.environ.get('MAIL_TIMEOUT', '20').str
 
 APP_BASE_URL = os.environ.get('APP_BASE_URL', 'http://localhost:5000')
 
+# 2FA / OTP config
+# REQUIRE_2FA=false  -> skip OTP entirely (dev/testing)
+# DEV_SHOW_OTP=true  -> print OTP to console instead of emailing (dev only)
+REQUIRE_2FA   = os.environ.get('REQUIRE_2FA',   'true').strip().lower() in ('true', '1', 'yes')
+DEV_SHOW_OTP  = os.environ.get('DEV_SHOW_OTP',  'false').strip().lower() in ('true', '1', 'yes')
+
 # ------------------------------
 # Extensions
 # ------------------------------
@@ -447,6 +453,28 @@ class AuditLog(db.Model):
     
     user = db.relationship('User', backref='audit_logs')
 
+class RefundRequest(db.Model):
+    __tablename__ = 'refund_requests'
+    id               = db.Column(db.Integer, primary_key=True)
+    user_id          = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    amount           = db.Column(db.Float, nullable=False)
+    # Pending, Approved, Rejected, Paid
+    status           = db.Column(db.String(20), default='Pending', nullable=False)
+    # bank, mobile_money, student_account
+    claim_method     = db.Column(db.String(30), nullable=False)
+    account_name     = db.Column(db.String(100))
+    account_number   = db.Column(db.String(50))   # or phone number
+    bank_name        = db.Column(db.String(100))   # or provider
+    reason           = db.Column(db.String(500))
+    requested_at     = db.Column(db.DateTime, default=datetime.utcnow)
+    reviewed_by      = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    reviewed_at      = db.Column(db.DateTime, nullable=True)
+    finance_comment  = db.Column(db.String(500))
+    paid_at          = db.Column(db.DateTime, nullable=True)
+
+    student          = db.relationship('User', foreign_keys=[user_id], backref='refund_requests')
+    reviewer         = db.relationship('User', foreign_keys=[reviewed_by])
+
 class FinancialReport(db.Model):
     __tablename__ = 'financial_reports'
     id = db.Column(db.Integer, primary_key=True)
@@ -487,11 +515,11 @@ def inject_now():
     return {'now': datetime.now()}
 
 def ensure_default_users():
-    """Create the demo accounts printed at startup if they do not exist."""
+    """Create the demo accounts at startup if they do not exist."""
     defaults = [
-        ('admin', 'admin@kiu.ac.ug', 'admin123', True, False, 'admin', 'System Administrator'),
-        ('finance', 'finance@kiu.ac.ug', 'finance123', False, True, 'finance_staff', 'Finance Staff'),
-        ('student', 'student@kiu.ac.ug', 'student123', False, False, 'student', 'Demo Student'),
+        ('admin',   'admin@kiu.ac.ug',   'admin123',   True,  False, 'admin',        'System Administrator'),
+        ('finance', 'finance@kiu.ac.ug', 'finance123', False, True,  'finance_staff','Finance Staff'),
+        ('student', 'student@kiu.ac.ug', 'student123', False, False, 'student',      'Demo Student'),
     ]
 
     for username, email, password, is_admin, is_finance_staff, role, full_name in defaults:
@@ -516,24 +544,47 @@ def ensure_default_users():
                 user.is_active = True
             user.set_password(password)
 
-        if not user.profile:
-            db.session.add(StudentProfile(
-                user_id=user.id,
-                reg_number=generate_registration_number(),
-                full_name=full_name,
-                course='Bachelor of Information Technology',
-                year_of_study=1
-            ))
-        if not user.ledger:
-            db.session.add(FeeLedger(
-                user_id=user.id,
-                total_billed=3200000.00,
-                total_paid=0,
-                outstanding=3200000.00
-            ))
+        # Only students get a profile and ledger
+        if role == 'student':
+            if not user.profile:
+                db.session.add(StudentProfile(
+                    user_id=user.id,
+                    reg_number=generate_registration_number(),
+                    full_name=full_name,
+                    course='Bachelor of Information Technology',
+                    year_of_study=1
+                ))
+            if not user.ledger:
+                db.session.add(FeeLedger(
+                    user_id=user.id,
+                    total_billed=3200000.00,
+                    total_paid=0,
+                    outstanding=3200000.00
+                ))
 
     User.query.filter(User.is_active.is_(None)).update({User.is_active: True}, synchronize_session=False)
     db.session.commit()
+
+
+def recalculate_ledger(user):
+    """Recalculate outstanding and status from confirmed transactions.
+    Call after any refund or manual adjustment."""
+    ledger = user.ledger
+    if not ledger:
+        return
+    confirmed_total = db.session.query(db.func.sum(Transaction.amount)).filter(
+        Transaction.user_id == user.id,
+        Transaction.status == 'Confirmed',
+        Transaction.method != 'Refund'
+    ).scalar() or 0.0
+    # Subtract refund payouts
+    refund_total = db.session.query(db.func.sum(RefundRequest.amount)).filter(
+        RefundRequest.user_id == user.id,
+        RefundRequest.status == 'Paid'
+    ).scalar() or 0.0
+    ledger.total_paid = max(0.0, float(confirmed_total) - float(refund_total))
+    ledger.update_balance()
+    ledger.last_updated = datetime.utcnow()
 
 # ------------------------------
 # Authentication Routes
@@ -563,16 +614,34 @@ def login():
                 flash('Account deactivated. Contact administrator.', 'danger')
                 return render_template('login.html')
             # --- 2FA: generate OTP and redirect to verification ---
+            if not REQUIRE_2FA:
+                # 2FA disabled via env: log user in directly
+                login_user(user)
+                db.session.add(AuditLog(
+                    user_id=user.id, action='LOGIN',
+                    details='Logged in (2FA disabled by REQUIRE_2FA=false)',
+                    ip_address=request.remote_addr
+                ))
+                db.session.commit()
+                flash(f'Welcome back, {user.username}!', 'success')
+                return redirect(url_for('dashboard'))
+
             otp = generate_otp()
             user.otp_code       = otp
             user.otp_expires_at = datetime.utcnow() + timedelta(minutes=10)
             db.session.commit()
             session['_2fa_uid'] = user.id
-            
+
+            if DEV_SHOW_OTP:
+                print(f'[DEV_SHOW_OTP] OTP for {user.email}: {otp}')
+                flash(f'[DEV MODE] Your OTP is: {otp}', 'info')
+                return redirect(url_for('verify_2fa'))
+
             sent = send_otp_email(user.email, otp, purpose='login verification')[0]
             if sent:
                 flash('An OTP has been sent to your registered email.', 'info')
             else:
+                # If email fails, show OTP in flash only if DEV_SHOW_OTP, else block
                 flash(otp_delivery_failure_message(), 'danger')
             return redirect(url_for('verify_2fa'))
         else:
@@ -757,35 +826,57 @@ def admin_dashboard():
 @app.route('/admin/user-management')
 @admin_required
 def user_management():
-    """User Management - View all users"""
-    page = request.args.get('page', 1, type=int)
-    per_page = 20
-    
-    role_filter = request.args.get('role', 'all')
+    """User Management - View all users with search/filter and live stats"""
+    page          = request.args.get('page', 1, type=int)
+    per_page      = 20
+    role_filter   = request.args.get('role', 'all')
     status_filter = request.args.get('status', 'all')
-    
+    search_q      = request.args.get('q', '').strip()
+
     query = User.query
-    
+
     if role_filter == 'admin':
         query = query.filter_by(is_admin=True)
-    elif role_filter == 'finance':
+    elif role_filter in ('finance', 'finance_staff'):
         query = query.filter_by(is_finance_staff=True)
     elif role_filter == 'student':
         query = query.filter_by(role='student', is_admin=False, is_finance_staff=False)
-    
+
     if status_filter == 'active':
         query = query.filter_by(is_active=True)
     elif status_filter == 'inactive':
         query = query.filter_by(is_active=False)
-    
+
+    if search_q:
+        like = f'%{search_q}%'
+        query = query.outerjoin(StudentProfile, User.id == StudentProfile.user_id).filter(
+            (User.username.ilike(like)) |
+            (User.email.ilike(like)) |
+            (StudentProfile.full_name.ilike(like)) |
+            (StudentProfile.reg_number.ilike(like))
+        )
+
     pagination = query.order_by(User.created_at.desc()).paginate(page=page, per_page=per_page, error_out=False)
-    
+
+    # Live stats
+    stats = {
+        'total_users':         User.query.count(),
+        'total_students':      User.query.filter_by(role='student').count(),
+        'total_finance_staff': User.query.filter_by(role='finance_staff').count(),
+        'total_admins':        User.query.filter_by(role='admin').count(),
+        'active_users':        User.query.filter_by(is_active=True).count(),
+        'inactive_users':      User.query.filter_by(is_active=False).count(),
+        'pending_verifications': Transaction.query.filter_by(status='Pending').count(),
+    }
+
     return render_template('user_management.html',
-                          user=current_user,
-                          users=pagination.items,
-                          pagination=pagination,
-                          role_filter=role_filter,
-                          status_filter=status_filter)
+                           user=current_user,
+                           users=pagination.items,
+                           pagination=pagination,
+                           role_filter=role_filter,
+                           status_filter=status_filter,
+                           search_q=search_q,
+                           stats=stats)
 
 @app.route('/admin/users/create', methods=['POST'])
 @admin_required
@@ -843,20 +934,23 @@ def role_management():
                           finance_staff=finance_staff,
                           students=students)
 
-@app.route('/admin/toggle-user-status/<int:user_id>')
+@app.route('/admin/toggle-user-status/<int:user_id>', methods=['POST'])
 @admin_required
 def toggle_user_status(user_id):
-    """Activate or deactivate a user account"""
+    """Activate or deactivate a user account (POST + CSRF required)"""
     target_user = User.query.get_or_404(user_id)
-    
+
     if target_user.id == current_user.id:
         flash('You cannot deactivate your own account!', 'danger')
         return redirect(url_for('user_management'))
-    
+
     target_user.is_active = not target_user.is_active
+    action = 'USER_ACTIVATED' if target_user.is_active else 'USER_DEACTIVATED'
+    db.session.add(AuditLog(user_id=current_user.id, action=action,
+                            details=f'Target: {target_user.username}', ip_address=request.remote_addr))
     db.session.commit()
-    
-    status = "activated" if target_user.is_active else "deactivated"
+
+    status = 'activated' if target_user.is_active else 'deactivated'
     flash(f'User {target_user.username} has been {status}.', 'success')
     return redirect(url_for('user_management'))
 
@@ -873,18 +967,23 @@ def change_user_role(user_id):
     
     target_user.is_admin = False
     target_user.is_finance_staff = False
-    
+
+    # Accept both 'finance_staff' and legacy 'finance' from form
     if new_role == 'admin':
         target_user.is_admin = True
         target_user.role = 'admin'
-    elif new_role == 'finance':
+    elif new_role in ('finance_staff', 'finance'):
         target_user.is_finance_staff = True
         target_user.role = 'finance_staff'
+        new_role = 'finance_staff'
     else:
         target_user.role = 'student'
-    
+        new_role = 'student'
+
+    db.session.add(AuditLog(user_id=current_user.id, action='ROLE_CHANGED',
+                            details=f'{target_user.username} -> {new_role}', ip_address=request.remote_addr))
     db.session.commit()
-    flash(f'Role for {target_user.username} has been updated to {new_role}.', 'success')
+    flash(f'Role for {target_user.username} updated to {new_role}.', 'success')
     return redirect(url_for('user_management'))
 
 @app.route('/admin/finance-oversight')
@@ -967,7 +1066,7 @@ def finance_dashboard():
     summary = finance_summary()
     recent_transactions = Transaction.query.order_by(Transaction.created_at.desc()).limit(10).all()
     
-    return render_template('finace_staff_dashboard.html',
+    return render_template('finance_staff_dashboard.html',
                           user=current_user,
                           total_students=summary['total_students'],
                           total_collected=summary['total_collected'],
@@ -1036,23 +1135,32 @@ def verify_payment(transaction_id, action):
         return redirect(url_for('payment_verification'))
 
     if action == 'approve':
+        # Double-approval guard
+        if transaction.confirmed_at is not None:
+            flash('This transaction has already been confirmed.', 'warning')
+            return redirect(url_for('payment_verification'))
         transaction.status = 'Confirmed'
         transaction.confirmed_at = datetime.utcnow()
-        if transaction.user.ledger:
+        if transaction.user and transaction.user.ledger:
             transaction.user.ledger.total_paid += transaction.amount
             transaction.user.ledger.update_balance()
             transaction.user.ledger.last_updated = datetime.utcnow()
+            notify(transaction.user_id,
+                   f'Payment of UGX {transaction.amount:,.0f} approved. Ref: {transaction.transaction_id}')
         audit_action = 'PAYMENT_APPROVED'
-        credit_amount = ledger_credit_amount(transaction.user.ledger)
+        credit_amount = ledger_credit_amount(transaction.user.ledger if transaction.user else None)
         if credit_amount > 0:
             flash(
-                f'Payment approved and posted. The student paid extra amount of UGX {credit_amount:,.2f}; the university owes the student this amount.',
+                f'Payment approved and posted. Student has a credit of UGX {credit_amount:,.2f}.',
                 'success'
             )
         else:
             flash('Payment approved and posted to the student ledger.', 'success')
     elif action == 'reject':
         transaction.status = 'Rejected'
+        if transaction.user:
+            notify(transaction.user_id,
+                   f'Payment {transaction.transaction_id} was rejected. Contact the finance office.')
         audit_action = 'PAYMENT_REJECTED'
         flash('Payment rejected and flagged for review.', 'warning')
     else:
@@ -1470,14 +1578,15 @@ def process_mtn_payment():
     except ValueError as exc:
         flash(str(exc), 'warning')
         return redirect(url_for('make_payment'))
-    db.session.add(transaction)
+    # Note: simulate_mobile_money_payment -> post_payment already adds the transaction
     db.session.add(AuditLog(user_id=current_user.id, action='DEMO_MOBILE_MONEY_PAYMENT',
                             details=f'{transaction.method}: {transaction.transaction_id}', ip_address=request.remote_addr))
     db.session.commit()
     credit_amount = ledger_credit_amount(current_user.ledger)
     if credit_amount > 0:
         flash(
-            f'Demo {transaction.method} payment of UGX {transaction.amount:,.2f} successful. You paid extra amount of UGX {credit_amount:,.2f}; the university owes you this amount.',
+            f'Demo {transaction.method} payment of UGX {transaction.amount:,.2f} successful. '
+            f'You have a credit of UGX {credit_amount:,.2f} — you may claim a refund.',
             'success'
         )
     else:
@@ -1497,7 +1606,15 @@ def help_center():
 @app.route('/admin/financial-oversight')
 @admin_required
 def financial_oversight():
-    return render_template('financial_oversight.html', user=current_user)
+    """Canonical financial oversight page."""
+    summary = finance_summary()
+    return render_template('financial_oversight.html', user=current_user, summary=summary)
+
+@app.route('/admin/finance-oversight-redirect')
+@admin_required
+def finance_oversight_redirect():
+    """Redirect old duplicate URL to canonical."""
+    return redirect(url_for('financial_oversight'), 301)
 
 @app.route('/finance/export-report/<report_type>')
 @finance_staff_required
@@ -2004,6 +2121,155 @@ def export_report_csv(report_type):
 
 
 # -------------------------------------------------------
+# Refund / Overpayment Workflow
+# -------------------------------------------------------
+
+@app.route('/refunds/request', methods=['GET', 'POST'])
+@role_required('student')
+def refund_request():
+    """Student submits a refund claim for their credit balance."""
+    ledger = current_user.ledger
+    credit = ledger_credit_amount(ledger)
+
+    if request.method == 'POST':
+        if credit <= 0:
+            flash('You have no credit balance to claim.', 'warning')
+            return redirect(url_for('refund_request'))
+
+        try:
+            amount = float(request.form.get('amount') or 0)
+        except ValueError:
+            amount = 0
+        if amount <= 0 or amount > credit:
+            flash(f'Claim amount must be between 1 and {credit:,.0f} UGX.', 'danger')
+            return redirect(url_for('refund_request'))
+
+        # Prevent a new claim if there is already a pending one
+        existing = RefundRequest.query.filter_by(
+            user_id=current_user.id, status='Pending').first()
+        if existing:
+            flash('You already have a pending refund claim. Please wait for it to be reviewed.', 'warning')
+            return redirect(url_for('refund_request'))
+
+        claim_method = request.form.get('claim_method', 'student_account')
+        refund = RefundRequest(
+            user_id=current_user.id,
+            amount=amount,
+            claim_method=claim_method,
+            account_name=request.form.get('account_name', '').strip(),
+            account_number=request.form.get('account_number', '').strip(),
+            bank_name=request.form.get('bank_name', '').strip(),
+            reason=request.form.get('reason', '').strip(),
+        )
+        db.session.add(refund)
+        db.session.add(AuditLog(
+            user_id=current_user.id, action='REFUND_REQUESTED',
+            details=f'Amount: {amount}, Method: {claim_method}',
+            ip_address=request.remote_addr
+        ))
+        notify(current_user.id, f'Refund claim of UGX {amount:,.0f} submitted and is pending review.')
+        db.session.commit()
+        flash(f'Refund claim of UGX {amount:,.0f} submitted successfully.', 'success')
+        return redirect(url_for('transaction_history'))
+
+    my_refunds = RefundRequest.query.filter_by(user_id=current_user.id)\
+        .order_by(RefundRequest.requested_at.desc()).all()
+    return render_template('refund_request.html',
+                           user=current_user,
+                           ledger=ledger,
+                           credit=credit,
+                           my_refunds=my_refunds)
+
+
+@app.route('/finance/refunds')
+@finance_staff_required
+def finance_refunds():
+    """Finance/admin views all refund requests."""
+    status_filter = request.args.get('status', 'all')
+    query = RefundRequest.query
+    if status_filter != 'all':
+        query = query.filter_by(status=status_filter)
+    refunds = query.order_by(RefundRequest.requested_at.desc()).all()
+    return render_template('refund_management.html',
+                           user=current_user,
+                           refunds=refunds,
+                           status_filter=status_filter)
+
+
+@app.route('/finance/refunds/<int:refund_id>/approve', methods=['POST'])
+@finance_staff_required
+def approve_refund(refund_id):
+    refund = RefundRequest.query.get_or_404(refund_id)
+    if refund.status != 'Pending':
+        flash('This refund request has already been processed.', 'warning')
+        return redirect(url_for('finance_refunds'))
+    refund.status = 'Approved'
+    refund.reviewed_by = current_user.id
+    refund.reviewed_at = datetime.utcnow()
+    refund.finance_comment = request.form.get('comment', '').strip()
+    db.session.add(AuditLog(
+        user_id=current_user.id, action='REFUND_APPROVED',
+        details=f'RefundID {refund_id} for user {refund.user_id}',
+        ip_address=request.remote_addr
+    ))
+    notify(refund.user_id, f'Your refund claim of UGX {refund.amount:,.0f} has been approved.')
+    db.session.commit()
+    flash('Refund approved.', 'success')
+    return redirect(url_for('finance_refunds'))
+
+
+@app.route('/finance/refunds/<int:refund_id>/reject', methods=['POST'])
+@finance_staff_required
+def reject_refund(refund_id):
+    refund = RefundRequest.query.get_or_404(refund_id)
+    if refund.status != 'Pending':
+        flash('This refund request has already been processed.', 'warning')
+        return redirect(url_for('finance_refunds'))
+    refund.status = 'Rejected'
+    refund.reviewed_by = current_user.id
+    refund.reviewed_at = datetime.utcnow()
+    refund.finance_comment = request.form.get('comment', '').strip()
+    db.session.add(AuditLog(
+        user_id=current_user.id, action='REFUND_REJECTED',
+        details=f'RefundID {refund_id} for user {refund.user_id}',
+        ip_address=request.remote_addr
+    ))
+    notify(refund.user_id, f'Your refund claim of UGX {refund.amount:,.0f} was rejected. '
+                           f'Reason: {refund.finance_comment or "See finance office."}')
+    db.session.commit()
+    flash('Refund rejected.', 'warning')
+    return redirect(url_for('finance_refunds'))
+
+
+@app.route('/finance/refunds/<int:refund_id>/mark-paid', methods=['POST'])
+@finance_staff_required
+def mark_refund_paid(refund_id):
+    refund = RefundRequest.query.get_or_404(refund_id)
+    if refund.status != 'Approved':
+        flash('Only approved refunds can be marked as paid.', 'warning')
+        return redirect(url_for('finance_refunds'))
+
+    refund.status = 'Paid'
+    refund.paid_at = datetime.utcnow()
+
+    # Adjust ledger: recalculate to reflect the payout
+    student = User.query.get(refund.user_id)
+    if student:
+        recalculate_ledger(student)
+
+    db.session.add(AuditLog(
+        user_id=current_user.id, action='REFUND_PAID',
+        details=f'RefundID {refund_id}, Amount {refund.amount}',
+        ip_address=request.remote_addr
+    ))
+    if student:
+        notify(student.id, f'Refund of UGX {refund.amount:,.0f} has been paid via {refund.claim_method}.')
+    db.session.commit()
+    flash(f'Refund of UGX {refund.amount:,.0f} marked as paid and ledger updated.', 'success')
+    return redirect(url_for('finance_refunds'))
+
+
+# -------------------------------------------------------
 # Run
 # -------------------------------------------------------
 if __name__ == '__main__':
@@ -2012,9 +2278,10 @@ if __name__ == '__main__':
         ensure_default_users()
         print('=' * 50)
         print('KIU Financial Management System')
-        print('Admin: admin / admin123')
+        print('Admin:   admin   / admin123')
         print('Finance: finance / finance123')
         print('Student: student / student123')
-        print('2FA OTPs are delivered by configured SMTP email.')
+        print(f'2FA required: {REQUIRE_2FA}  |  DEV_SHOW_OTP: {DEV_SHOW_OTP}')
+        print('Set REQUIRE_2FA=false or DEV_SHOW_OTP=true in .env for dev mode.')
         print('=' * 50)
     app.run(debug=True, host='0.0.0.0', port=5000)

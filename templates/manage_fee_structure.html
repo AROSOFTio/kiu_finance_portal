@@ -10,6 +10,7 @@
                 </div>
                 <div class="card-body">
                     <form method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <div class="mb-2">
                             <label>Academic Year</label>
                             <input type="text" name="academic_year" class="form-control" required placeholder="2025/2026">
